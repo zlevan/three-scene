@@ -1,0 +1,19 @@
+{
+  "name": "three-scene",
+  "version": "0.0.1",
+  "description": "3D 场景",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git"
+  },
+  "keywords": [
+    "three",
+    "3D"
+  ],
+  "author": "evan",
+  "license": "ISC"
+}
