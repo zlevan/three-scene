@@ -1,4 +1,4 @@
-import type { Fog, Render, Camera, Controls } from '../../types/index'
+import type { Fog, Render, Camera, Controls, Grid, Axes } from '../../types/index'
 import type { XYZ, ModelItem, ObjectItem } from '../../types/model'
 import type { IndexDB } from '../../types/indexdb'
 
@@ -83,6 +83,8 @@ export declare interface Props {
 
   // 环境
   env?: string
+  // 缩放
+  scale?: number
 
   // 数据库
   indexDB?: Partial<IndexDB>
@@ -95,6 +97,10 @@ export declare interface Props {
   render?: Partial<Render>
   // 控制器
   controls?: Partial<Controls>
+  // 网格
+  grid?: Partial<Grid>
+  // 坐标轴
+  axes?: Partial<Axes>
 
   // 模型(场景加载类型对应的模型)
   models: ModelItem[]

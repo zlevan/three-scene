@@ -242,6 +242,11 @@ export default class ThreeScene {
     this.addObject(axesHelper)
   }
 
+  // 设置缩放
+  setScale(s: number) {
+    this.options.scale = s
+  }
+
   // 设置环境
   setEnvironment(env) {
     new RGBELoader().load(getUrl(env), texture => {

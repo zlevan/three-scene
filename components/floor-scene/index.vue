@@ -49,6 +49,8 @@ const props = withDefaults(defineProps<import('./index').Props>(), {
   fog: () => ({}),
   render: () => ({}),
   controls: () => ({}),
+  grid: () => ({}),
+  axes: () => ({}),
   colorMeshName: () => [],
   anchorType: () => [],
   mainBodyMeshName: () => ['主体'],
@@ -92,20 +94,25 @@ const options: ConstructorParameters<typeof NewThreeScene>[0] = {
   camera: props.camera,
   fog: props.fog,
   render: props.render,
-  grid: {
-    visible: devEnv
-  },
+  grid: props.grid,
   controls: props.controls,
-  axes: {
-    visible: devEnv
-  }
+  axes: props.axes
 }
 
 let scene: InstanceType<typeof NewThreeScene>
 
+// 点位模式
 watch(
   () => props.dotShowStrict,
   () => toggleDotVisible()
+)
+
+// 缩放
+watch(
+  () => props.scale,
+  v => {
+    scene?.setScale(v || 1)
+  }
 )
 
 // 点位隐现方式切换
