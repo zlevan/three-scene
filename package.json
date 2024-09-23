@@ -14,6 +14,14 @@
     "three",
     "3D"
   ],
+  "exports": {
+    ".": {
+      "types": "./types/index.d.ts"
+    }
+  },
+  "dependencies": {
+    "three": "^0.167.0"
+  },
   "author": "evan",
   "license": "ISC"
 }
