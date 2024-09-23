@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "homepage": "https://github.com/zlevan/three-scene",
   "repository": {
     "type": "git",
     "url": "https://github.com/zlevan/three-scene"
@@ -17,7 +18,11 @@
   "exports": {
     ".": {
       "types": "./types/index.d.ts"
-    }
+    },
+    "./hooks/*": "./hooks/*",
+    "./utils/*": "./utils/*",
+    "./types/*": "./types/*",
+    "./components/*": "./components/*"
   },
   "dependencies": {
     "three": "^0.167.0"
