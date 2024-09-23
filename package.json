@@ -17,7 +17,8 @@
   ],
   "exports": {
     ".": {
-      "types": "./types/index.d.ts"
+      "types": "./types/index.d.ts",
+      "import": "./index.ts"
     },
     "./hooks/*": "./hooks/*",
     "./utils/*": "./utils/*",
