@@ -3,6 +3,7 @@
     <!-- 操作按钮 -->
     <div class="scene-operation" v-if="devEnv">
       <el-link type="success" @click="rendomUpdate">随机更新</el-link>
+      <el-link v-if="cruise.visible" @click="() => scene?.toggleCruise()" type="danger">定点巡航</el-link>
       <el-link @click="() => scene?.getPosition()" type="success">场景坐标</el-link>
       <el-link type="warning" @click="() => changeBackground(scene)">切换背景</el-link>
     </div>
@@ -46,6 +47,7 @@ const props = withDefaults(defineProps<import('./index').Props>(), {
   dotKey: 'DOT',
   dotShowStrict: true,
   camera: () => ({}),
+  cruise: () => ({}),
   fog: () => ({}),
   render: () => ({}),
   controls: () => ({}),
@@ -92,6 +94,7 @@ const options: ConstructorParameters<typeof NewThreeScene>[0] = {
   env: props.env,
   bgColor: props.bgColor,
   camera: props.camera,
+  cruise: props.cruise,
   fog: props.fog,
   render: props.render,
   grid: props.grid,
@@ -112,6 +115,14 @@ watch(
   () => props.scale,
   v => {
     scene?.setScale(v || 1)
+  }
+)
+
+// 巡航
+watch(
+  () => props.cruise.points,
+  v => {
+    scene.setCruisePoint(v)
   }
 )
 
@@ -424,6 +435,9 @@ const assemblyScenario = async () => {
   await nextTick()
   initDeviceConfigs()
   await initDevices()
+
+  // 巡航
+  scene.createCruise()
 
   if (typeof props.config?.load === 'function') {
     props.config?.load(scene)

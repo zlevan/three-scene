@@ -76,6 +76,9 @@
       z-index: 1;
       position: absolute;
       transform: translateX(-50%);
+      .el-link {
+        margin: 0 3px;
+      }
     }
   }
 }

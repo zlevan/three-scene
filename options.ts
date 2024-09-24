@@ -77,6 +77,38 @@ export default {
     far: 10000,
     position: [-350, 510, 700]
   },
+  // 巡航
+  cruise: {
+    visible: false,
+    // 运行中
+    runing: false,
+    // 辅助
+    helper: false,
+    // 点位
+    points: [],
+    // 分段
+    segment: 2,
+    // 曲线张力
+    tension: 0,
+    // 基础地址
+    baseUrl: '',
+    // 贴图地址
+    mapUrl: '/oss/textures/cruise/arrow.png',
+    // 贴图重复
+    repeat: [0.1, 1],
+    // 宽度
+    width: 15,
+    // 动画速度
+    speed: 1,
+    // 贴图速度
+    mapSpeed: 0.006,
+    //  巡航偏差
+    offset: 10,
+    // 系数
+    factor: 1,
+    // 索引
+    index: 0
+  },
   // 网格
   grid: {
     visible: false,

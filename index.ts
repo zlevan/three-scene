@@ -6,6 +6,9 @@ import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js'
 import { deepMerge, isDOM, getUrl } from './utils'
 import defOptions from './options'
 
+import { useCruise } from './hooks/cruise'
+
+const { createCruise, cruiseAnimate, updateCruise } = useCruise()
 export default class ThreeScene {
   // 配置
   options: import('./types').Options
@@ -15,14 +18,18 @@ export default class ThreeScene {
   scene: InstanceType<typeof THREE.Scene>
   // 渲染器
   renderer: InstanceType<typeof THREE.WebGLRenderer>
-  // 相机
-  camera: InstanceType<typeof THREE.PerspectiveCamera>
+  // 基础相机
+  baseCamera: InstanceType<typeof THREE.PerspectiveCamera>
+  // 巡航相机
+  cruiseCamera?: InstanceType<typeof THREE.PerspectiveCamera>
+  // 巡航组
+  cruiseGroup?: InstanceType<typeof THREE.group>
   // 控制器
-  controls: InstanceType<typeof OrbitControls> | undefined
+  controls: InstanceType<typeof OrbitControls>
   // 网格
-  grid: InstanceType<typeof THREE.GridHelper> | undefined
+  grid?: InstanceType<typeof THREE.GridHelper>
   // 动画 id
-  animationId: number | undefined
+  animationId?: number
   // 静态属性
   static total: number = 0
   // 鼠标
@@ -56,9 +63,15 @@ export default class ThreeScene {
 
     this.renderer = this.initRenderer()
     this.init()
-    this.camera = this.initCamera()
+    this.baseCamera = this.initCamera()
     this.controls = this.initControls()
+    this.initCruise()
     console.log(this)
+  }
+
+  get camera() {
+    const { visible, runing } = this.options.cruise
+    return visible && runing ? this.cruiseCamera : this.baseCamera
   }
 
   init() {
@@ -88,6 +101,8 @@ export default class ThreeScene {
     }
     // 控制相机旋转缩放的更新
     if (this.options.controls.visible) this.controls.update()
+
+    cruiseAnimate(this.cruiseCamera)
 
     TWEEN.update()
   }
@@ -221,6 +236,14 @@ export default class ThreeScene {
     return ctrl
   }
 
+  // 巡航
+  initCruise() {
+    const { visible } = this.options.cruise
+    if (!visible) return
+    this.cruiseCamera = this.initCamera()
+    this.#resetCruiseOpts()
+  }
+
   // 网格
   initGrid() {
     const grid = this.options.grid
@@ -240,6 +263,46 @@ export default class ThreeScene {
     // 辅助坐标器
     const axesHelper = new THREE.AxesHelper(this.options.axes.size)
     this.addObject(axesHelper)
+  }
+
+  // 重置巡航参数
+  #resetCruiseOpts() {
+    const cruise = this.options.cruise
+    cruise.runing = false
+    this.cruiseCamera.lookAt(this.controls.target)
+    if (cruise.baseUrl) {
+      cruise.baseUrl = this.options.baseUrl
+    }
+    cruise.factor = 1
+    cruise.index = 0
+  }
+
+  // 设置巡航点位
+  setCruisePoint(points) {
+    this.options.cruise.points = points
+    this.createCruise()
+  }
+
+  // 创建巡航组
+  createCruise() {
+    const { visible, points } = this.options.cruise
+    if (!visible) return
+    if (this.cruiseGroup) {
+      this.disposeObj(this.cruiseGroup)
+    }
+    if (!points || points.length == 0) return
+    const group = createCruise(this.options.cruise, this.renderer)
+    this.cruiseGroup = group
+    this.addObject(group)
+  }
+
+  // 巡航启动或关闭
+  toggleCruise() {
+    const { visible, runing } = this.options.cruise
+    if (!visible) return
+    this.options.cruise.runing = !runing
+    this.controls.enabled = runing
+    updateCruise(this.options.cruise)
   }
 
   // 设置缩放
@@ -306,15 +369,19 @@ export default class ThreeScene {
 
   // 重置画布大小
   resize() {
-    if (!this.camera) return
     // 重新设置宽高
     this.options.width = this.container.offsetWidth || window.innerWidth
     this.options.height = this.container.offsetHeight || window.innerHeight
 
     const { width, height } = this.options
     const k = width / height
-    this.camera.aspect = k
-    this.camera.updateProjectionMatrix()
+    this.baseCamera.aspect = k
+    this.baseCamera.updateProjectionMatrix()
+    // 巡航相机
+    if (this.cruiseCamera) {
+      this.cruiseCamera.aspect = k
+      this.cruiseCamera.updateProjectionMatrix()
+    }
     this.renderer.setSize(width, height)
   }
 

@@ -1,4 +1,4 @@
-import type { Fog, Render, Camera, Controls, Grid, Axes } from '../../types/index'
+import type { Fog, Render, Camera, Controls, Grid, Axes, Cruise } from '../../types/index'
 import type { XYZ, ModelItem, ObjectItem } from '../../types/model'
 import type { IndexDB } from '../../types/indexdb'
 
@@ -91,6 +91,8 @@ export declare interface Props {
 
   // 相机
   camera?: Partial<Camera>
+  // 巡航
+  cruise?: Partial<Cruise>
   // 雾化
   fog?: Partial<Fog>
   // 渲染

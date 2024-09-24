@@ -60,6 +60,24 @@ export declare interface Axes {
   size: number
 }
 
+export declare interface Cruise {
+  visible: boolean
+  runing: boolean
+  points: number[][]
+  tension: number
+  baseUrl: string
+  mapUrl: string
+  repeat: number[]
+  width: number
+  speed: number
+  mapSpeed: number
+  offset: number
+  factor: number
+  segment: number
+  index: number
+  helper: boolean
+}
+
 export declare interface Options {
   container: HTMLElement | string
   width: number
@@ -77,6 +95,7 @@ export declare interface Options {
   ambientLight: AmbientLight
   directionalLight: DirectionalLight
   camera: Camera
+  cruise: Cruise
   grid: Grid
   axes: Axes
 }
