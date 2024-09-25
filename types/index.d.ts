@@ -62,6 +62,7 @@ export declare interface Axes {
 
 export declare interface Cruise {
   visible: boolean
+  enabled: boolean
   runing: boolean
   points: number[][]
   tension: number

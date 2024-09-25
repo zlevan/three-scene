@@ -16,7 +16,11 @@ export const useCruise = () => {
 
   let _options: Options = {
     visible: true,
+    // 激活
+    enabled: false,
+    // 运行中
     runing: false,
+    // 辅助
     helper: false,
     // 点位
     points: [],
@@ -74,7 +78,8 @@ export const useCruise = () => {
       map: texture,
       opacity: 0.5,
       transparent: true,
-      depthWrite: false,
+      // depthWrite: false,
+      depthTest: false,
       blending: THREE.AdditiveBlending
     })
 
@@ -96,6 +101,7 @@ export const useCruise = () => {
     if (helper) {
       createHelper(group, newPoints)
     }
+    group.renderOrder = 99
     return group
   }
 
@@ -148,9 +154,9 @@ export const useCruise = () => {
   const cruiseAnimate = camera => {
     if (!camera) return
     if (!cruiseCurve) return
-    const { mapSpeed, speed, factor, runing, offset, helper } = _options
+    const { mapSpeed, speed, factor, enabled, runing, offset, helper } = _options
     if (texture) texture.offset.x -= mapSpeed
-    runing && (_options.index += factor * speed)
+    runing && enabled && (_options.index += factor * speed)
     const looptime = getCruiseLen()
     const t = (_options.index % looptime) / looptime
 
@@ -168,9 +174,77 @@ export const useCruise = () => {
     camera.lookAt(getOffsetPoint(offset, pos))
   }
 
+  const onKeyDown = e => {
+    if (!_options.enabled) return
+    const keyCode = e.keyCode
+    switch (keyCode) {
+      // 前进
+      case 38:
+      case 87:
+        if (_options.runing) {
+          _options.factor *= 1.5
+          if (_options.factor > 10) _options.factor = 10
+        } else {
+          _options.index += 5
+        }
+        break
+      // 后退
+      case 83:
+      case 40:
+        if (!_options.runing) {
+          _options.index -= 5
+          if (_options.index < 0) {
+            _options.index = getCruiseLen()
+          }
+        }
+        break
+    }
+  }
+
+  const onKeyUp = e => {
+    if (!_options.enabled) return
+    _options.factor = 1
+    const keyCode = e.keyCode
+    switch (keyCode) {
+      // 暂停
+      case 32:
+        _options.runing = !_options.runing
+        break
+      // 前进
+      case 38:
+      case 87:
+        if (!_options.runing) {
+          _options.index += 10
+        }
+        break
+      // 后退
+      case 83:
+      case 40:
+        if (!_options.runing) {
+          _options.index -= 10
+          if (_options.index < 0) {
+            _options.index = getCruiseLen()
+          }
+        }
+        break
+    }
+  }
+
+  const bindEvent = () => {
+    window.addEventListener('keydown', onKeyDown, false)
+    window.addEventListener('keyup', onKeyUp, false)
+  }
+
+  const removeEvent = () => {
+    window.removeEventListener('keyup', onKeyUp)
+    window.removeEventListener('keydown', onKeyDown)
+  }
+
   return {
     createCruise,
     updateCruise,
-    cruiseAnimate
+    cruiseAnimate,
+    bindEvent,
+    removeEvent
   }
 }

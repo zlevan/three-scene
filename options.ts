@@ -80,6 +80,8 @@ export default {
   // 巡航
   cruise: {
     visible: false,
+    // 激活
+    enabled: false,
     // 运行中
     runing: false,
     // 辅助

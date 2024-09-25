@@ -8,7 +8,7 @@ import defOptions from './options'
 
 import { useCruise } from './hooks/cruise'
 
-const { createCruise, cruiseAnimate, updateCruise } = useCruise()
+const { createCruise, cruiseAnimate, updateCruise, bindEvent, removeEvent } = useCruise()
 export default class ThreeScene {
   // 配置
   options: import('./types').Options
@@ -268,6 +268,7 @@ export default class ThreeScene {
   // 重置巡航参数
   #resetCruiseOpts() {
     const cruise = this.options.cruise
+    cruise.enabled = false
     cruise.runing = false
     this.cruiseCamera.lookAt(this.controls.target)
     if (cruise.baseUrl) {
@@ -290,6 +291,7 @@ export default class ThreeScene {
     if (this.cruiseGroup) {
       this.disposeObj(this.cruiseGroup)
     }
+    bindEvent()
     if (!points || points.length == 0) return
     const group = createCruise(this.options.cruise, this.renderer)
     this.cruiseGroup = group
@@ -301,6 +303,7 @@ export default class ThreeScene {
     const { visible, runing } = this.options.cruise
     if (!visible) return
     this.options.cruise.runing = !runing
+    this.options.cruise.enabled = !runing
     this.controls.enabled = runing
     updateCruise(this.options.cruise)
   }
@@ -417,6 +420,7 @@ export default class ThreeScene {
 
   // 销毁
   dispose() {
+    removeEvent()
     try {
       this.scene.clear()
       this.renderer.dispose()

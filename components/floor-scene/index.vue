@@ -585,9 +585,16 @@ onMounted(() => {
     },
     onClickLeft(object) {
       if (object) {
-        dialog.select = [object]
-        emits('select', object)
-        dialogShowData()
+        const data = object.data
+        const backData = toRaw(data)
+        emits('select', backData)
+        // 点位点击事件
+        if (typeof data.onClick === 'function') {
+          data.onClick(backData)
+        } else {
+          dialog.select = [object]
+          dialogShowData()
+        }
       } else {
         dialog.select = []
       }
