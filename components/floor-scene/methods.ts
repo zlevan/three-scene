@@ -1,8 +1,8 @@
 import * as THREE from 'three'
 
 import ThreeScene from '../../index'
-import { useRaycaster } from 'three-scene/hooks/raycaster'
-import { useCSS2D, CSS2DRenderer } from 'three-scene/hooks/css2d'
+import { useRaycaster } from '../../hooks/raycaster'
+import { useCSS2D, CSS2DRenderer } from '../../hooks/css2d'
 
 import type { XYZ, ObjectItem } from '../../types/model'
 import type { Config, ExtendOptions } from '.'
