@@ -12,7 +12,7 @@ import DEFAULTCONFIG from '../../config'
 const { raycaster, pointer, update: raycasterUpdate } = useRaycaster()
 const { initCSS2DRender, createCSS2DDom } = useCSS2D()
 
-export class NewThreeScene extends ThreeScene {
+export class FloorThreeScene extends ThreeScene {
   // 设备集合
   deviceGroup: InstanceType<typeof THREE.Group>
   // 点位集合

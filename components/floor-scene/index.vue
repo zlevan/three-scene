@@ -35,7 +35,7 @@
 import * as THREE from 'three'
 import * as TWEEN from 'three/examples/jsm/libs/tween.module.js'
 
-import { NewThreeScene } from './methods'
+import { FloorThreeScene } from './methods'
 import { colors } from './colors'
 import * as UTILS from '../../utils/model'
 import DEFAULTCONFIG from '../../config'
@@ -76,7 +76,7 @@ const { dialog } = useDialog()
 
 // 加载完成、更新、选择 anchorType 类型的模块、双击模型、点击 DOT 类型点位, 点击弹窗点位
 const emits = defineEmits<{
-  init: [scene: InstanceType<typeof NewThreeScene>]
+  init: [scene: InstanceType<typeof FloorThreeScene>]
   loaded: []
   update: [list: ObjectItem[], isRandom?: boolean]
   select: [item: ObjectItem]
@@ -88,7 +88,7 @@ const emits = defineEmits<{
 const containerRef = ref()
 
 const devEnv = props.devEnv
-const options: ConstructorParameters<typeof NewThreeScene>[0] = {
+const options: ConstructorParameters<typeof FloorThreeScene>[0] = {
   baseUrl: props.baseUrl,
   bgUrl: props.bgUrl,
   env: props.env,
@@ -102,7 +102,7 @@ const options: ConstructorParameters<typeof NewThreeScene>[0] = {
   axes: props.axes
 }
 
-let scene: InstanceType<typeof NewThreeScene>
+let scene: InstanceType<typeof FloorThreeScene>
 
 // 点位模式
 watch(
@@ -572,7 +572,7 @@ const changeModleStatusColor = (opts: import('./index').ChangeMaterialOpts) => {
 
 onMounted(() => {
   options.container = containerRef.value
-  scene = new NewThreeScene(options, {
+  scene = new FloorThreeScene(options, {
     onDblclick: object => {
       const data = object.data
       const index = scene.getFloor().findIndex(el => object.uuid === el.uuid)
