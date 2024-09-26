@@ -65,11 +65,14 @@ export default {
   },
   // 平行光
   directionalLight: {
+    visible: true,
     // 辅助
     helper: false,
-    visible: true,
+    // 平行光 2 开启
     light2: true,
+    // 颜色
     color: 0xffffff,
+    // 强度
     intensity: 1.5,
   },
   // 相机
