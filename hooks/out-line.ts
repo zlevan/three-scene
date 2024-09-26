@@ -1,19 +1,19 @@
-import * as THREE from 'three'
-import { deepMerge } from '../utils'
+import * as THREE from "three";
+import { deepMerge } from "../utils";
 
 export declare interface Options {
-  size: number
-  color: string | number
-  range: number
-  factor: number
-  speed: number
+  size: number;
+  color: string | number;
+  range: number;
+  factor: number;
+  speed: number;
 }
 
-export declare type Params = import('../types/utils').DeepPartial<Options>
+export declare type Params = import("../types/utils").DeepPartial<Options>;
 
 export const useOutline = (options: Params = {}) => {
   // 默认参数
-  const _options: Options = deepMerge(
+  let _options: Options = deepMerge(
     {
       // 粒子大小
       size: 0.1,
@@ -23,19 +23,31 @@ export const useOutline = (options: Params = {}) => {
       // 系数
       factor: 1,
       // 速度
-      speed: 6
+      speed: 6,
     },
     options
-  )
-  const createOutline = (points: number[]): InstanceType<typeof THREE.Points> => {
-    const { size, factor, range, color } = _options
-    const positions = new Float32Array(points)
-    const opacityGeometry = new THREE.BufferGeometry()
+  );
+  const createOutline = (
+    points: number[],
+    options: Params = {}
+  ): InstanceType<typeof THREE.Points> => {
+    _options = deepMerge(_options, options);
+    const { size, factor, range, color } = _options;
+    const positions = new Float32Array(points);
+    const opacityGeometry = new THREE.BufferGeometry();
     // 设置顶点
-    opacityGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
+    opacityGeometry.setAttribute(
+      "position",
+      new THREE.BufferAttribute(positions, 3)
+    );
     // 设置索引
-    const vertexIndexs = new Float32Array(Math.floor(positions.length / 3)).map((_, i) => i)
-    opacityGeometry.setAttribute('aIndex', new THREE.BufferAttribute(vertexIndexs, 1))
+    const vertexIndexs = new Float32Array(Math.floor(positions.length / 3)).map(
+      (_, i) => i
+    );
+    opacityGeometry.setAttribute(
+      "aIndex",
+      new THREE.BufferAttribute(vertexIndexs, 1)
+    );
 
     const mat = new THREE.ShaderMaterial({
       vertexShader: `
@@ -85,33 +97,34 @@ export const useOutline = (options: Params = {}) => {
       depthTest: false,
       uniforms: {
         uSize: {
-          value: size * factor
+          value: size * factor,
         },
         uIndex: { value: 0 },
         uLength: { value: vertexIndexs.length },
         uRange: { value: range },
         uColor: {
-          value: new THREE.Color(color)
-        }
-      }
-    })
-    const opacityPoints = new THREE.Points(opacityGeometry, mat)
-    opacityPoints.name = '轮廓'
-    opacityPoints.scale.setScalar(factor)
-    return opacityPoints
-  }
+          value: new THREE.Color(color),
+        },
+      },
+    });
+    const opacityPoints = new THREE.Points(opacityGeometry, mat);
+    opacityPoints.name = "轮廓";
+    opacityPoints.scale.setScalar(factor);
+    return opacityPoints;
+  };
 
-  const update = mesh => {
-    const mat = mesh.material
-    const uLength = mat.uniforms.uLength.value
-    mat.uniforms.uIndex.value += _options.speed
+  const update = (mesh) => {
+    const mat = mesh.material;
+    const uLength = mat.uniforms.uLength.value;
+    mat.uniforms.uIndex.value += _options.speed;
     if (mat.uniforms.uIndex.value >= uLength) {
-      mat.uniforms.uIndex.value = 0
+      mat.uniforms.uIndex.value = 0;
     }
-  }
+  };
 
   return {
     createOutline,
-    update
-  }
-}
+    update,
+    outlineUpdate: update,
+  };
+};
