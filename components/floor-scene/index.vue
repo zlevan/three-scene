@@ -53,6 +53,7 @@ const props = withDefaults(defineProps<import('./index').Props>(), {
   controls: () => ({}),
   grid: () => ({}),
   axes: () => ({}),
+  directionalLight: () => ({}),
   colorMeshName: () => [],
   anchorType: () => [],
   mainBodyMeshName: () => ['主体'],
@@ -99,7 +100,8 @@ const options: ConstructorParameters<typeof FloorThreeScene>[0] = {
   render: props.render,
   grid: props.grid,
   controls: props.controls,
-  axes: props.axes
+  axes: props.axes,
+  directionalLight: props.directionalLight
 }
 
 let scene: InstanceType<typeof FloorThreeScene>
