@@ -26,6 +26,8 @@ export const useBackground = (code: string = '') => {
     index,
     skyPath,
     change,
-    load
+    changeBackground: change,
+    load,
+    backgroundLoad: load
   }
 }
