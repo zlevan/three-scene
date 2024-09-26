@@ -3,7 +3,7 @@ export default {
   width: window.innerWidth,
   height: window.innerHeight,
   // 基础地址（资源地址）
-  baseUrl: '',
+  baseUrl: "",
   // 背景 (背景透明需要 render 参数 alpha 为 true)
   bgColor: null,
   // 背景图
@@ -16,7 +16,7 @@ export default {
   fog: {
     visible: false,
     near: 100,
-    far: 1000
+    far: 1000,
   },
   // 渲染器配置
   render: {
@@ -28,7 +28,7 @@ export default {
     // 解决 模型相接处或某些区域出现频闪问题或内容被相邻近元素覆盖掉的情况
     logarithmicDepthBuffer: true,
     // 截图设置, true 时性能会下降
-    preserveDrawingBuffer: false
+    preserveDrawingBuffer: false,
   },
   // 控制
   controls: {
@@ -52,30 +52,33 @@ export default {
     // 相机距离远点最近距离
     minDistance: 1,
     // 相机距离远点最远距离
-    maxDistance: 2000
+    maxDistance: 2000,
   },
-  // 灯光辅助
-  lightHelperVisible: false,
+  // 环境光
   ambientLight: {
     visible: true,
     color: 0xffffff,
     // 强度
-    intensity: 1.5
+    intensity: 1.5,
   },
   // 平行光
   directionalLight: {
+    // 辅助
+    helper: false,
     visible: true,
     light2: true,
     color: 0xffffff,
-    intensity: 1.5
+    intensity: 1.5,
   },
   // 相机
   camera: {
+    // 辅助
+    helper: false,
     // 近
     near: 1,
     // 远
     far: 10000,
-    position: [-350, 510, 700]
+    position: [-350, 510, 700],
   },
   // 巡航
   cruise: {
@@ -93,9 +96,9 @@ export default {
     // 曲线张力
     tension: 0,
     // 基础地址
-    baseUrl: '',
+    baseUrl: "",
     // 贴图地址
-    mapUrl: '/oss/textures/cruise/arrow.png',
+    mapUrl: "/oss/textures/cruise/arrow.png",
     // 贴图重复
     repeat: [0.1, 1],
     // 宽度
@@ -109,7 +112,7 @@ export default {
     // 系数
     factor: 1,
     // 索引
-    index: 0
+    index: 0,
   },
   // 网格
   grid: {
@@ -122,10 +125,10 @@ export default {
     // 中心线颜色
     centerLineColor: 0xa1a1a1,
     // 网格颜色
-    gridColor: 0xa1a1a1
+    gridColor: 0xa1a1a1,
   },
   axes: {
     visible: false,
-    size: 50
-  }
-}
+    size: 50,
+  },
+};
