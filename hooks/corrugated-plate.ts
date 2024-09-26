@@ -16,7 +16,7 @@ export declare type Params = import('../types/utils').DeepPartial<Options>
 
 export const useCorrugatedPlate = (options: Params = {}) => {
   // 默认参数
-  const _options: Options = deepMerge(
+  let _options: Options = deepMerge(
     {
       // 范围
       range: 100,
@@ -70,7 +70,8 @@ export const useCorrugatedPlate = (options: Params = {}) => {
     return geometrys
   }
 
-  const createCorrugatedPlate = () => {
+  const createCorrugatedPlate = (options: Params = {}) => {
+    _options = deepMerge(_options, options)
     let { range, color, light, factor } = _options
     range *= factor
     const geometrys = createGeometry()
@@ -142,5 +143,9 @@ export const useCorrugatedPlate = (options: Params = {}) => {
     }
   }
 
-  return { createCorrugatedPlate, update }
+  return {
+    createCorrugatedPlate,
+    update,
+    corrugatedPlateUpdate: update
+  }
 }
