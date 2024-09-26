@@ -15,7 +15,9 @@ export default {
   // 雾
   fog: {
     visible: false,
+    // 近
     near: 100,
+    // 远
     far: 1000,
   },
   // 渲染器配置
