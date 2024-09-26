@@ -53,6 +53,14 @@ onMounted(() => {
 | env | String | - | - | 场景环境，影响场景所有元素，仅支持 hdr 文件 |
 | scale | Number | - | 1 | 缩放倍数，具体表现在计算坐标位置 |
 | fog | Object | - | - | 雾化，[具体详情](README.md#fog) |
+| render | Object | - | - | 渲染器，[具体详情](README.md#render) |
+| controls | Object | - | - | 控制器，[具体详情](README.md#controls) |
+| ambientLight | Object | - | - | 环境光，[具体详情](README.md#ambientLight) |
+| directionalLight | Object | - | - | 平行光，[具体详情](README.md#directionalLight) |
+| camera | Object | - | - | 相机，[具体详情](README.md#camera) |
+| grid | Object | - | - | 网格，[具体详情](README.md#grid) |
+| axes | Object | - | - | 坐标轴[具体详情](README.md#axes) |
+| cruise | Object | - | - | 巡航，[具体详情](README.md#cruise) |
 
 ### fog
 | 属性名 | 类型 | 可选值 | 默认值 | 说明 |
@@ -60,3 +68,43 @@ onMounted(() => {
 | visible | Boolean | - | false | 可见 |
 | near | Number | - | 100 | 雾化最近距离 |
 | far | Number | - | 1000 | 雾化最远距离
+
+### render
+| 属性名 | 类型 | 可选值 | 默认值 | 说明 |
+|-----|------|------|------|------|
+| antialias | Boolean | - | true | 是否开启反锯齿 |
+
+### controls
+| 属性名 | 类型 | 可选值 | 默认值 | 说明 |
+|-----|------|------|------|------|
+| visible | Boolean | - | false | 可见 |
+
+### ambientLight
+| 属性名 | 类型 | 可选值 | 默认值 | 说明 |
+|-----|------|------|------|------|
+| visible | Boolean | - | false | 可见 |
+
+### directionalLight
+| 属性名 | 类型 | 可选值 | 默认值 | 说明 |
+|-----|------|------|------|------|
+| visible | Boolean | - | false | 可见 |
+
+### camera
+| 属性名 | 类型 | 可选值 | 默认值 | 说明 |
+|-----|------|------|------|------|
+| helper | Boolean | - | false | 辅助器 |
+
+### grid
+| 属性名 | 类型 | 可选值 | 默认值 | 说明 |
+|-----|------|------|------|------|
+| visible | Boolean | - | false | 可见 |
+
+### axes
+| 属性名 | 类型 | 可选值 | 默认值 | 说明 |
+|-----|------|------|------|------|
+| visible | Boolean | - | false | 可见 |
+
+### cruise
+| 属性名 | 类型 | 可选值 | 默认值 | 说明 |
+|-----|------|------|------|------|
+| helper | Boolean | - | false | 辅助器 |
