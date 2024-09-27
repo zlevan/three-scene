@@ -145,6 +145,11 @@ const initPage = () => {
   if (props.corrugatedPlate) {
     scene?.addCorrugatedPlate()
   }
+
+  // 飞线
+  if (props.flywire && props.flywire.length) {
+    scene?.initFlywire(props.flywire)
+  }
 }
 
 onMounted(() => {
