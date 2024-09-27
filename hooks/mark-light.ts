@@ -12,19 +12,17 @@ export declare interface Options {
 
 export declare type Params = import('../types/utils').DeepPartial<Options>
 
-const base = import.meta.env.VITE_BEFORE_STATIC_PATH
-
 // 光柱
-export const useMarkLight = (options: Params) => {
+export const useMarkLight = (options: Params = {}) => {
   // 默认参数
-  const _options: Options = deepMerge(
+  let _options: Options = deepMerge(
     {
       // 标记点的图片url
-      pointTextureUrl: `${base}/oss/textures/map/point.png`,
+      pointTextureUrl: new URL('../imgs/texttures/point.png', import.meta.url).href,
       // 光圈的URL
-      circleTextureUrl: `${base}/oss/textures/map/circle.png`,
+      circleTextureUrl: new URL('../imgs/texttures/circle.png', import.meta.url).href,
       // 光柱的URL
-      lightTextureUrl: `${base}/oss/textures/map/light.png`,
+      lightTextureUrl: new URL('../imgs/texttures/light.png', import.meta.url).href,
       // 系数
       factor: 1,
       color: 0x00ffff
@@ -101,7 +99,8 @@ export const useMarkLight = (options: Params) => {
   }
 
   // 创建光柱
-  const createMarkLight = (position = [0, 0, 0], height = 10) => {
+  const createMarkLight = (position = [0, 0, 0], height = 10, options: Params = {}) => {
+    _options = deepMerge(_options, options)
     const group = new THREE.Group()
     // 柱体的geo,6.19=柱体图片高度/宽度的倍数
     const geometry = new THREE.PlaneGeometry(height / 6.219, height)
