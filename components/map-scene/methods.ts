@@ -653,7 +653,7 @@ export class MapThreeScene extends ThreeScene {
       .to(
         {
           x: x,
-          y: 40 * this.config.scale,
+          y: 90 * this.config.scale,
           z: z + 40 * this.config.scale
         },
         1000
