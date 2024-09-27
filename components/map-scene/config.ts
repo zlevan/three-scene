@@ -17,6 +17,10 @@ export default {
   // 地图柱状图
   mapBar: true,
 
+  // 背景因素（缩放大小）
+  bgOutFactor: 1,
+  bgInnerFactor: 0.9,
+
   // 地图贴图
   map: {
     // map: '/oss/textures/map/gz-map.jpg',

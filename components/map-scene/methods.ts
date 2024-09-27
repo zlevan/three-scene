@@ -401,8 +401,8 @@ export class MapThreeScene extends ThreeScene {
       const width = size.x < size.y ? size.y + 1 : size.x + 1
 
       // 添加背景，修饰元素
-      this.outRingMesh = createOutRing(this.scene, width)
-      this.innerRingMesh = createInnerRing(this.scene, width * 0.9)
+      this.outRingMesh = createOutRing(this.scene, width * this.config.bgOutFactor)
+      this.innerRingMesh = createInnerRing(this.scene, width * this.config.bgInnerFactor)
     }
   }
 

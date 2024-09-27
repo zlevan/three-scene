@@ -66,6 +66,10 @@ export declare interface Config {
   // 地图柱状图
   mapBar: boolean
 
+  // 背景因素（缩放大小）
+  bgOutFactor: number
+  bgInnerFactor: number
+
   // 地图贴图
   map: Partial<MapTexture>
 }
