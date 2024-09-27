@@ -3,6 +3,8 @@ export default {
   depth: 1,
   // 地图缩放倍数
   scale: 40,
+  // 波纹板半径
+  plateRadius: 200,
   // 右键间隔时间
   rightClickBackDiffTime: 100,
 

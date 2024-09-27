@@ -52,6 +52,8 @@ export declare interface Config {
   depth: number
   // 地图缩放倍数
   scale: number
+  // 波纹板半径
+  plateRadius: number
   // 右键间隔时间
   rightClickBackDiffTime: number
 

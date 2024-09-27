@@ -315,6 +315,7 @@ export class MapThreeScene extends ThreeScene {
     }
     // 波纹板
     const cpMh = createCorrugatedPlate({
+      range: this.config.plateRadius,
       factor: this.config.scale,
       color: this.color.plateColor,
       light: this.color.plateLight
