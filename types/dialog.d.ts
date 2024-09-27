@@ -13,4 +13,6 @@ export declare interface Dialog {
     left?: number
     top?: number
   }
+  extend: any
+  list: any[]
 }

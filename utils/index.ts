@@ -1,25 +1,22 @@
 // 判断指定类型
 export const isType = (type: string, value): boolean => {
-  return Object.prototype.toString.call(value) === `[object ${type}]`;
-};
+  return Object.prototype.toString.call(value) === `[object ${type}]`
+}
 
 // 判断是否为对象
 export const isObject = (value): boolean => {
-  return isType("Object", value);
-};
+  return isType('Object', value)
+}
 
 // 判断 dom 元素
 export const isDOM = (obj): boolean => {
   return (
     obj &&
-    (typeof HTMLElement === "object"
+    (typeof HTMLElement === 'object'
       ? obj instanceof HTMLElement
-      : obj &&
-        typeof obj === "object" &&
-        obj.nodeType === 1 &&
-        typeof obj.nodeName === "string")
-  );
-};
+      : obj && typeof obj === 'object' && obj.nodeType === 1 && typeof obj.nodeName === 'string')
+  )
+}
 
 /**
  * @description deepClone() 深拷贝-最终版：解决循环引用的问题
@@ -42,64 +39,64 @@ export const deepClone = (target, map = new Map()) => {
   // target 不能为空，并且是一个对象
   if (target != null && isObject(target)) {
     // 在克隆数据前，进行判断是否克隆过,已克隆就返回克隆的值
-    let cache = map.get(target);
+    let cache = map.get(target)
     if (cache) {
-      return cache;
+      return cache
     }
     // 判断是否为数组
-    const isArray = Array.isArray(target);
-    let result = isArray ? [] : {};
+    const isArray = Array.isArray(target)
+    let result = isArray ? [] : {}
     // 将新结果存入缓存中
-    cache = map.set(target, result);
+    cache = map.set(target, result)
     // 如果是数组
     if (isArray) {
       // 循环数组，
       target.forEach((item, index) => {
         // 如果item是对象，再次递归
-        result[index] = deepClone(item, cache);
-      });
+        result[index] = deepClone(item, cache)
+      })
     } else {
       // 如果是对象
-      Object.keys(target).forEach((key) => {
+      Object.keys(target).forEach(key => {
         if (isObject(result[key])) {
-          result[key] = deepClone(target[key], cache);
+          result[key] = deepClone(target[key], cache)
         } else {
-          result[key] = target[key];
+          result[key] = target[key]
         }
-      });
+      })
     }
-    return result;
+    return result
   } else {
-    return target;
+    return target
   }
-};
+}
 
 // 深度合并
 export const deepMerge = (target, source) => {
-  target = deepClone(target);
+  target = deepClone(target)
   for (let key in source) {
     if (key in target) {
       // 对象的处理
       if (isObject(source[key])) {
         if (!isObject(target[key])) {
-          target[key] = source[key];
+          target[key] = source[key]
         } else {
-          target[key] = deepMerge(target[key], source[key]);
+          target[key] = deepMerge(target[key], source[key])
         }
       } else {
-        target[key] = source[key];
+        target[key] = source[key]
       }
     } else {
-      target[key] = source[key];
+      target[key] = source[key]
     }
   }
-  return target;
-};
+  return target
+}
 
 // 随机数
 export const random = (min: number, max: number): number => {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-};
+  return Math.floor(Math.random() * (max - min + 1)) + min
+}
 
 /**
  * 校验url地址是否正确
@@ -109,25 +106,24 @@ export const random = (min: number, max: number): number => {
  * checkUrl( 'https://www.baidu.com' )
  */
 export const checkUrl = (url: string): boolean => {
-  !url && (url = "");
-  let regex =
-    /^([hH][tT]{2}[pP]:\/\/|[hH][tT]{2}[pP][sS]:\/\/)[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,}(\/\S*)?$/;
-  if (!regex.test(url)) return false;
-  return true;
-};
+  !url && (url = '')
+  let regex = /^([hH][tT]{2}[pP]:\/\/|[hH][tT]{2}[pP][sS]:\/\/)[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,}(\/\S*)?$/
+  if (!regex.test(url)) return false
+  return true
+}
 
 // 获取地址
-export const getUrl = (url: string | string[], baseUrl: string = "") => {
+export const getUrl = (url: string | string[], baseUrl: string = '') => {
   // 判断数组
   if (Array.isArray(url)) {
-    return url.map((u) => getUrl(u, baseUrl));
+    return url.map(u => getUrl(u, baseUrl))
   }
   // 检查是否为完整链接 不是则拼接域名地址
   if (!checkUrl(url) && url.indexOf(baseUrl) < 0) {
-    return baseUrl + url;
+    return baseUrl + url
   }
-  return url;
-};
+  return url
+}
 
 /**
  * 换算单位(汉字单位-四舍五入)
@@ -139,13 +135,13 @@ export const getUrl = (url: string | string[], baseUrl: string = "") => {
  */
 export const numConverter = (num: number = 0, precision: number = 2) => {
   if (Math.abs(num) >= 100000000) {
-    const n: any = num / 100000000;
-    return n.toFixed(precision) * 1 + "亿";
+    const n: any = num / 100000000
+    return n.toFixed(precision) * 1 + '亿'
   } else if (Math.abs(num) >= 10000) {
-    const n: any = num / 10000;
-    return n.toFixed(precision) * 1 + "万";
+    const n: any = num / 10000
+    return n.toFixed(precision) * 1 + '万'
   } else {
-    const n: any = num;
-    return n.toFixed(precision) * 1;
+    const n: any = num
+    return n.toFixed(precision) * 1
   }
-};
+}

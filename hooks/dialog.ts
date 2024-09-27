@@ -1,21 +1,33 @@
-import { reactive } from 'vue'
+import { reactive, toRef } from 'vue'
+import { deepMerge } from '../utils'
 
-export const useDialog = () => {
-  const dialog = reactive<import('../types/dialog').Dialog>({
-    show: false,
-    style: {
-      left: '',
-      top: ''
-    },
-    select: [],
-    data: {},
-    title: '',
-    position: {
-      top: 0,
-      left: 0
-    }
-  })
+type Options = import('../types/dialog').Dialog
+
+export declare type Params = import('../types/utils').DeepPartial<Options>
+export const useDialog = (options: Params = {}) => {
+  const dialog = reactive<Options>(
+    deepMerge(
+      {
+        show: false,
+        style: {
+          left: '',
+          top: ''
+        },
+        select: [],
+        data: {},
+        title: '',
+        position: {
+          top: 0,
+          left: 0
+        }
+      },
+      options
+    )
+  )
+  const show = toRef(dialog.show)
   return {
-    dialog
+    dialog,
+    options: dialog,
+    show
   }
 }

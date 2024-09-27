@@ -1,26 +1,26 @@
-import * as THREE from "three";
-import { deepMerge } from "../utils";
+import * as THREE from 'three'
+import { deepMerge } from '../utils'
 
 export declare interface Options {
-  depth: number;
-  height: number;
-  divisions: number;
-  coords: number[][];
-  color: string | number;
-  flyColor: string | number;
-  pointColor: string | number;
-  pointWidth: number;
-  tubularSegments: number;
-  radius: number;
-  flyPointWidth: number;
-  radialSegments: number;
-  closed: boolean;
-  length: number;
-  factor: number;
-  speed: number;
+  depth: number
+  height: number
+  divisions: number
+  coords: number[][]
+  color: string | number
+  flyColor: string | number
+  pointColor: string | number
+  pointWidth: number
+  tubularSegments: number
+  radius: number
+  flyPointWidth: number
+  radialSegments: number
+  closed: boolean
+  length: number
+  factor: number
+  speed: number
 }
 
-export declare type Params = import("../types/utils").DeepPartial<Options>;
+export declare type Params = import('../types/utils').DeepPartial<Options>
 
 // 飞线
 export const useFlywire = (options: Params = {}) => {
@@ -54,82 +54,72 @@ export const useFlywire = (options: Params = {}) => {
       // 系数
       factor: 1,
       // 流动速度
-      speed: 4,
+      speed: 4
     },
     options
-  );
+  )
 
   // 流动材质
-  let flyMaterial: InstanceType<typeof THREE.ShaderMaterial>;
+  let flyMaterial: InstanceType<typeof THREE.ShaderMaterial>
 
   // 做标点材质
-  let pointMaterial: InstanceType<typeof THREE.ShaderMaterial>;
+  let pointMaterial: InstanceType<typeof THREE.ShaderMaterial>
 
   // 根据起点和终点获取曲线做标点
-  const getCurvePoint = (
-    coords: import("../types/utils").getType<Options, "coords">
-  ) => {
-    const [x1, z1] = coords[0];
-    const [x2, z2] = coords[1];
-    let { depth, height, factor, divisions } = _options;
-    height = (depth + height) * factor;
-    depth *= factor;
+  const getCurvePoint = (coords: import('../types/utils').getType<Options, 'coords'>) => {
+    const [x1, z1] = coords[0]
+    const [x2, z2] = coords[1]
+    let { depth, height, factor, divisions } = _options
+    height = (depth + height) * factor
+    depth *= factor
 
     // 坐标起点
-    const v0 = new THREE.Vector3(x1, depth, -z1);
+    const v0 = new THREE.Vector3(x1, depth, -z1)
     // 控制点1坐标
     // 起点基础上，增加区间范围的 1/4
-    const v1 = new THREE.Vector3(
-      x1 + (x2 - x1) / 4,
-      height,
-      -(z1 + (z2 - z1) / 4)
-    );
+    const v1 = new THREE.Vector3(x1 + (x2 - x1) / 4, height, -(z1 + (z2 - z1) / 4))
 
     // 控制点2坐标
     // 起点基础上，增加区间范围的 3/4
-    const v2 = new THREE.Vector3(
-      x1 + ((x2 - x1) * 3) / 4,
-      height,
-      -(z1 + ((z2 - z1) * 3) / 4)
-    );
+    const v2 = new THREE.Vector3(x1 + ((x2 - x1) * 3) / 4, height, -(z1 + ((z2 - z1) * 3) / 4))
 
     // 终点
-    const v3 = new THREE.Vector3(x2, depth, -z2);
+    const v3 = new THREE.Vector3(x2, depth, -z2)
     // 使用3次贝塞尔曲线
-    const lineCurve = new THREE.CubicBezierCurve3(v0, v1, v2, v3);
+    const lineCurve = new THREE.CubicBezierCurve3(v0, v1, v2, v3)
     // 获取曲线上的点
-    return lineCurve.getPoints(divisions);
-  };
+    return lineCurve.getPoints(divisions)
+  }
 
   // 创建飞线-动态
-  const createFly = (points) => {
-    const indexList = new Float32Array(points.map((_, index) => index));
+  const createFly = points => {
+    const indexList = new Float32Array(points.map((_, index) => index))
     // 根据点位创建几何体
-    const geo = new THREE.BufferGeometry().setFromPoints(points);
+    const geo = new THREE.BufferGeometry().setFromPoints(points)
     // 设置自定义索引标识
-    geo.setAttribute("aIndex", new THREE.BufferAttribute(indexList, 1));
+    geo.setAttribute('aIndex', new THREE.BufferAttribute(indexList, 1))
 
-    return new THREE.Points(geo, flyMaterial);
-  };
+    return new THREE.Points(geo, flyMaterial)
+  }
 
   // 创建坐标点
-  const createCroodPoint = (crood) => {
-    const [x, z] = crood;
-    let { pointWidth, depth, factor } = _options;
-    const width = pointWidth * factor;
-    depth *= factor;
+  const createCroodPoint = crood => {
+    const [x, z] = crood
+    let { pointWidth, depth, factor } = _options
+    const width = pointWidth * factor
+    depth *= factor
 
     // 创建平面
-    const geo = new THREE.PlaneGeometry(width, width, 1, 1);
-    const point = new THREE.Mesh(geo, pointMaterial);
-    point.position.set(x, depth, -z);
-    point.rotateX(-Math.PI * 0.5);
-    return point;
-  };
+    const geo = new THREE.PlaneGeometry(width, width, 1, 1)
+    const point = new THREE.Mesh(geo, pointMaterial)
+    point.position.set(x, depth, -z)
+    point.rotateX(-Math.PI * 0.5)
+    return point
+  }
 
   // 创建材质
   const createFlywireTexture = (options: Params = {}) => {
-    _options = deepMerge(_options, options);
+    _options = deepMerge(_options, options)
 
     flyMaterial = new THREE.ShaderMaterial({
       depthTest: false,
@@ -141,7 +131,7 @@ export const useFlywire = (options: Params = {}) => {
         // 流动宽度
         uWidth: { value: _options.flyPointWidth },
         // 流动长度
-        uLength: { value: _options.length },
+        uLength: { value: _options.length }
       },
       vertexShader: `
         attribute float aIndex;
@@ -174,8 +164,8 @@ export const useFlywire = (options: Params = {}) => {
         }
       `,
       transparent: true,
-      vertexColors: false,
-    });
+      vertexColors: false
+    })
 
     pointMaterial = new THREE.ShaderMaterial({
       uniforms: {
@@ -184,7 +174,7 @@ export const useFlywire = (options: Params = {}) => {
         uSpeed: { value: 0.1 }, // 速度
         uSge: { value: 4 }, // 数量（圈数）
         uRadius: { value: (_options.pointWidth * _options.factor) / 2 },
-        time: { value: 0.0 },
+        time: { value: 0.0 }
       },
       transparent: true,
       depthTest: false,
@@ -247,25 +237,23 @@ export const useFlywire = (options: Params = {}) => {
           gl_FragColor = vec4(uColor, uOpacity * opacity);
         }
       `,
-      side: THREE.DoubleSide,
-    });
-  };
+      side: THREE.DoubleSide
+    })
+  }
 
-  const createFlywire = (
-    coords: import("../types/utils").getType<Options, "coords">
-  ) => {
-    const group = new THREE.Group();
+  const createFlywire = (coords: import('../types/utils').getType<Options, 'coords'>) => {
+    const group = new THREE.Group()
 
     // 坐标
-    const start = createCroodPoint(coords[0]);
-    const end = createCroodPoint(coords[1]);
-    group.add(start, end);
+    const start = createCroodPoint(coords[0])
+    const end = createCroodPoint(coords[1])
+    group.add(start, end)
 
-    const points = getCurvePoint(coords);
+    const points = getCurvePoint(coords)
     // 平滑样条线
     // CatmullRomCurve3( 点位、曲线闭合、曲线类型、类型catmullrom时张力默认 0.5)
     // 曲线类型：centripetal、chordal和catmullrom
-    const curve = new THREE.CatmullRomCurve3(points, false, "centripetal", 0.5);
+    const curve = new THREE.CatmullRomCurve3(points, false, 'centripetal', 0.5)
     // 管道
     const tubeGeo = new THREE.TubeGeometry(
       // 3D 路径
@@ -278,7 +266,7 @@ export const useFlywire = (options: Params = {}) => {
       _options.radialSegments,
       // 管道闭合
       _options.closed
-    );
+    )
     const tubMat = new THREE.ShaderMaterial({
       transparent: true,
       opacity: 1,
@@ -286,7 +274,7 @@ export const useFlywire = (options: Params = {}) => {
       vertexColors: false,
       uniforms: {
         uColor: { value: new THREE.Color(_options.color) },
-        uOpacity: { value: 0.6 },
+        uOpacity: { value: 0.6 }
       },
       vertexShader: `
         varying vec3 vColor;
@@ -301,32 +289,32 @@ export const useFlywire = (options: Params = {}) => {
         void main() {
           gl_FragColor = vec4(uColor, uOpacity);
         }
-      `,
-    });
-    const tubMesh = new THREE.Mesh(tubeGeo, tubMat);
-    tubMesh.renderOrder = 10;
+      `
+    })
+    const tubMesh = new THREE.Mesh(tubeGeo, tubMat)
+    tubMesh.renderOrder = 10
 
     // 飞线
-    const fly = createFly(points);
-    group.add(tubMesh, fly);
-    return group;
-  };
+    const fly = createFly(points)
+    group.add(tubMesh, fly)
+    return group
+  }
   const update = () => {
-    const mat = flyMaterial;
-    const uTotal = mat.uniforms.uTotal.value;
-    mat.uniforms.uIndex.value += _options.speed;
+    const mat = flyMaterial
+    const uTotal = mat.uniforms.uTotal.value
+    mat.uniforms.uIndex.value += _options.speed
     if (mat.uniforms.uIndex.value >= uTotal) {
-      mat.uniforms.uIndex.value = 0;
+      mat.uniforms.uIndex.value = 0
     }
 
-    const time = performance.now() * 0.001;
-    pointMaterial.uniforms.time.value = time;
-  };
-  createFlywireTexture();
+    const time = performance.now() * 0.001
+    pointMaterial.uniforms.time.value = time
+  }
+  createFlywireTexture()
   return {
     createFlywireTexture,
     createFlywire,
     update,
-    flywireUpdate: update,
-  };
-};
+    flywireUpdate: update
+  }
+}
