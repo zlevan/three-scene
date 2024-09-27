@@ -32,6 +32,7 @@
 </template>
 
 <script lang="ts" setup>
+import { watch, ref, withDefaults, onMounted } from 'vue'
 import * as THREE from 'three'
 import * as TWEEN from 'three/examples/jsm/libs/tween.module.js'
 
@@ -40,12 +41,15 @@ import { colors } from './colors'
 import * as UTILS from '../../utils/model'
 import DEFAULTCONFIG from '../../config'
 
+import { deepMerge } from '../../utils'
+
 import type { ObjectItem, ThreeModelItem, XYZ } from '../../types/model'
 
 const props = withDefaults(defineProps<import('./index').Props>(), {
   dracoUrl: '',
   dotKey: 'DOT',
   dotShowStrict: true,
+  colors: () => ({}),
   camera: () => ({}),
   cruise: () => ({}),
   fog: () => ({}),
@@ -62,6 +66,8 @@ const props = withDefaults(defineProps<import('./index').Props>(), {
   })
 })
 
+const COLORS = deepMerge(colors, props.colors)
+
 import { useBackground } from '../../hooks/background'
 import { useModelLoader } from '../../hooks/model-loader'
 import { useDialog } from 'three-scene/hooks/dialog'
@@ -69,7 +75,7 @@ import { useDialog } from 'three-scene/hooks/dialog'
 const { change: changeBackground, load: backgroundLoad } = useBackground()
 const { progress, loadModel, loadModels, getModel } = useModelLoader({
   baseUrl: props.dracoUrl,
-  colors,
+  colors: COLORS,
   colorMeshName: props.colorMeshName,
   indexDB: props.indexDB
 })
@@ -358,7 +364,7 @@ const loopLoadObject = async (item: ObjectItem) => {
     if (props.mainBodyChangeColor) {
       const children = model.children[0]?.children || []
       const mesh = children.filter(it => (props.mainBodyMeshName || []).some(t => it.name.indexOf(t) > -1))
-      const cobj = colors.normal
+      const cobj = COLORS.normal
       let color = cobj.main || cobj.color
       let colrs = UTILS.getColorArr(color)
       if (colrs.length) {
@@ -515,7 +521,7 @@ const rendomUpdate = () => {
     let { status = 0, error = 0, remote = 0, local = 0, disabled = 0 } = data
     // 获取颜色
     const cKey = error > 0 ? 'error' : status > 0 ? 'runing' : 'normal'
-    const cobj = colors[cKey]
+    const cobj = COLORS[cKey]
     let color = cobj[type] || cobj.color
 
     if (typeof props.getColorCall === 'function') {

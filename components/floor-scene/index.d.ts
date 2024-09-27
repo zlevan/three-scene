@@ -1,6 +1,7 @@
 import type { Fog, Render, Camera, Controls, Grid, Axes, Cruise, DirectionalLight } from '../../types/index'
 import type { XYZ, ModelItem, ObjectItem } from '../../types/model'
 import type { IndexDB } from '../../types/indexdb'
+import type { Colors } from '../../types/color'
 
 export declare interface Config {
   // 场景相机位置
@@ -85,6 +86,9 @@ export declare interface Props {
   env?: string
   // 缩放
   scale?: number
+
+  // 颜色
+  colors?: import('../../types/utils').DeepPartial<Colors>
 
   // 数据库
   indexDB?: Partial<IndexDB>
