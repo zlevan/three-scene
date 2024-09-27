@@ -211,7 +211,7 @@ const createOutRing = (scene, width) => {
   let material = new THREE.MeshBasicMaterial({
     map: outCircleTexture,
     transparent: true,
-    opacity: 1,
+    opacity: 0.6,
     depthTest: true
   })
   let mesh = new THREE.Mesh(plane, material)
@@ -229,7 +229,7 @@ const createInnerRing = (scene, width) => {
   let material = new THREE.MeshBasicMaterial({
     map: innerRingTexture,
     transparent: true,
-    opacity: 1,
+    opacity: 0.3,
     depthTest: true
   })
   let mesh = new THREE.Mesh(plane, material)
