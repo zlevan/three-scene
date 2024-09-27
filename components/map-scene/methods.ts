@@ -663,7 +663,7 @@ export class MapThreeScene extends ThreeScene {
       .onUpdate(() => {})
 
     // 控制器
-    this.controls.target = new THREE.Vector3(x, y, z)
+    this.controls.target = new THREE.Vector3(x, y, z - 5 * this.config.scale)
 
     // 网格
     if (this.grid) {
