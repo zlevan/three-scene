@@ -49,6 +49,14 @@ const emits = defineEmits<{
   click: [e: import('./index').Scatter]
 }>()
 
+// 缩放
+watch(
+  () => props.scale,
+  v => {
+    scene?.setScale(v || 1)
+  }
+)
+
 // 地图数据
 watch(
   () => props.mapJson,
