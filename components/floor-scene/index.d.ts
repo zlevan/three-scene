@@ -121,9 +121,6 @@ export declare interface Props {
   // dot 点位展示严格模式（设备运行时展示） 默认: true
   dotShowStrict?: boolean
 
-  // 颜色材质名称（需要改变颜色的网格名称）
-  colorMeshName?: string[]
-
   // 获取颜色回调
   getColorCall?: (obj: ObjectItem) => string | number | undefined
   // 格式化数据方法
