@@ -241,6 +241,8 @@ export default class ThreeScene {
     })
     // 聚焦坐标
     ctrl.target.set(0, 0, 0)
+    // 保存状态
+    ctrl.saveState()
     return ctrl
   }
 
@@ -382,6 +384,11 @@ export default class ThreeScene {
   // 添加对象到场景
   addObject(...objects: object[]) {
     this.scene.add(...objects)
+  }
+
+  // 控制重置
+  controlReset() {
+    this.controls.reset()
   }
 
   // 重置画布大小

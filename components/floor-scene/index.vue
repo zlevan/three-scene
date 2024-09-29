@@ -6,6 +6,7 @@
       <el-link v-if="cruise.visible" @click="() => scene?.toggleCruise()" type="danger">定点巡航</el-link>
       <el-link @click="() => scene?.getPosition()" type="success">场景坐标</el-link>
       <el-link type="warning" @click="() => changeBackground(scene)">切换背景</el-link>
+      <el-link type="danger" @click="() => scene?.controlReset()">控制器重置</el-link>
     </div>
     <div :class="$style.container" ref="containerRef"></div>
 
