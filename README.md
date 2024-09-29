@@ -46,7 +46,7 @@ onMounted(() => {
 ### Attributes
 | 属性名 | 类型 | 说明 |
 |-----|------|------|
-| options | Object | [配置](./README.md#options) |
+| options | Object | [配置](./README.md#Options) |
 | container | HTMLElement | 容器 |
 | scene | InstanceType &lt;typeof THREE.Scene&gt; | 场景对象 |
 | renderer | InstanceType &lt;typeof THREE.WebGLRenderer&gt; | 渲染器对象 |
