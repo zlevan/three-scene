@@ -73,11 +73,23 @@ onMounted(() => {
 | 属性名 | 类型 | 可选值 | 默认值 | 说明 |
 |-----|------|------|------|------|
 | antialias | Boolean | - | true | 是否开启反锯齿 |
+| alpha | Boolean | - | false | 画布透明度缓冲区 |
+| logarithmicDepthBuffer | Boolean | - | true | 设置对数深度缓存 |
+| preserveDrawingBuffer | Boolean | - | false | 是否保留缓冲区直到手动清除或覆盖，需要截图设置为 true，性能会下降 |
 
 ### controls
 | 属性名 | 类型 | 可选值 | 默认值 | 说明 |
 |-----|------|------|------|------|
 | visible | Boolean | - | false | 可见 |
+| enableDamping | Boolean | - | false | 阻尼（惯性）|
+| dampingFactor | Number | - | 0.25 | 阻尼系数，鼠标灵敏度 |
+| autoRotate | Boolean | - | false | 自动旋转 |
+| maxPolarAngle | Number | - | - | 相机垂直旋转角度上限 | 
+| enableZoom | Boolean | - | true | 缩放 |
+| enablePan | Boolean | - | true | 右键拖拽 |
+| screenSpacePanning | Boolean | - | true | 相机垂直平移 |
+| minDistance | Number | - | 1 | 相机距离原点最近距离 |
+| maxDistance | Number | - | 2000 | 相机距离原点最远距离 |
 
 ### ambientLight
 | 属性名 | 类型 | 可选值 | 默认值 | 说明 |
