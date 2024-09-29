@@ -199,3 +199,7 @@ onMounted(() => {
 | disposeObj | obj | - | 清除场景对象 |
 | dispose | - | - | 场景销毁 |
 
+# 组件
+| 组件 | 文档 |
+|-----|-----|
+| floor-scene | [楼层组件]('./FLOOR.md') |
