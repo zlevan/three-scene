@@ -46,7 +46,7 @@ onMounted(() => {
 ### Attributes
 | 属性名 | 类型 | 说明 |
 |-----|------|------|
-| options | Object | 配置，[详情](./README.md#options) |
+| options | Object | [配置](./README.md#options) |
 | container | HTMLElement | 容器 |
 | scene | InstanceType &lt;typeof THREE.Scene&gt; | 场景对象 |
 | renderer | InstanceType &lt;typeof THREE.WebGLRenderer&gt; | 渲染器对象 |
@@ -67,15 +67,15 @@ onMounted(() => {
 | bgUrl | String/String[] | - | - | 背景图数组（6 张图）时可组成环境图 |
 | env | String | - | - | 场景环境，影响场景所有元素，仅支持 hdr 文件 |
 | scale | Number | - | 1 | 缩放倍数，具体表现在计算坐标位置 |
-| fog | Object | - | - | 雾化，[详情](./README.md#Fog) |
-| render | Object | - | - | 渲染器，[详情](./README.md#Render) |
-| controls | Object | - | - | 控制器，[详情](./README.md#Controls) |
-| ambientLight | Object | - | - | 环境光，[详情](./README.md#AmbientLight) |
-| directionalLight | Object | - | - | 平行光，[详情](./README.md#DirectionalLight) |
-| camera | Object | - | - | 相机，[详情](./README.md#Camera) |
-| grid | Object | - | - | 网格，[详情](./README.md#Grid) |
-| axes | Object | - | - | 坐标轴[详情](./README.md#Axes) |
-| cruise | Object | - | - | 巡航，[详情](./README.md#Cruise) |
+| fog | Object | - | - | [雾化](./README.md#Fog) |
+| render | Object | - | - | [渲染器](./README.md#Render) |
+| controls | Object | - | - | [控制器](./README.md#Controls) |
+| ambientLight | Object | - | - | [环境光](./README.md#AmbientLight) |
+| directionalLight | Object | - | - | [平行光](./README.md#DirectionalLight) |
+| camera | Object | - | - | [相机](./README.md#Camera) |
+| grid | Object | - | - | [网格](./README.md#Grid) |
+| axes | Object | - | - | [坐标](./README.md#Axes) |
+| cruise | Object | - | - | [巡航](./README.md#Cruise) |
 
 ### Fog
 | 属性名 | 类型 | 可选值 | 默认值 | 说明 |
