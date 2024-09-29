@@ -21,6 +21,9 @@
 | grid | Object | - | - | [网格](./README.md#Grid) |
 | axes | Object | - | - | [坐标](./README.md#Axes) |
 | directionalLight | Object | - | - | [平行光](./README.md#DirectionalLight) |
+| models | Array | - | - | [场景加载类型对应的模型](./FLOOR.md#Models) |
+| config | Object | - | - | [配置](./FLOOR.md#Config) |
+| objects | Array | - | - | [对象列表](./FLOOR.md#Objects) |
 
 ### Colors
 | 属性名 | 类型 | 可选值 | 默认值 | 说明 |
@@ -45,3 +48,54 @@
 | dbName | String | - | - | 数据库名称 |
 | tbName | String | - | - | 表名称 |
 | version | Number | - | - | 版本号 |
+
+
+### Models
+| 属性名 | 类型 | 可选值 | 默认值 | 说明 |
+|-----|-----|-----|-----|-----|
+| key | String | - | - | 模型 唯一 key（场景元素按照 对应 key 加载） |
+| name | String | - | - | 模型名称 |
+| size | Number | - | - | 模型文件大小 （M 为单位） |
+| url | String | - | - | 模型加载地址 |
+| type | String | [Modeltype](./FLOOR.md#Modeltype) | - | 模型类型 |
+| mapUrl | String | - | - | 贴图 |
+| mapMeshName | String | - | - | 需要贴图的网格名称 |
+| repeat | Array | - | - | 精灵贴图 |
+| range | Object | - | - | 精灵大小,{x: 1, y; 1 } |
+
+### Modeltype 
+| 类型 | 说明 |
+|-----|-----|
+| base | 基础底座 |
+| device | 场景设备 |
+| font | 字体 |
+| sprite | 精灵 |
+| pipe | 管路贴图 |
+| warning | 警告标识 |
+| remote | 远程状态 | 
+| local | 本地标识 | 
+| disabled | 禁用标识 |
+
+### Config
+| 属性名 | 类型 | 可选值 | 默认值 | 说明 |
+|-----|-----|-----|-----|-----|
+| to | Object | - | - | [场景相机位置](./README.md#XYZ) |
+| target | object | - | - | [场景中心点/相机聚焦位置](./README.md#XYZ) |
+| floorExpandMode | String | [ExpandMode](./FLOOR.md#ExpandMode) | 'UD' | 楼层展开模式 |
+| floorExpandMargin | Number | - | 200 | 楼层展开间距 |
+| floorExpandHiddenOther | Boolean | - | - | 楼层展开后隐藏其他模型 |
+| floorExpandIndex | Number | - | -1 | 楼层展开的索引(楼层类型列表索引) |
+| floorExpandChangeViewAngle | Boolean | - | - | 楼层展开是否改变视角 |
+| back | Function | - | - | 返回回调函数（右键）|
+| load | Function | - | - | 加载完成回调函数 |
+
+
+### ExpandMode 
+| 类型 | 说明 |
+|-----|-----|
+| UD | up-down |
+| BA | before-after |
+
+### Objects
+| 属性名 | 类型 | 可选值 | 默认值 | 说明 |
+|-----|-----|-----|-----|-----|

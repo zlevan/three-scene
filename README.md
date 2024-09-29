@@ -203,3 +203,11 @@ onMounted(() => {
 | 组件 | 文档 |
 |-----|-----|
 | floor-scene | [楼层组件](./FLOOR.md) |
+
+
+### XYZ
+| 属性名 |  类型 |
+|-----|------|
+| x | Number |
+| y | Number |
+| z | Number |
