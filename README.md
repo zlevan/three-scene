@@ -95,28 +95,57 @@ onMounted(() => {
 | 属性名 | 类型 | 可选值 | 默认值 | 说明 |
 |-----|------|------|------|------|
 | visible | Boolean | - | false | 可见 |
+| color | Number/String | - | 0xffffff | 环境光颜色 |
+| intensity | Number | - | 1.5 | 光强度 |
 
 ### directionalLight
 | 属性名 | 类型 | 可选值 | 默认值 | 说明 |
 |-----|------|------|------|------|
 | visible | Boolean | - | false | 可见 |
+| helper | Boolean | - | false | 辅助器 |
+| light2 | boolean | - | true | 第二个平行光开启 |
+| color | Number/String | - | 0xffffff | 平行光颜色 |
+| intensity | Number | - | 1.5 | 光强度 |
 
 ### camera
 | 属性名 | 类型 | 可选值 | 默认值 | 说明 |
 |-----|------|------|------|------|
 | helper | Boolean | - | false | 辅助器 |
+| near | Number | - | 1 | 相机最近距离 |
+| far | Number | - | 10000 | 相机最远距离 |
+| position | Array | - | [-350, 510, 700] | 相机位置坐标 |
 
 ### grid
 | 属性名 | 类型 | 可选值 | 默认值 | 说明 |
 |-----|------|------|------|------|
 | visible | Boolean | - | false | 可见 |
+| transparent | Boolean | - | true | 透明 |
+| opacity | Number | - | 0.3 | 透明度 |
+| width | Number | - | 800 | 网格宽度 |
+| divisions | Number | - | 80 | 网格等分数 |
+| centerLineColor | Number/String | - | 0xa1a1a1 | 中心线颜色 |
+| gridColor | Number/String | - | 0xa1a1a1 | 网格颜色 |
+| fork | Boolean | - | false | 网格交叉点 |
+| forkSize | Number | - | 1.4 | 网格交叉点大小 |
+| forkColor | Number/String | - | 0xa1a1a1 | 网格交叉点颜色 |
 
 ### axes
 | 属性名 | 类型 | 可选值 | 默认值 | 说明 |
 |-----|------|------|------|------|
 | visible | Boolean | - | false | 可见 |
+| size | Number | - | 50 | 坐标轴大小 |
 
 ### cruise
 | 属性名 | 类型 | 可选值 | 默认值 | 说明 |
 |-----|------|------|------|------|
+| visible | Boolean | - | false | 可见 |
 | helper | Boolean | - | false | 辅助器 |
+| points | Array | - | [] | 巡航点位 |
+| segment | Number | - | 2 | 巡航分段数 |
+| tension | Number | - | 0 | 巡航曲线张力 |
+| mapUrl | String | - | - | 贴图地址 |
+| repeat | Array | - | [0.1, 1] | 贴图重复 |
+| width | Number | - | 15 | 宽度 |
+| speed | Number | - | 1 | 巡航时速度 |
+| mapSpeed | Number | - | 0.006 | 贴图材质动画滚动速度 |
+| offset | Number | - | 10 | 巡航点偏差（距离巡航点的上下偏差）|
