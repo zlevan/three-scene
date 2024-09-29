@@ -197,5 +197,5 @@ onMounted(() => {
 | resize | - | - | 重置画布大小 | 
 | stopAnimate | - | - | 停止动画（requestAnimationFrame）|
 | disposeObj | obj | - | 清除场景对象 |
-｜ dispose ｜ - ｜ - ｜ 场景销毁 |
+| dispose | - | - | 场景销毁 |
 
