@@ -415,7 +415,7 @@ export default class ThreeScene {
   }
 
   // 清除对象
-  clear = obj => {
+  clear(obj) {
     if (!obj || !obj.traverse) return
     obj.traverse(el => {
       if (el.material) el.material.dispose()
@@ -426,7 +426,7 @@ export default class ThreeScene {
   }
 
   // 清除对象缓存
-  disposeObj = obj => {
+  disposeObj(obj) {
     if (!obj || !obj.traverse) return
     obj.traverse(el => {
       if (el.material) el.material.dispose()
