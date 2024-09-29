@@ -202,4 +202,4 @@ onMounted(() => {
 # 组件
 | 组件 | 文档 |
 |-----|-----|
-| floor-scene | [楼层组件]('./FLOOR.md') |
+| floor-scene | [楼层组件](./FLOOR.md) |
