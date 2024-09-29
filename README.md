@@ -168,7 +168,34 @@ onMounted(() => {
 
 
 ### Methods
-| 方法名 |  参数 | 说明 |
-|-----|------|------|
-| init | - | 初始化（灯光、网格、坐标轴、模型）|
-| run | - | 运行（循环渲染、控制器可视操作） |
+| 方法名 |  参数 | 返回 | 说明 |
+|-----|------|------|-----|
+| init | - | - | 初始化（灯光、网格、坐标轴、模型）|
+| run | - | - | 运行（循环渲染、控制器可视操作） |
+| loop | - | - | 循环（执行 requestAnimationFrame 方法）|
+| animate | - | - | 更新渲染器、TWEEN 更新、巡航更新 |
+| initModel | - | - | 业务模型初始化（继承后可在此方法内编写业务代码）|
+| modelAnimate | - | - | 业务代码模型动画（配套使用）|
+| initRenderer | - | 渲染器对象 | 初始化渲染器 |
+| initLight | - | - | 初始化灯光（环境光、平行光）|
+| createDirectionalLight | castShadow, s, size, near, far | 平行光对象 | 创建平行光 |
+| initCamera | - | 景深相机对象 | 初始化相机 |
+| initControls | - | 控制器对象 | 初始化控制器 |
+| initCruise | - | - | 初始化巡航 |
+| initGrid | - | - | 初始化网格 |
+| initAxes | - | - | 初始化坐标轴辅助器 |
+| setCruisePoint | points | - | 设置巡航点位并生成巡航航道 |
+| createCruise | - | - | 创建巡航航道 |
+| toggleCruise | - | - | 巡航开启或者关闭 |
+| setScale | scale | - | 设置缩放大小，主要用于鼠标位置计算 |
+| setEnvironment | env | - | 设置场景环境 |
+| setBgTexture | bgUrl | - | 设置背景图 |
+| setBgColor | color | - | 设置背景色 |
+| exportImage | - | - | 导出场景图片 |
+| addObject | ...objects | - | 场景添加对象 |
+| controlReset | - | - | 控制器重置 |
+| resize | - | - | 重置画布大小 | 
+| stopAnimate | - | - | 停止动画（requestAnimationFrame）|
+| disposeObj | obj | - | 清除场景对象 |
+｜ dispose ｜ - ｜ - ｜ 场景销毁 |
+
