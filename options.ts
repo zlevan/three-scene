@@ -51,9 +51,9 @@ export default {
     enablePan: true,
     // 垂直平移
     screenSpacePanning: true,
-    // 相机距离远点最近距离
+    // 相机距离原点最近距离
     minDistance: 1,
-    // 相机距离远点最远距离
+    // 相机距离原点最远距离
     maxDistance: 2000
   },
   // 环境光
