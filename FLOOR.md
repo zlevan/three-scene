@@ -24,6 +24,21 @@
 | models | Array | - | - | [场景加载类型对应的模型](./FLOOR.md#Models) |
 | config | Object | - | - | [配置](./FLOOR.md#Config) |
 | objects | Array | - | - | [对象列表](./FLOOR.md#Objects) |
+| dotKey | String | - | 'DOT' | dot 类型 key 值 |
+| dotShowStrict | Boolean | - | true | dot 点位展示严格模式（设备运行时展示 |
+| getColorCall | Function | - | - | 获取颜色回调，需要返回色值 |
+| formatObject | Function | - | - | 格式化数据方法，需返回格式化后的数据列表 | 
+| dotUpdateObjectCall | Function | - | - |  DOT 点位更新对象回调方法，需返回{ value: number, show: boolean } |
+| updateObjectCall | Function | - | - | 更新对象回调方法，需返回状态对应值对象 |
+| randomUpdateObjectCall | Function | - | - | 随机更新对象回调方法，需返回状态对应值对象 |
+| colorMeshName | Array | - | - | 颜色材质名称（需要改变颜色的网格名称） |
+| animationModelType | Array | - | - | 动态模型类型(有动画) |
+| floorModelType | Array | - | - | 楼层模块类型 |
+| textModelType | Array | - | - | 绘制名称立体文字的类型 |
+| anchorType | Array | - | - | 锚点模型类型列表（精灵类型）该类型未绑定点击事件函数将作为 dialog 弹窗事件处理 |
+| mainBodyChangeColor | Boolean | - | - | 主体变色 | 
+| mainBodyMeshName | Boolean | - | [ '主体' ] | 主体网格名称 | 
+
 
 ### Colors
 | 属性名 | 类型 | 可选值 | 默认值 | 说明 |
@@ -44,7 +59,7 @@
 ### IndexDB
 | 属性名 | 类型 | 可选值 | 默认值 | 说明 |
 |-----|-----|-----|-----|-----|
-| cache | Boolean | - | - | 开启缓存 |
+| cache | Boolean | - | true | 开启缓存 |
 | dbName | String | - | - | 数据库名称 |
 | tbName | String | - | - | 表名称 |
 | version | Number | - | - | 版本号 |
@@ -99,3 +114,20 @@
 ### Objects
 | 属性名 | 类型 | 可选值 | 默认值 | 说明 |
 |-----|-----|-----|-----|-----|
+| name | String | - | - | 名称 |
+| type | String | - | - | 类型 |
+| show | Boolean | - | - | 显示 |
+| value | Number | - | - | 值 |
+| unit | String | - | - | 单位 |
+| code | String | - | - |  |
+| deviceCode | String | - | - | 设备code |
+| position | object | - | - | [位置](./README.md#XYZ) |
+| rotation | object | - | - | [旋转](./README.md#XYZ) |
+| scale | object | - | - | [缩放](./README.md#XYZ) |
+| to | object | - | - | [相机动画位置](./README.md#XYZ) |
+| target | object | - | - | [场景中心点](./README.md#XYZ) |
+| url | String | - | - | 场景模型找不到对应类型时，url 不为空，则直接加载地址模型 |
+| mark | String | - | - | 标记，当楼层展开或收起时，某些模型需要跟随某个楼层时候，标记楼层 |
+| followMark | String | - | - | 跟随标记，需要跟随的楼层标记 |
+| onDblclick | Function | - | - | 双击模型回调函数 |
+| onClick | Function | - | - | 点击模型回调函数 |
