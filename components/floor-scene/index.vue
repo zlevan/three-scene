@@ -425,7 +425,7 @@ const initDeviceConfigs = () => {
 
   if (typeof props.formatObject !== 'function') {
     deviceConfigs.value = list
-    throw Error('未传入格式化函数 formatObject')
+    // throw Error('未传入格式化函数 formatObject')
   } else {
     const data = props.formatObject(list)
     deviceConfigs.value = data

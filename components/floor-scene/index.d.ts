@@ -124,7 +124,7 @@ export declare interface Props {
   // 获取颜色回调
   getColorCall?: (obj: ObjectItem) => string | number | undefined
   // 格式化数据方法
-  formatObject: (list: ObjectItem[]) => ObjectItem[]
+  formatObject?: (list: ObjectItem[]) => ObjectItem[]
   // DOT 点位更新对象回调方法
   dotUpdateObjectCall?: (obj: ObjectItem, list: ThreeModelItem[]) => UpdateDotReturn
   // 更新对象回调方法
