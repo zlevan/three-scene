@@ -24,6 +24,10 @@
 | corrugatedPlate | Boolean | - | true | 波纹板 |
 | mapJson | GeoJson | - | - | [地图配置（省份）](https://datav.aliyun.com/portal/school/atlas/area_selector)-地图 geo 数据 |
 | outlineJson | GeoJson | - | - | 轮廓配置-地图 geo 数据 |
+| flywire | Array | - | - | [飞线](./MAP.md#Flywire) |
+| barList | Array | - | - | [柱状图](./MAP.md#BarList) |
+| scatters | Array | - | - | [散点](./MAP.md#Scatters) |
+| barLabelRender | Function | - | - | 柱状图 label 渲染回调,需返回 [BarLabel](./MAP.md#BarLabel) |
 
 
 
@@ -78,3 +82,29 @@
 | bgOutCircle | String | - | - | 背景外圈 |
 | bgInnerCircle | String | - | - | 背景内圈 |
 
+
+### Flywire
+| 属性名 | 类型 | 可选值 | 默认值 | 说明 |
+|-----|-----|-----|-----|-----|
+| path | String | - | - | 路径名称 |
+| coords | Array | - | - | 地图坐标（二维数组，2 个坐标一组） |
+
+### BarList
+| 属性名 | 类型 | 可选值 | 默认值 | 说明 |
+|-----|-----|-----|-----|-----|
+| name | String | - | - | 名称 |
+| value | Number | - | - | 值 |
+| unit | String | - | - | 单位 |
+
+### BarLabel
+| 属性名 | 类型 | 可选值 | 默认值 | 说明 |
+|-----|-----|-----|-----|-----|
+| name | String | - | - | 名称 |
+| className | String | - | - | DOM class 类名 |
+| onClick | Function | - | - | 点击事件回调 |
+
+### Scatters
+| 属性名 | 类型 | 可选值 | 默认值 | 说明 |
+|-----|-----|-----|-----|-----|
+| name | String | - | - | 坐标名称 |
+| coord | Array | - | - | 地图坐标 |
