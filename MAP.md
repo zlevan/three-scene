@@ -21,6 +21,12 @@
 | directionalLight | Object | - | - | [平行光](./README.md#DirectionalLight) |
 | color | Object | - | - | [地图配色](./MAP.md#Color) |
 | config | Object | - | - | [地图配置](./FLOOR.md#Config) |
+| corrugatedPlate | Boolean | - | true | 波纹板 |
+| mapJson | GeoJson | - | - | [地图配置（省份）](https://datav.aliyun.com/portal/school/atlas/area_selector)-地图 geo 数据 |
+| outlineJson | GeoJson | - | - | 轮廓配置-地图 geo 数据 |
+
+
+
 
 
 
