@@ -131,3 +131,23 @@
 | followMark | String | - | - | 跟随标记，需要跟随的楼层标记 |
 | onDblclick | Function | - | - | 双击模型回调函数 |
 | onClick | Function | - | - | 点击模型回调函数 |
+
+
+
+### Events
+| 事件名 |  参数 | 说明 |
+|-----|------|------|
+| init | scene | 场景初始化完成触发事件 |
+| loaded | - | 场景每次加载完成后触发事件 |
+| update | data, isRandom | 每次更新数据完成后触发事件 |
+| select | ObjectItem | 类型为锚点的模型鼠标点击后触发事件 |
+| dblclick | ObjectItem | 模型鼠标双击后触发事件 |
+| click-dot | ObjectItem, e | dot 点位点击触发事件 |
+| click-dialog-dot | ObjectItem, position |  类型为弹窗锚点的模型鼠标点击触发事件 |
+
+
+
+### Slot
+| name | 说明 |
+|-----|------|
+| dialog | 鼠标悬浮到地图块或者散点触发的弹窗信息框，参数为传入的 [barList](./MAP.md#BarList) 或 [scatters](./MAP.md#Scatters)  |
