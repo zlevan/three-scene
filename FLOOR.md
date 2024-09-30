@@ -1,5 +1,59 @@
 # 楼层组件（floor-scene）
 
+## 示例
+```vue
+<template>
+  <floor-scene
+    ref="threeSceneRef"
+    :dev-env="pageOpts.devEnv"
+    :base-url="pageOpts.baseUrl"
+    :models="pageOpts.models"
+    :floor-model-type="pageOpts.floorModelType"
+    :objects="pageOpts.objects"
+    @init="onInit"
+    @click-dot="onClickDot"
+  >
+  </floor-scene>
+</template>
+<script lang="ts" setup>
+import { ref, reactive, onMounted } from 'vue'
+import FloorScene from 'three-scene/components/floor-scene/index.vue'
+
+const threeSceneRef = ref()
+const base = import.meta.env.VITE_BEFORE_STATIC_PATH
+const devEnv = import.meta.env.VITE_MODE !== 'production'
+
+const pageOpts = reactive<import('three-scene/components/device-scene/index').Props>({
+  devEnv,
+  baseUrl: base,
+  models: [{
+    key: 'FLOOR_ONE',
+    name: '楼层',
+    size:  1.23,
+    url: '/楼层.glb'
+  }],
+  floorModelType: [
+    'FLOOR_ONE'
+  ],
+  objects: [{
+    name: '一楼',
+    type: 'lFLOOR_ONE',
+    position: { x: 0, y: 0, z: 0 }
+  }]
+})
+
+const onInit = scene => {
+  console.log(scene)
+}
+const onClickDot = (item, e) => {
+  console.log(item, e)
+}
+
+</script>
+<style lang="scss">
+</style>
+```
+
 ### Props
 | 参数 | 类型 | 可选值 | 默认值 | 说明 |
 |-----|-----|-----|-----|-----|
