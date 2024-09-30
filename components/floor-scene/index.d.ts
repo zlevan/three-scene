@@ -128,9 +128,7 @@ export declare interface Props {
   // DOT 点位更新对象回调方法
   dotUpdateObjectCall?: (obj: ObjectItem, list: ThreeModelItem[]) => UpdateDotReturn
   // 更新对象回调方法
-  updateObjectCall?: (obj: ObjectItem) => Partial<UpdateFnReturn>
-  // 随机更新对象回调方法
-  randomUpdateObjectCall?: (obj: ObjectItem) => Partial<UpdateFnReturn> | undefined
+  updateObjectCall?: (obj: ObjectItem, isRandom: boolean) => Partial<UpdateFnReturn>
 
   // 颜色材质名称（需要改变颜色的网格名称）
   colorMeshName?: string[]

@@ -2,7 +2,7 @@
   <div :class="$style['floor-scene']">
     <!-- 操作按钮 -->
     <div class="scene-operation" v-if="devEnv">
-      <el-link type="success" @click="rendomUpdate">随机更新</el-link>
+      <el-link type="success" @click="() => updateObject(true)">随机更新</el-link>
       <el-link v-if="cruise.visible" @click="() => scene?.toggleCruise()" type="danger">定点巡航</el-link>
       <el-link @click="() => scene?.getPosition()" type="success">场景坐标</el-link>
       <el-link type="warning" @click="() => changeBackground(scene)">切换背景</el-link>
@@ -89,7 +89,7 @@ const emits = defineEmits<{
   update: [list: ObjectItem[], isRandom?: boolean]
   select: [item: ObjectItem]
   dblclick: [item: ObjectItem]
-  'click-dot': [item: ObjectItem]
+  'click-dot': [item: ObjectItem, e: PointerEvent]
   'click-dialog-dot': [item: ObjectItem, pos: { left: number; top: number }]
 }>()
 
@@ -294,7 +294,7 @@ const updateDotVisible = (target: ThreeModelItem) => {
 const createDotObject = item => {
   updateDotVisible(
     scene.createDot(item, e => {
-      console.log(item, e)
+      emits('click-dot', toRaw(item), e)
     })
   )
 }
@@ -487,12 +487,12 @@ const initPage = () => {
   }
 }
 
-// 随机更新
-const rendomUpdate = () => {
+// 更新
+const updateObject = isRandom => {
   const emitData: ObjectItem[] = []
 
-  if (typeof props.randomUpdateObjectCall !== 'function') {
-    throw Error('未传入随机更新回调函数 randomUpdateObjectCall')
+  if (typeof props.updateObjectCall !== 'function') {
+    throw Error('未传入更新回调函数 updateObjectCall')
   }
 
   scene.getAll().forEach((el, _i) => {
@@ -509,7 +509,7 @@ const rendomUpdate = () => {
     }
 
     // @ts-ignore
-    const res = props.randomUpdateObjectCall(data)
+    const res = props.updateObjectCall(data, isRandom)
     if (!res) return
     if (typeof res !== 'object') {
       throw Error('更新回调函数返回对象不为 Object，当前类型：' + typeof res)
@@ -542,7 +542,7 @@ const rendomUpdate = () => {
       disabled: disabled > 0
     })
   })
-  emits('update', emitData, true)
+  emits('update', emitData, isRandom)
 }
 
 // 修改模型部件状态及颜色 (类型、模型、颜色对象、颜色、动画暂停状态、故障状态)
@@ -631,7 +631,8 @@ onMounted(() => {
 })
 
 defineExpose({
-  floorAnimate
+  floorAnimate,
+  update: updateObject
 })
 </script>
 
