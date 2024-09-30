@@ -203,6 +203,7 @@ onMounted(() => {
 | 组件 | 文档 |
 |-----|-----|
 | floor-scene | [楼层组件](./FLOOR.md) |
+| map-scene | [地图组件](./MAP.md) |
 
 
 ### XYZ
