@@ -30,7 +30,6 @@
 | formatObject | Function | - | - | 格式化数据方法，需返回格式化后的数据列表 | 
 | dotUpdateObjectCall | Function | - | - |  DOT 点位更新对象回调方法，需返回{ value: number, show: boolean } |
 | updateObjectCall | Function | - | - | 更新对象回调方法，需返回状态对应值对象 |
-| randomUpdateObjectCall | Function | - | - | 随机更新对象回调方法，需返回状态对应值对象 |
 | colorMeshName | Array | - | - | 颜色材质名称（需要改变颜色的网格名称） |
 | animationModelType | Array | - | - | 动态模型类型(有动画) |
 | floorModelType | Array | - | - | 楼层模块类型 |
