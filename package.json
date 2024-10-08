@@ -25,6 +25,19 @@
     "./types/*": "./types/*",
     "./components/*": "./components/*"
   },
+  "files": [
+    "components",
+    "hooks",
+    "imgs",
+    "types",
+    "utils",
+    "config.ts",
+    "index.ts",
+    "package.json",
+    "MAP.md",
+    "FLOOR.md",
+    "README.md"
+  ],
   "dependencies": {
     "three": "^0.167.0",
     "vue": "^3.5.3"
