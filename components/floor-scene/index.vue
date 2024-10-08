@@ -264,17 +264,17 @@ const loadBase = async (item: ObjectItem) => {
 
 // 更新点位隐现
 const updateDotVisible = (target: ThreeModelItem) => {
-  if (typeof props.dotUpdateObjectCall !== 'function') {
-    throw Error('未传人点位更新对象回调方法 dotUpdateObjectCall')
-  }
   const item = target.data as ObjectItem
-  const res = props.dotUpdateObjectCall(item, scene.deviceGroup)
-  if (typeof res !== 'object') {
-    throw Error('点位更新回调方法返回类型不是 Object，当前返回类型为：' + typeof res)
+  if (typeof props.dotUpdateObjectCall === 'function') {
+    const res = props.dotUpdateObjectCall(item, scene.deviceGroup)
+    if (typeof res === 'object') {
+      Object.keys(res).forEach(key => {
+        item[key] = res[key]
+      })
+    }
+  } else {
+    console.warn(new Error('未传人点位更新对象回调方法 dotUpdateObjectCall'))
   }
-  Object.keys(res).forEach(key => {
-    item[key] = res[key]
-  })
 
   target.visible = item.show || !props.dotShowStrict
   const dom = target.element?.getElementsByClassName('inner')[0] as HTMLElement
@@ -425,7 +425,7 @@ const initDeviceConfigs = () => {
 
   if (typeof props.formatObject !== 'function') {
     deviceConfigs.value = list
-    // throw Error('未传入格式化函数 formatObject')
+    console.warn(Error('未传入格式化函数 formatObject'))
   } else {
     const data = props.formatObject(list)
     deviceConfigs.value = data
@@ -492,7 +492,7 @@ const updateObject = isRandom => {
   const emitData: ObjectItem[] = []
 
   if (typeof props.updateObjectCall !== 'function') {
-    throw Error('未传入更新回调函数 updateObjectCall')
+    console.warn(Error('未传入更新回调函数 updateObjectCall'))
   }
 
   scene.getAll().forEach((el, _i) => {
@@ -508,15 +508,17 @@ const updateObject = isRandom => {
       return
     }
 
-    // @ts-ignore
-    const res = props.updateObjectCall(data, isRandom)
-    if (!res) return
-    if (typeof res !== 'object') {
-      throw Error('更新回调函数返回对象不为 Object，当前类型：' + typeof res)
+    if (typeof props.updateObjectCall === 'function') {
+      // @ts-ignore
+      const res = props.updateObjectCall(data, isRandom)
+      if (!res) return
+      if (typeof res !== 'object') {
+        console.warn(Error('更新回调函数返回对象不为 Object，当前类型：' + typeof res))
+      }
+      Object.keys(res).forEach(key => {
+        data[key] = res[key]
+      })
     }
-    Object.keys(res).forEach(key => {
-      data[key] = res[key]
-    })
     emitData.push(toRaw(data))
 
     let { status = 0, error = 0, remote = 0, local = 0, disabled = 0 } = data
