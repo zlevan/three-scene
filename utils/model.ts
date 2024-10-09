@@ -164,3 +164,157 @@ export const findMaterial = (children, names: string[]) => {
   find(children)
   return list
 }
+
+// 获取偏差值
+const TYPE_KEYS = CONFIG.keys
+export const getDeviationConfig = (item, cr = 0xffffff) => {
+  const type = item.type
+  let size = 10, // 模型、字体大小
+    color = cr, // 字体颜色
+    txPos = { x: 0, y: 0, z: 0 }, // 字体 xyz 坐标（相对模型的中心点）
+    txRot = { x: 0, y: 0, z: 0 }, // 字体 xyz 旋转大小
+    warnPos = { x: 0, y: 0, z: 0 }, // 警告 xyz 坐标（相对模型的中心点）
+    statusPos = { x: 0, y: 0, z: 0 }, // 状态 xyz 坐标（相对模型的中心点）
+    disabledPos = { x: 0, y: 0, z: 0 } // 禁用 xyz 坐标（相对模型的中心点）
+  switch (type) {
+    case TYPE_KEYS.TEXT: // 文字
+      break
+
+    case TYPE_KEYS.JSQ: // 集水器
+      txPos.y = 10
+      txPos.x = -20
+      txRot.y = 270
+      warnPos.y = 62
+      break
+
+    case TYPE_KEYS.LDB: // 冷冻泵
+    case TYPE_KEYS.LQB: // 冷却泵
+      txPos.z = type === TYPE_KEYS.LDB ? 0 : 60
+      txPos.x = type === TYPE_KEYS.LDB ? -60 : 0
+      txRot.y = type === TYPE_KEYS.LDB ? 0 : -90
+      warnPos.y = 45
+      statusPos.x = -0.4
+      statusPos.y = 46.7
+      statusPos.z = -15.7
+      disabledPos.x = -0.4
+      disabledPos.y = 34
+      disabledPos.z = 12.5
+      break
+
+    case TYPE_KEYS.XBC: // 蓄冰槽
+    case TYPE_KEYS.LXJ: // 离心机
+      txPos.y = 16
+      txPos.z = 50
+      txRot.x = -20
+      warnPos.y = 78
+      statusPos.x = 36
+      statusPos.y = 67
+      statusPos.z = 42
+      disabledPos.x = -25
+      disabledPos.y = 85
+      disabledPos.z = 20
+      break
+
+    case TYPE_KEYS.LGJ: // 螺杆机
+    case TYPE_KEYS.LGJ_2: // 双头螺杆机
+    case TYPE_KEYS.LGJ_3: // 三机头螺杆机
+    case TYPE_KEYS.LGJ_4: // 四机头螺杆机
+      txPos.y = 16
+      txPos.z = 50
+      txRot.x = -20
+      warnPos.y = 78
+      statusPos.x = -40
+      statusPos.y = 64
+      statusPos.z = 42
+      disabledPos.x = 0
+      disabledPos.y = 75
+      disabledPos.z = 20
+      break
+
+    case TYPE_KEYS.LQT: // 冷却塔
+      txPos.x = -60
+      warnPos.y = 85
+      statusPos.x = -27.6
+      statusPos.y = 70
+      statusPos.z = -25.2
+      disabledPos.x = -27.6
+      disabledPos.y = 70
+      disabledPos.z = 25.2
+      break
+
+    case TYPE_KEYS.GL: // 锅炉
+      txPos.x = 83
+      txPos.y = 2
+      warnPos.y = 125
+      statusPos.y = 125
+      break
+
+    case TYPE_KEYS.BSHRQ: // 板式换热器
+      size = 12
+      txPos.y = 8
+      txPos.z = 33
+      warnPos.y = 105
+      statusPos.y = 105
+      break
+
+    case TYPE_KEYS.BSHLQ: // 板式换热器-制冷
+      txPos.y = 16
+      txPos.z = 40
+      warnPos.y = 88
+      statusPos.x = -43
+      statusPos.y = 90
+      statusPos.z = -20
+      break
+
+    case TYPE_KEYS.FLRB: // 风冷热泵
+      txPos.x = 50
+      txPos.y = 2
+      warnPos.y = 123
+      statusPos.y = 123
+      break
+
+    case TYPE_KEYS.FJY_X: // 风机-右
+    case TYPE_KEYS.FJZ_X: // 风机-左
+      size = 6
+      txPos.y = 80
+      txPos.z = 30
+      warnPos.y = 80
+      statusPos.y = 80
+      break
+
+    case TYPE_KEYS.FJY: // 风机-右
+    case TYPE_KEYS.FJZ: // 风机-左
+      size = 6
+      txPos.y = 103
+      warnPos.y = 110
+      statusPos.y = 110
+      break
+
+    case TYPE_KEYS.FM: // 阀门
+    case TYPE_KEYS.XFM: // 阀门
+      break
+  }
+
+  // 字体配置
+  let font = item.font || {}
+  // 字体坐标
+  let fontPOs = font.position || {}
+  if (fontPOs) {
+    Object.keys(fontPOs).forEach(key => {
+      txPos[key] = fontPOs[key]
+    })
+  }
+  // 字体角度
+  let fontRot = font.rotation || {}
+  if (fontRot) {
+    Object.keys(fontRot).forEach(key => {
+      txRot[key] = fontRot[key]
+    })
+    ;(txRot.x = (Math.PI / 180) * txRot.x), (txRot.y = (Math.PI / 180) * txRot.y), (txRot.z = (Math.PI / 180) * txRot.z)
+  }
+
+  font.size && (size = font.size)
+  font.color && (color = font.color)
+
+  return { size, color, txPos, txRot, warnPos, statusPos, disabledPos }
+}

@@ -371,7 +371,7 @@ export const useModelLoader = (options: Params = {}) => {
           createSprite(item)
           break
         case MODEL_MAP.font:
-          loadFont(item)
+          await loadFont(item)
           break
       }
 
@@ -391,11 +391,15 @@ export const useModelLoader = (options: Params = {}) => {
   // 获取缓存模型
   const getModel = key => modelMap.get(key)
 
+  // 获取字体
+  const getFont = () => fontParser
+
   return {
     progress,
     MODEL_MAP,
     loadModel,
     loadModels,
-    getModel
+    getModel,
+    getFont
   }
 }
