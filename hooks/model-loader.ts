@@ -326,28 +326,36 @@ export const useModelLoader = (options: Params = {}) => {
   }
 
   // 加载字体
-  let fontParser: InstanceType<typeof FontLoader>
-  const loadFont = (model: ModelItem) => {
+  const loadFont = (model: ModelItem, onProgress?: Function) => {
     const { url = '', size = 0 } = model
     const { baseUrl } = _options
     const newUrl = getUrl(url, baseUrl)
     const loader = new FontLoader()
 
-    return new Promise(async resolve => {
+    return new Promise(async (resolve, reject) => {
       const store = await getCacheModel(newUrl, size)
       if (store) {
-        fontParser = loader.parse(JSON.parse(store))
+        const font = loader.parse(JSON.parse(store))
+        modelMap.set(MODEL_MAP.font, font)
         setTimeout(() => {
-          resolve(fontParser)
+          resolve(font)
         }, 10)
         return
       }
 
-      loader.load(newUrl, font => {
-        fontParser = font
-        dbStoreAdd(url)
-        resolve(font)
-      })
+      loader.load(
+        newUrl,
+        font => {
+          modelMap.set(MODEL_MAP.font, font)
+          dbStoreAdd(url)
+          resolve(font)
+        },
+        res => {
+          loadProgress(res)
+          if (typeof onProgress === 'function') onProgress(res)
+        },
+        reject
+      )
     })
   }
 
@@ -371,8 +379,10 @@ export const useModelLoader = (options: Params = {}) => {
           createSprite(item)
           break
         case MODEL_MAP.font:
-          await loadFont(item)
+          await loadFont(item, onProgress)
           break
+        case MODEL_MAP.warning:
+          await loadModel(item, onProgress)
       }
 
       index++
@@ -391,15 +401,11 @@ export const useModelLoader = (options: Params = {}) => {
   // 获取缓存模型
   const getModel = key => modelMap.get(key)
 
-  // 获取字体
-  const getFont = () => fontParser
-
   return {
     progress,
     MODEL_MAP,
     loadModel,
     loadModels,
-    getModel,
-    getFont
+    getModel
   }
 }

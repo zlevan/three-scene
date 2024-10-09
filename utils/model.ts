@@ -1,9 +1,10 @@
 import * as THREE from 'three'
 import * as TWEEN from 'three/examples/jsm/libs/tween.module.js'
+import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js'
 
 import CONFIG from '../config'
 import type { Color } from '../types/color'
-import type { XYZ, StylePosition } from '../types/model'
+import type { XYZ, StylePosition, ObjectItem } from '../types/model'
 
 // 获取位置、大小、缩放参数
 export const get_P_S_R_param = (model, item, s: number = 1) => {
@@ -167,7 +168,7 @@ export const findMaterial = (children, names: string[]) => {
 
 // 获取偏差值
 const TYPE_KEYS = CONFIG.keys
-export const getDeviationConfig = (item, cr = 0xffffff) => {
+export const getDeviationConfig = (item, cr: string | number = 0xffffff) => {
   const type = item.type
   let size = 10, // 模型、字体大小
     color = cr, // 字体颜色
@@ -317,4 +318,41 @@ export const getDeviationConfig = (item, cr = 0xffffff) => {
   font.color && (color = font.color)
 
   return { size, color, txPos, txRot, warnPos, statusPos, disabledPos }
+}
+
+// 创建文字
+export const createText = (item: ObjectItem, fontParser, color?: string | number) => {
+  if (!fontParser) return
+  const obj = getDeviationConfig(item, color)
+  // 文字
+  let textGeo = new TextGeometry(item.name || '', {
+    font: fontParser,
+    size: obj.size || 5,
+    depth: 0,
+    curveSegments: 12, // 曲线分段
+    bevelThickness: 1, // 斜面厚度
+    bevelSize: 0.1, // 斜角大小
+    bevelEnabled: true // 斜角
+  })
+  const rotation = obj.txRot
+  textGeo.rotateX(rotation.x)
+  textGeo.rotateY(rotation.y)
+  textGeo.rotateZ(rotation.z)
+
+  const position = obj.txPos
+  // 计算边界
+  textGeo.computeBoundingBox()
+  // 计算垂直算法
+  textGeo.computeVertexNormals()
+  let offsetX = 0.5 * (textGeo.boundingBox.max.x - textGeo.boundingBox.min.x)
+  let offsetZ = 0.5 * (textGeo.boundingBox.max.z - textGeo.boundingBox.min.z)
+  let material = new THREE.MeshPhongMaterial({
+    color: obj.color != void 0 ? obj.color : 0xffffff,
+    flatShading: !true
+  })
+  let mesh = new THREE.Mesh(textGeo, material)
+  mesh.castShadow = true
+  mesh.position.set((position.x || 0) - offsetX, position.y || 0, (position.z || 0) - offsetZ)
+  mesh.name = 'text'
+  return mesh
 }
