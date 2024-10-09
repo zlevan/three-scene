@@ -131,7 +131,7 @@ watch(
 watch(
   () => props.cruise.points,
   v => {
-    scene.setCruisePoint(v)
+    if (progress.isEnd) scene.setCruisePoint(v)
   }
 )
 
@@ -431,7 +431,6 @@ const deviceConfigs = ref<ObjectItem[]>([])
 const initDeviceConfigs = () => {
   deviceConfigs.value.length = 0
   const list = toRaw(props.objects) || []
-  console.log(list, props)
 
   if (typeof props.formatObject !== 'function') {
     deviceConfigs.value = list
@@ -456,7 +455,7 @@ const assemblyScenario = async () => {
   await initDevices()
 
   // 巡航
-  scene.createCruise()
+  scene.setCruisePoint(props.cruise.points)
 
   if (typeof props.config?.load === 'function') {
     props.config?.load(scene)
