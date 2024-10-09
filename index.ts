@@ -400,6 +400,11 @@ export default class ThreeScene {
     this.scene.add(...objects)
   }
 
+  // 控制保存
+  controlSave() {
+    this.controls.saveState()
+  }
+
   // 控制重置
   controlReset() {
     this.controls.reset()

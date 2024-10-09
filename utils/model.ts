@@ -356,3 +356,51 @@ export const createText = (item: ObjectItem, fontParser, color?: string | number
   mesh.name = 'text'
   return mesh
 }
+
+// 创建警告标识 key、数据、模型、光源半径、缩放
+export const createWarning = (key, item: ObjectItem, model, radius = 100, s: number = 1) => {
+  if (!model) return
+  const obj = getDeviationConfig(item).warnPos
+  let group = new THREE.Group()
+  // 深克隆
+  let warningSigns = deepClone(model)
+  warningSigns.scale.set(s, s, s)
+  warningSigns.position.set(obj.x, obj.y, obj.z)
+  group.add(warningSigns)
+
+  // 创建光源
+  // 点光源 (颜色、强度、距离、衰减) 衰减！！！不要默认值
+  let light = new THREE.PointLight(0xc20c00, 8, radius, 0)
+  // const sphere = new THREE.SphereGeometry( 1, 16, 8 )
+  // light.add( new THREE.Mesh( sphere, new THREE.MeshBasicMaterial( { color: 0xff0040 } ) ) )
+
+  light.name = '灯光'
+  light.position.y = obj.y + 30
+  group.add(light)
+  group.name = key
+
+  // 警告标识动画
+  let mixer = new THREE.AnimationMixer(group)
+
+  // 创建颜色关键帧对象
+  // 0 时刻对应颜色 1，0，0   .25时刻对应颜色 1，1，1 .75...
+  let colorKF = new THREE.KeyframeTrack('红色.material.color', [0, 0.25, 0.75], [1, 0, 0, 1, 1, 0, 1, 0, 0])
+  let lightKF = new THREE.KeyframeTrack('灯光.color', [0, 0.25, 0.75], [1, 0, 0, 1, 1, 0, 1, 0, 0])
+  // 创建名为Sphere对象的关键帧数据  从0~20时间段，尺寸scale缩放3倍
+  let scaleTrack = new THREE.KeyframeTrack('警告标识.scale', [0, 0.5, 1], [1, 1, 1, 1.2, 1.2, 2, 1, 1, 1])
+  // 多个帧动画作为元素创建一个剪辑 clip 对象，命名‘warning_’，持续时间1
+  let clip = new THREE.AnimationClip(`warning_`, 1, [colorKF, lightKF, scaleTrack])
+  let action = mixer.clipAction(clip)
+  // 暂停
+  action.paused = true
+  // 播放
+  action.play()
+
+  // 隐藏
+  group.visible = false
+  return {
+    group,
+    action,
+    mixer
+  }
+}

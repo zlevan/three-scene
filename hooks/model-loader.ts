@@ -382,7 +382,9 @@ export const useModelLoader = (options: Params = {}) => {
           await loadFont(item, onProgress)
           break
         case MODEL_MAP.warning:
+          item.key = MODEL_MAP.warning
           await loadModel(item, onProgress)
+          break
       }
 
       index++

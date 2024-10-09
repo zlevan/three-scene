@@ -38,6 +38,7 @@ export default {
 
   meshKey: {
     body: Symbol('__BODY_'),
+    color: Symbol('__COLOR_'),
     warning: Symbol('__WARNING_'),
     local: Symbol('__LOCAL_'),
     disabled: Symbol('__DISABLED_')
