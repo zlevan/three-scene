@@ -177,6 +177,10 @@ export default class ThreeScene {
         const dirLightHelper = new THREE.DirectionalLightHelper(direLight, 1)
         this.addObject(dirLightHelper)
       }
+      // const pointLight = new THREE.PointLight(0xffffff, 100000, 1000)
+      // pointLight.position.set(0, 200, 0)
+      // pointLight.visible = true
+      // this.addObject(pointLight)
 
       if (directionalLight.light2) {
         const dirLight2 = this.createDirectionalLight(false)
@@ -191,11 +195,11 @@ export default class ThreeScene {
   }
 
   // 创建平行光
-  createDirectionalLight(castShadow: boolean = true, s = 800, size = 4096, near = 1, far = 2000) {
+  createDirectionalLight(castShadow: boolean = true, s = 2000, size = 4096, near = 1, far = 20000) {
     const { color, intensity } = this.options.directionalLight
     // 平行光
     const dirLight = new THREE.DirectionalLight(color, intensity)
-    dirLight.position.set(500, 800, 800)
+    dirLight.position.set(500, 1000, 800)
     if (castShadow) {
       dirLight.shadow.mapSize.setScalar(size)
       dirLight.shadow.bias = -1e-5
@@ -322,6 +326,15 @@ export default class ThreeScene {
     this.options.cruise.enabled = !runing
     this.controls.enabled = runing
     updateCruise(this.options.cruise)
+  }
+
+  // 开启或关闭巡航深度测试
+  toggleCruiseDepTest() {
+    this.cruiseGroup.traverse(el => {
+      if (el.isMesh || el.isLine) {
+        el.material.depthTest = !el.material.depthTest
+      }
+    })
   }
 
   // 设置缩放

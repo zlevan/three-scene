@@ -145,3 +145,22 @@ export const getPlanePosition = (
   }
   return pos
 }
+
+// 查找指定名称的材质对象集合
+export const findMaterial = (children, names: string[]) => {
+  let list: any[] = []
+  if (!children || !children.length) return []
+  function find(data) {
+    data.forEach(el => {
+      const name = el.name
+      if (typeof name == 'string' && names.some(t => name.indexOf(t) > -1)) {
+        list.push(el)
+      }
+      if (el.children) {
+        find(el.children)
+      }
+    })
+  }
+  find(children)
+  return list
+}
