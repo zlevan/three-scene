@@ -330,10 +330,10 @@ export default class ThreeScene {
   }
 
   // 开启或关闭巡航深度测试
-  toggleCruiseDepTest() {
+  toggleCruiseDepthTest(depthTest?: boolean) {
     this.cruiseGroup.traverse(el => {
       if (el.isMesh || el.isLine) {
-        el.material.depthTest = !el.material.depthTest
+        el.material.depthTest = depthTest != void 0 ? depthTest : !el.material.depthTest
       }
     })
   }

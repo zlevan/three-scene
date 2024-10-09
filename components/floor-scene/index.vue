@@ -643,6 +643,7 @@ onMounted(() => {
 
 defineExpose({
   floorAnimate,
+  exportImage: () => scene?.exportImage(),
   update: updateObject
 })
 </script>

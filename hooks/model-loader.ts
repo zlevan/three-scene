@@ -150,7 +150,6 @@ export const useModelLoader = (options: Params = {}) => {
   const loadProgress = res => {
     const loaded = res.loaded
     const total = progress.total
-    console.log()
     let s = Number(((loaded + progress.loaded) / total) * 100)
     if (s > 100) s = 100
     progress.percentage = Number(s.toFixed(2))
