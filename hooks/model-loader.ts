@@ -380,6 +380,7 @@ export const useModelLoader = (options: Params = {}) => {
       progress.loaded += size * _options.modelSizeKB
       // 加载完成
       if (index >= max) {
+        progress.isEnd = true
         onSuccess()
       } else {
         _load()

@@ -35,6 +35,8 @@ export declare interface AmbientLight {
 export declare interface DirectionalLight {
   helper: boolean
   visible: boolean
+  position: number[]
+  position2: number[]
   light2: boolean
   color: number | string
   intensity: number

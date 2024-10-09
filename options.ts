@@ -68,6 +68,9 @@ export default {
     visible: true,
     // 辅助
     helper: false,
+    // 坐标
+    position: [500, 1000, 800],
+    position2: [-500, 800, -800],
     // 平行光 2 开启
     light2: true,
     // 颜色

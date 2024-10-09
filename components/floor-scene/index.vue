@@ -138,7 +138,9 @@ watch(
 // 对象列表
 watch(
   () => props.objects,
-  () => assemblyScenario()
+  () => {
+    if (progress.isEnd) assemblyScenario()
+  }
 )
 
 // 点位隐现方式切换
@@ -299,7 +301,7 @@ const updateDotVisible = (target: ThreeModelItem) => {
 // 创建 dot 点位
 const createDotObject = item => {
   updateDotVisible(
-    scene.createDot(item, e => {
+    scene.addDot(item, e => {
       emits('click-dot', toRaw(item), e)
     })
   )
@@ -429,6 +431,7 @@ const deviceConfigs = ref<ObjectItem[]>([])
 const initDeviceConfigs = () => {
   deviceConfigs.value.length = 0
   const list = toRaw(props.objects) || []
+  console.log(list, props)
 
   if (typeof props.formatObject !== 'function') {
     deviceConfigs.value = list

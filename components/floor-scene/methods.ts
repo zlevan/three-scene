@@ -27,18 +27,52 @@ export class FloorThreeScene extends ThreeScene {
     this.extend = extend
     this.css2DRender = initCSS2DRender(this.options, this.container)
     this.css2DRender.domElement.className = 'three-scene__dot-wrap'
-    this.deviceGroup = new THREE.Group()
+
     this.bindEvent()
+    this.addDeviceGroup()
     this.addDotGroup()
   }
 
+  // 添加设备组
+  addDeviceGroup() {
+    this.deviceGroup = new THREE.Group()
+    this.deviceGroup.renderOrder = 100
+    this.addObject(this.deviceGroup)
+  }
+
+  // 清除场景设备
+  clearDevice() {
+    if (this.deviceGroup) {
+      this.disposeObj(this.deviceGroup)
+    }
+    this.addDeviceGroup()
+    this.clearDot()
+  }
+
+  // 添加设备
+  addDevice(...obj) {
+    if (this.deviceGroup) {
+      this.deviceGroup.add(...obj)
+    }
+  }
+
+  // 添加点位组
   addDotGroup() {
     const group = new THREE.Group()
     this.scene.add(group)
     this.dotGroup = group
   }
 
-  createDot(item: ObjectItem, clickBack) {
+  // 清除场景点位
+  clearDot() {
+    if (this.dotGroup) {
+      this.disposeObj(this.dotGroup)
+    }
+    this.addDotGroup()
+  }
+
+  // 添加点位
+  addDot(item: ObjectItem, clickBack) {
     const pos = item.position
     const { size, color } = item.font || {}
     const { x = 0, y = 0, z = 0 } = pos || {}
@@ -151,21 +185,6 @@ export class FloorThreeScene extends ThreeScene {
       return _find(parent)
     }
     return _find(object)
-  }
-
-  // 清除场景设备
-  clearDevice() {
-    if (!this.deviceGroup) return
-    this.disposeObj(this.deviceGroup)
-    this.deviceGroup = new THREE.Group()
-    this.addObject(this.deviceGroup)
-  }
-
-  // 添加设备
-  addDevice(...obj) {
-    if (this.deviceGroup) {
-      this.deviceGroup.add(...obj)
-    }
   }
 
   // 获取楼层集合
