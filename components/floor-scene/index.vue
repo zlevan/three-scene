@@ -135,6 +135,12 @@ watch(
   }
 )
 
+// 对象列表
+watch(
+  () => props.objects,
+  () => assemblyScenario()
+)
+
 // 点位隐现方式切换
 const toggleDotVisible = () => {
   const list = scene.dotGroup.children
