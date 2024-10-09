@@ -359,6 +359,7 @@ const loopLoadObject = async (item: ObjectItem) => {
     if (model.type !== 'Group') {
       const group = new THREE.Group()
       group.add(model)
+      group.name = model.name
       model = group
     }
     // 主体网格
