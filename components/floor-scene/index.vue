@@ -596,6 +596,8 @@ onMounted(() => {
       const index = scene.getFloor().findIndex(el => object.uuid === el.uuid)
       if (typeof data.onDblclick === 'function') {
         data.onDblclick(toRaw(data), object, index)
+      } else {
+        emits('dblclick', toRaw(data))
       }
       if (index > -1) {
         floorAnimate(index)
