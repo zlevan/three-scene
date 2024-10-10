@@ -2,6 +2,7 @@ import * as THREE from 'three'
 import * as TWEEN from 'three/examples/jsm/libs/tween.module.js'
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js'
 
+import { deepMerge } from '.'
 import CONFIG from '../config'
 import type { Color } from '../types/color'
 import type { XYZ, StylePosition, ObjectItem } from '../types/model'
@@ -147,14 +148,14 @@ export const getPlanePosition = (
   return pos
 }
 
-// 查找指定名称的材质对象集合
-export const findMaterial = (children, names: string[]) => {
+// 查找模型对象中包含指定属性的集合
+export const findObjectsByHasProperty = (children, values: string[], property: string = 'name') => {
   let list: any[] = []
   if (!children || !children.length) return []
   function find(data) {
     data.forEach(el => {
-      const name = el.name
-      if (typeof name == 'string' && names.some(t => name.indexOf(t) > -1)) {
+      const name = el[property]
+      if (typeof name == 'string' && values.some(t => name.indexOf(t) > -1)) {
         list.push(el)
       }
       if (el.children) {
@@ -166,180 +167,48 @@ export const findMaterial = (children, names: string[]) => {
   return list
 }
 
-// 获取偏差值
-const TYPE_KEYS = CONFIG.keys
-export const getDeviationConfig = (item, cr: string | number = 0xffffff) => {
+// 获取状态偏差值
+const STATUS_OFFSET = CONFIG.statusOffset
+export const getStatusOffset = (key, item) => {
   const type = item.type
-  let size = 10, // 模型、字体大小
-    color = cr, // 字体颜色
-    txPos = { x: 0, y: 0, z: 0 }, // 字体 xyz 坐标（相对模型的中心点）
-    txRot = { x: 0, y: 0, z: 0 }, // 字体 xyz 旋转大小
-    warnPos = { x: 0, y: 0, z: 0 }, // 警告 xyz 坐标（相对模型的中心点）
-    statusPos = { x: 0, y: 0, z: 0 }, // 状态 xyz 坐标（相对模型的中心点）
-    disabledPos = { x: 0, y: 0, z: 0 } // 禁用 xyz 坐标（相对模型的中心点）
-  switch (type) {
-    case TYPE_KEYS.TEXT: // 文字
-      break
+  const offset = STATUS_OFFSET[key] || {}
+  const obj = offset[type] || {}
 
-    case TYPE_KEYS.JSQ: // 集水器
-      txPos.y = 10
-      txPos.x = -20
-      txRot.y = 270
-      warnPos.y = 62
-      break
+  // 坐标
+  let position = deepMerge({ x: 0, y: 0, z: 0 }, obj.position || {})
+  // 角度
+  let rotation = deepMerge({ x: 0, y: 0, z: 0 }, obj.rotation || {})
 
-    case TYPE_KEYS.LDB: // 冷冻泵
-    case TYPE_KEYS.LQB: // 冷却泵
-      txPos.z = type === TYPE_KEYS.LDB ? 0 : 60
-      txPos.x = type === TYPE_KEYS.LDB ? -60 : 0
-      txRot.y = type === TYPE_KEYS.LDB ? 0 : -90
-      warnPos.y = 45
-      statusPos.x = -0.4
-      statusPos.y = 46.7
-      statusPos.z = -15.7
-      disabledPos.x = -0.4
-      disabledPos.y = 34
-      disabledPos.z = 12.5
-      break
-
-    case TYPE_KEYS.XBC: // 蓄冰槽
-    case TYPE_KEYS.LXJ: // 离心机
-      txPos.y = 16
-      txPos.z = 50
-      txRot.x = -20
-      warnPos.y = 78
-      statusPos.x = 36
-      statusPos.y = 67
-      statusPos.z = 42
-      disabledPos.x = -25
-      disabledPos.y = 85
-      disabledPos.z = 20
-      break
-
-    case TYPE_KEYS.LGJ: // 螺杆机
-    case TYPE_KEYS.LGJ_2: // 双头螺杆机
-    case TYPE_KEYS.LGJ_3: // 三机头螺杆机
-    case TYPE_KEYS.LGJ_4: // 四机头螺杆机
-      txPos.y = 16
-      txPos.z = 50
-      txRot.x = -20
-      warnPos.y = 78
-      statusPos.x = -40
-      statusPos.y = 64
-      statusPos.z = 42
-      disabledPos.x = 0
-      disabledPos.y = 75
-      disabledPos.z = 20
-      break
-
-    case TYPE_KEYS.LQT: // 冷却塔
-      txPos.x = -60
-      warnPos.y = 85
-      statusPos.x = -27.6
-      statusPos.y = 70
-      statusPos.z = -25.2
-      disabledPos.x = -27.6
-      disabledPos.y = 70
-      disabledPos.z = 25.2
-      break
-
-    case TYPE_KEYS.GL: // 锅炉
-      txPos.x = 83
-      txPos.y = 2
-      warnPos.y = 125
-      statusPos.y = 125
-      break
-
-    case TYPE_KEYS.BSHRQ: // 板式换热器
-      size = 12
-      txPos.y = 8
-      txPos.z = 33
-      warnPos.y = 105
-      statusPos.y = 105
-      break
-
-    case TYPE_KEYS.BSHLQ: // 板式换热器-制冷
-      txPos.y = 16
-      txPos.z = 40
-      warnPos.y = 88
-      statusPos.x = -43
-      statusPos.y = 90
-      statusPos.z = -20
-      break
-
-    case TYPE_KEYS.FLRB: // 风冷热泵
-      txPos.x = 50
-      txPos.y = 2
-      warnPos.y = 123
-      statusPos.y = 123
-      break
-
-    case TYPE_KEYS.FJY_X: // 风机-右
-    case TYPE_KEYS.FJZ_X: // 风机-左
-      size = 6
-      txPos.y = 80
-      txPos.z = 30
-      warnPos.y = 80
-      statusPos.y = 80
-      break
-
-    case TYPE_KEYS.FJY: // 风机-右
-    case TYPE_KEYS.FJZ: // 风机-左
-      size = 6
-      txPos.y = 103
-      warnPos.y = 110
-      statusPos.y = 110
-      break
-
-    case TYPE_KEYS.FM: // 阀门
-    case TYPE_KEYS.XFM: // 阀门
-      break
+  // 角度转换
+  ;(rotation.x = (Math.PI / 180) * rotation.x),
+    (rotation.y = (Math.PI / 180) * rotation.y),
+    (rotation.z = (Math.PI / 180) * rotation.z)
+  return {
+    position,
+    rotation
   }
-
-  // 字体配置
-  let font = item.font || {}
-  // 字体坐标
-  let fontPOs = font.position || {}
-  if (fontPOs) {
-    Object.keys(fontPOs).forEach(key => {
-      txPos[key] = fontPOs[key]
-    })
-  }
-  // 字体角度
-  let fontRot = font.rotation || {}
-  if (fontRot) {
-    Object.keys(fontRot).forEach(key => {
-      txRot[key] = fontRot[key]
-    })
-    ;(txRot.x = (Math.PI / 180) * txRot.x), (txRot.y = (Math.PI / 180) * txRot.y), (txRot.z = (Math.PI / 180) * txRot.z)
-  }
-
-  font.size && (size = font.size)
-  font.color && (color = font.color)
-
-  return { size, color, txPos, txRot, warnPos, statusPos, disabledPos }
 }
 
 // 创建文字
-export const createText = (item: ObjectItem, fontParser, color?: string | number) => {
-  if (!fontParser) return
-  const obj = getDeviationConfig(item, color)
+export const createText = (item: ObjectItem, fontParser, color: string | number = 0xffffff) => {
+  const obj = getStatusOffset('TEXT', item)
+  let font = item.font || {}
   // 文字
   let textGeo = new TextGeometry(item.name || '', {
     font: fontParser,
-    size: obj.size || 5,
+    size: font.size || 10,
     depth: 0,
     curveSegments: 12, // 曲线分段
     bevelThickness: 1, // 斜面厚度
     bevelSize: 0.1, // 斜角大小
     bevelEnabled: true // 斜角
   })
-  const rotation = obj.txRot
-  textGeo.rotateX(rotation.x)
-  textGeo.rotateY(rotation.y)
-  textGeo.rotateZ(rotation.z)
+  const rot = obj.rotation
+  textGeo.rotateX(rot.x)
+  textGeo.rotateY(rot.y)
+  textGeo.rotateZ(rot.z)
 
-  const position = obj.txPos
+  const pos = obj.position
   // 计算边界
   textGeo.computeBoundingBox()
   // 计算垂直算法
@@ -347,25 +216,33 @@ export const createText = (item: ObjectItem, fontParser, color?: string | number
   let offsetX = 0.5 * (textGeo.boundingBox.max.x - textGeo.boundingBox.min.x)
   let offsetZ = 0.5 * (textGeo.boundingBox.max.z - textGeo.boundingBox.min.z)
   let material = new THREE.MeshPhongMaterial({
-    color: obj.color != void 0 ? obj.color : 0xffffff,
+    color: font.color != void 0 ? font.color : color,
     flatShading: !true
   })
   let mesh = new THREE.Mesh(textGeo, material)
   mesh.castShadow = true
-  mesh.position.set((position.x || 0) - offsetX, position.y || 0, (position.z || 0) - offsetZ)
+  mesh.position.set((pos.x || 0) - offsetX, pos.y || 0, (pos.z || 0) - offsetZ)
   mesh.name = 'text'
+  mesh._isText_ = true
   return mesh
 }
 
 // 创建警告标识 key、数据、模型、光源半径、缩放
 export const createWarning = (key, item: ObjectItem, model, radius = 100, s: number = 1) => {
   if (!model) return
-  const obj = getDeviationConfig(item).warnPos
+  const obj = getStatusOffset('WARNING', item)
   let group = new THREE.Group()
   // 深克隆
   let warningSigns = deepClone(model)
   warningSigns.scale.set(s, s, s)
-  warningSigns.position.set(obj.x, obj.y, obj.z)
+
+  // 位置
+  const pos = obj.position
+  warningSigns.position.set(pos.x, pos.y, pos.z)
+
+  // 角度
+  const rot = obj.rotation
+  warningSigns.rotation.set(rot.x, rot.y, rot.z)
   group.add(warningSigns)
 
   // 创建光源
@@ -375,7 +252,7 @@ export const createWarning = (key, item: ObjectItem, model, radius = 100, s: num
   // light.add( new THREE.Mesh( sphere, new THREE.MeshBasicMaterial( { color: 0xff0040 } ) ) )
 
   light.name = '灯光'
-  light.position.y = obj.y + 30
+  light.position.y = pos.y + 30
   group.add(light)
   group.name = key
 
@@ -398,9 +275,29 @@ export const createWarning = (key, item: ObjectItem, model, radius = 100, s: num
 
   // 隐藏
   group.visible = false
+  group._isWarning_ = true
   return {
     group,
     action,
     mixer
   }
+}
+
+// 创建状态标识
+export const createStatusMark = (item, model, isDisabled?: boolean) => {
+  if (!model) return
+  const obj = getStatusOffset(isDisabled ? 'DISABLED' : 'STATUS', item)
+  // 深克隆
+  let status = deepClone(model)
+
+  // 位置
+  const pos = obj.position
+  status.position.set(pos.x, pos.y, pos.z)
+
+  // 角度
+  const rot = obj.rotation
+  status.rotation.set(rot.x, rot.y, rot.z)
+
+  status.visible = false
+  return status
 }
