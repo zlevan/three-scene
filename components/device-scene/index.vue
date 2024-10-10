@@ -222,7 +222,11 @@ const createStatusMark = (model, item) => {
   const warnStatusModel = getModel(MODEL_MAP.warning)
   if (!!warnStatusModel) {
     const key = DEFAULTCONFIG.meshKey.warning
-    const { group: wg, action, mixer }: any = UTILS.createWarning(key, item, warnStatusModel)
+    const {
+      group: wg,
+      action,
+      mixer
+    }: any = UTILS.createWarning(key, item, warnStatusModel, props.statusOffset?.WARNING)
     model.add(wg)
     model[key] = { action, mixer }
   }
@@ -231,7 +235,7 @@ const createStatusMark = (model, item) => {
   const localStatusModel = getModel(MODEL_MAP.local)
   if (!!localStatusModel) {
     const key = DEFAULTCONFIG.meshKey.local
-    const localModel = UTILS.createStatusMark(item, localStatusModel)
+    const localModel = UTILS.createStatusMark(item, localStatusModel, props.statusOffset?.STATUS)
     model.add(localModel)
     model[key] = localModel
   }
@@ -240,7 +244,7 @@ const createStatusMark = (model, item) => {
   const disabledStatusModel = getModel(MODEL_MAP.disabled)
   if (!!disabledStatusModel) {
     const key = DEFAULTCONFIG.meshKey.disabled
-    const disabledModel = UTILS.createStatusMark(item, disabledStatusModel, true)
+    const disabledModel = UTILS.createStatusMark(item, disabledStatusModel, props.statusOffset?.DISABLED, true)
     model.add(disabledModel)
     model[key] = disabledModel
   }
@@ -288,7 +292,7 @@ const loopLoadObject = async (item: ObjectItem) => {
   if (textModelType.includes(type) && !!fontParser) {
     const group = new THREE.Group()
     group.add(model)
-    const text = UTILS.createText(item, fontParser, COLORS.normal.text)
+    const text = UTILS.createText(item, fontParser, COLORS.normal.text, props.statusOffset?.TEXT)
     group.add(text)
     group.name = item.name
     model = group
@@ -542,6 +546,17 @@ const changeModleStatusColor = (opts: import('./index').ChangeMaterialOpts) => {
       UTILS.setMaterialColor(e, color)
     })
     return
+  }
+
+  if (!(props.animationModelType || []).includes(type)) {
+    return
+  }
+  // 文字
+  if (props.textChangeColor) {
+    const color = cobj.text != void 0 ? cobj.text : cobj.color
+    const group = el.getObjectByProperty('_isText_', true)
+    let colors = UTILS.getColorArr(color)
+    UTILS.setMaterialColor(group, colors[0])
   }
 
   // 场景

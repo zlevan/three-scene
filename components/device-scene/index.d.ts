@@ -13,6 +13,17 @@ import type { XYZ, ModelItem, ObjectItem } from '../../types/model'
 import type { IndexDB } from '../../types/indexdb'
 import type { Colors } from '../../types/color'
 
+interface StatusOffsetItem {
+  [key: string]: Record<'position' | 'rotation', XYZ>
+}
+
+export declare interface StatusOffset {
+  TEXT: StatusOffsetItem
+  WARNING: StatusOffsetItem
+  STATUS: StatusOffsetItem
+  DISABLED: StatusOffsetItem
+}
+
 export declare interface Config {
   // 场景相机位置
   to: XYZ
@@ -101,6 +112,9 @@ export declare interface Props {
   // dot 点位展示严格模式（设备运行时展示） 默认: true
   dotShowStrict?: boolean
 
+  // 文字、状态标记偏差值
+  statusOffset?: import('../../types/utils').DeepPartial<StatusOffset>
+
   // 获取颜色回调
   getColorCall?: (obj: ObjectItem) => string | number | undefined
   // 格式化数据方法
@@ -121,6 +135,8 @@ export declare interface Props {
   // 锚点模型类型列表（精灵类型）该类型未绑定点击事件函数将作为 dialog 弹窗事件处理
   anchorType?: string[]
 
+  // 文字变色（根据模型状态且带动画）
+  textChangeColor?: boolean
   // 主体变色 （动画模型）
   mainBodyChangeColor?: boolean
   // 主体网格名称 默认: [ '主体' ]

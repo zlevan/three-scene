@@ -169,10 +169,10 @@ export const findObjectsByHasProperty = (children, values: string[], property: s
 
 // 获取状态偏差值
 const STATUS_OFFSET = CONFIG.statusOffset
-export const getStatusOffset = (key, item) => {
+export const getStatusOffset = (key, item, offset = {}) => {
   const type = item.type
-  const offset = STATUS_OFFSET[key] || {}
-  const obj = offset[type] || {}
+  const defOffset = STATUS_OFFSET[key] || {}
+  const obj = offset[type] || defOffset[type] || {}
 
   // 坐标
   let position = deepMerge({ x: 0, y: 0, z: 0 }, obj.position || {})
@@ -190,8 +190,8 @@ export const getStatusOffset = (key, item) => {
 }
 
 // 创建文字
-export const createText = (item: ObjectItem, fontParser, color: string | number = 0xffffff) => {
-  const obj = getStatusOffset('TEXT', item)
+export const createText = (item: ObjectItem, fontParser, color: string | number = 0xffffff, offset?) => {
+  const obj = getStatusOffset('TEXT', item, offset)
   let font = item.font || {}
   // 文字
   let textGeo = new TextGeometry(item.name || '', {
@@ -228,9 +228,9 @@ export const createText = (item: ObjectItem, fontParser, color: string | number 
 }
 
 // 创建警告标识 key、数据、模型、光源半径、缩放
-export const createWarning = (key, item: ObjectItem, model, radius = 100, s: number = 1) => {
+export const createWarning = (key, item: ObjectItem, model, offset?, radius = 100, s: number = 1) => {
   if (!model) return
-  const obj = getStatusOffset('WARNING', item)
+  const obj = getStatusOffset('WARNING', item, offset)
   let group = new THREE.Group()
   // 深克隆
   let warningSigns = deepClone(model)
@@ -284,9 +284,9 @@ export const createWarning = (key, item: ObjectItem, model, radius = 100, s: num
 }
 
 // 创建状态标识
-export const createStatusMark = (item, model, isDisabled?: boolean) => {
+export const createStatusMark = (item, model, offset?, isDisabled?: boolean) => {
   if (!model) return
-  const obj = getStatusOffset(isDisabled ? 'DISABLED' : 'STATUS', item)
+  const obj = getStatusOffset(isDisabled ? 'DISABLED' : 'STATUS', item, offset)
   // 深克隆
   let status = deepClone(model)
 
