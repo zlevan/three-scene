@@ -385,6 +385,14 @@ export const useModelLoader = (options: Params = {}) => {
           item.key = MODEL_MAP.warning
           await loadModel(item, onProgress)
           break
+        case MODEL_MAP.local:
+          item.key = MODEL_MAP.local
+          await loadModel(item, onProgress)
+          break
+        case MODEL_MAP.disabled:
+          item.key = MODEL_MAP.disabled
+          await loadModel(item, onProgress)
+          break
       }
 
       index++
