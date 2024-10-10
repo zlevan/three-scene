@@ -669,8 +669,8 @@ export class MapThreeScene extends ThreeScene {
     // 网格
     if (this.grid) {
       this.grid.position.set(x, 0, z)
-      const group = this.scene.getObjectByName(this.forkName)
-      group.position.set(x, 0, z)
+      const group = this.scene.getObjectByProperty('_isGridFork_', true)
+      group && group.position.set(x, 0, z)
     }
   }
 

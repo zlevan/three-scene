@@ -39,8 +39,6 @@ export default class ThreeScene {
     tsp: number
     isClick: boolean
   }
-  // 网格交叉分组名称
-  forkName = Symbol('辅助交叉点')
 
   constructor(options: import('./types').Params = {}) {
     // 默认配置
@@ -273,7 +271,8 @@ export default class ThreeScene {
     // 交叉
     if (fork) {
       const group = createFork(grid)
-      group.name = this.forkName
+      group.name = '辅助交叉点'
+      group._isGridFork_ = true
       this.addObject(group)
     }
   }
