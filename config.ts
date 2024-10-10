@@ -36,7 +36,7 @@ export default {
   // 模型类型
   keys: KEYS,
   // 右键点击返回时间差
-  rightClickBackDiffTime: 100,
+  rightClickBackDiffTime: 300,
 
   meshKey: {
     body: Symbol('__BODY_'),
