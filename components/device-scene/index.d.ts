@@ -57,6 +57,28 @@ export declare interface UpdateDotReturn {
   value?: number
 }
 
+// 改变材质配置
+export declare interface ChangeMaterialOpts {
+  // 类型、
+  type: string
+  // 模型、
+  el: any
+  // 颜色对象、
+  colorObj: ColorObject
+  // 颜色、
+  color: Color
+  // 动画暂停状态、
+  paused: boolean
+  // 故障状态
+  error: boolean
+  // 远程状态
+  remote: boolean
+  // 本地状态
+  local: boolean
+  // 本地状态
+  disabled: boolean
+}
+
 export declare interface Props {
   // 是否开发环境（开发环境下开启测试功能）
   devEnv?: boolean
