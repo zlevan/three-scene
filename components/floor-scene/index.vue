@@ -7,6 +7,7 @@
       <el-link @click="() => scene?.getPosition()" type="success">场景坐标</el-link>
       <el-link type="warning" @click="() => changeBackground(scene)">切换背景</el-link>
       <el-link type="danger" @click="() => scene?.controlReset()">控制器重置</el-link>
+      <el-link v-if="cruise.visible" type="danger" @click="() => scene?.toggleCruiseDepthTest()">巡航深度</el-link>
     </div>
     <div :class="$style.container" ref="containerRef"></div>
 
@@ -313,6 +314,7 @@ const dialogShowData = () => {
   const data = object.data
   dialog.data = data as Partial<ObjectItem>
   dialog.title = data?.name || ''
+  dialog.show = true
 
   const pos = updateDialogPosition(object)
   emits('click-dialog-dot', data as ObjectItem, pos)
@@ -610,6 +612,7 @@ onMounted(() => {
         emits('select', backData)
         // 点位点击事件
         if (typeof data.onClick === 'function') {
+          dialog.show = false
           data.onClick(backData)
         } else {
           dialog.select = [object]
@@ -617,8 +620,8 @@ onMounted(() => {
         }
       } else {
         dialog.select = []
+        dialog.show = false
       }
-      dialog.show = !!object
     },
     onClickRight: _e => {
       if (typeof props.config?.back === 'function') {

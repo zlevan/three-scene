@@ -35,9 +35,10 @@ export class FloorThreeScene extends ThreeScene {
 
   // 添加设备组
   addDeviceGroup() {
-    this.deviceGroup = new THREE.Group()
-    this.deviceGroup.renderOrder = 100
-    this.addObject(this.deviceGroup)
+    const group = new THREE.Group()
+    group.name = '设备组'
+    this.deviceGroup = group
+    this.addObject(group)
   }
 
   // 清除场景设备
@@ -59,8 +60,9 @@ export class FloorThreeScene extends ThreeScene {
   // 添加点位组
   addDotGroup() {
     const group = new THREE.Group()
-    this.scene.add(group)
+    group.name = '点位组'
     this.dotGroup = group
+    this.scene.add(group)
   }
 
   // 清除场景点位
