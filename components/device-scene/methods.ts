@@ -38,9 +38,10 @@ export class DeviceThreeScene extends ThreeScene {
 
   // 添加设备组
   addDeviceGroup() {
-    this.deviceGroup = new THREE.Group()
-    this.deviceGroup.renderOrder = 100
-    this.addObject(this.deviceGroup)
+    const group = new THREE.Group()
+    group.name = '设备组'
+    this.deviceGroup = group
+    this.addObject(group)
   }
 
   // 清除场景设备
@@ -62,6 +63,7 @@ export class DeviceThreeScene extends ThreeScene {
   // 添加点位组
   addDotGroup() {
     const group = new THREE.Group()
+    group.name = '点位组'
     this.scene.add(group)
     this.dotGroup = group
   }
