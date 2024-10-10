@@ -299,5 +299,6 @@ export const createStatusMark = (item, model, isDisabled?: boolean) => {
   status.rotation.set(rot.x, rot.y, rot.z)
 
   status.visible = false
+  status._isStatus_ = true
   return status
 }
