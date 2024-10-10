@@ -1,6 +1,6 @@
 {
   "name": "three-scene",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "3D 场景",
   "main": "index.ts",
   "scripts": {
