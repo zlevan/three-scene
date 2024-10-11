@@ -33,6 +33,7 @@
     "types",
     "utils",
     "config.ts",
+    "options.ts",
     "index.ts",
     "package.json",
     "MAP.md",
