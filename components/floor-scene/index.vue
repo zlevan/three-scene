@@ -34,7 +34,7 @@
 </template>
 
 <script lang="ts" setup>
-import { watch, ref, toRaw, withDefaults, onMounted } from 'vue'
+import { watch, ref, toRaw, withDefaults, onMounted, nextTick } from 'vue'
 import * as THREE from 'three'
 import * as TWEEN from 'three/examples/jsm/libs/tween.module.js'
 

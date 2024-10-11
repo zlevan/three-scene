@@ -35,7 +35,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch, toRaw, onMounted, withDefaults } from 'vue'
+import { ref, watch, toRaw, onMounted, withDefaults, nextTick } from 'vue'
 import * as THREE from 'three'
 
 import { DeviceThreeScene } from './methods'
