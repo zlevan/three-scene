@@ -669,6 +669,7 @@ onMounted(() => {
       }
     },
     onClickRight: _e => {
+      dialog.show = false
       if (typeof props.config?.back === 'function') {
         props.config.back(scene)
       } else {
