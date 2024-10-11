@@ -189,7 +189,9 @@ export const useModelLoader = (options: Params = {}) => {
     }
 
     newModel.animations = animations
-    modelMap.set(key, newModel)
+    if (key) {
+      modelMap.set(key, newModel)
+    }
     return newModel
   }
 
