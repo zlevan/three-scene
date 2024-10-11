@@ -13,6 +13,7 @@
   },
   "keywords": [
     "three",
+    "three-scene",
     "3D"
   ],
   "exports": {
@@ -40,6 +41,7 @@
   ],
   "dependencies": {
     "three": "^0.167.0",
+    "three.path": "^1.0.1",
     "vue": "^3.5.3"
   },
   "author": "evan",
