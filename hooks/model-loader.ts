@@ -9,6 +9,8 @@ import type { ModelItem } from '../types/model'
 import type { Colors } from '../types/color'
 import type { IndexDB } from '../types/indexdb'
 
+import { reactive } from 'vue'
+
 import * as IDB from '../utils/indexdb'
 import DEFAULTCONFIG from '../config'
 export declare interface ProgressListItem {
