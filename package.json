@@ -21,6 +21,7 @@
       "types": "./types/index.d.ts",
       "import": "./index.ts"
     },
+    "./assets/*": "./assets/*",
     "./hooks/*": "./hooks/*",
     "./utils/*": "./utils/*",
     "./types/*": "./types/*",
@@ -29,7 +30,7 @@
   "files": [
     "components",
     "hooks",
-    "imgs",
+    "assets",
     "types",
     "utils",
     "config.ts",
