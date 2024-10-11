@@ -170,7 +170,7 @@ export const useModelLoader = (options: Params = {}) => {
     // 克隆
     const newModel = UTILS.deepClone(glb)
     newModel.traverse(el => {
-      if (el.isMesh && texture && el.name.indexOf(mapMeshName)) {
+      if (el.isMesh && texture && el.name.indexOf(mapMeshName) > -1) {
         el.material = new THREE.MeshLambertMaterial({
           side: THREE.DoubleSide,
           transparent: true,
@@ -182,6 +182,9 @@ export const useModelLoader = (options: Params = {}) => {
         UTILS.replaceMaterial(el, color, colorMeshName || [])
       }
     })
+    if (mapUrl && mapMeshName) {
+      newModel._mapMeshName_ = mapMeshName
+    }
 
     newModel.animations = animations
     modelMap.set(key, newModel)
@@ -373,6 +376,7 @@ export const useModelLoader = (options: Params = {}) => {
       const { type = MODEL_MAP.device, size = 0 } = item
       switch (type) {
         case MODEL_MAP.device:
+        case MODEL_MAP.pipe:
           await loadModel(item, onProgress)
           break
         case MODEL_MAP.sprite:

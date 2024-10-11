@@ -16,6 +16,8 @@ export class DeviceThreeScene extends ThreeScene {
   deviceGroup: InstanceType<typeof THREE.Group>
   // 点位集合
   dotGroup: InstanceType<typeof THREE.Group>
+  // 管路集合
+  pipeGroup?: InstanceType<typeof THREE.Group>
   // CSS2D 渲染器
   css2DRender: InstanceType<typeof CSS2DRenderer>
   // 扩展参数
@@ -33,6 +35,7 @@ export class DeviceThreeScene extends ThreeScene {
 
     this.addDeviceGroup()
     this.addDotGroup()
+    this.addPipeGroup()
     this.bindEvent()
   }
 
@@ -51,6 +54,7 @@ export class DeviceThreeScene extends ThreeScene {
     }
     this.addDeviceGroup()
     this.clearDot()
+    this.clearPipe()
   }
 
   // 添加设备
@@ -98,6 +102,29 @@ export class DeviceThreeScene extends ThreeScene {
     return label
   }
 
+  // 添加管路组
+  addPipeGroup() {
+    const group = new THREE.Group()
+    group.name = '管路组'
+    this.scene.add(group)
+    this.pipeGroup = group
+  }
+
+  // 添加管路
+  addPipe(...obj) {
+    if (this.pipeGroup) {
+      this.pipeGroup.add(...obj)
+    }
+  }
+
+  // 清除管路组
+  clearPipe() {
+    if (this.pipeGroup) {
+      this.disposeObj(this.pipeGroup)
+    }
+    this.addPipeGroup()
+  }
+
   // 双击
   onDblclick(e: MouseEvent) {
     const dom = this.container
@@ -108,7 +135,7 @@ export class DeviceThreeScene extends ThreeScene {
       // 设置新的原点和方向向量更新射线, 用照相机的原点和点击的点构成一条直线
       raycaster.setFromCamera(pointer, this.camera)
       // 检查射线和物体之间的交叉点（包含或不包含后代）
-      const objects = [this.deviceGroup]
+      const objects = [this.deviceGroup, this.pipeGroup]
       const interscts = raycaster.intersectObjects(objects)
       if (interscts.length) {
         const obj = interscts[0].object
@@ -174,7 +201,7 @@ export class DeviceThreeScene extends ThreeScene {
       if (!parent) {
         return
       }
-      if (parent && parent._isDevice_) {
+      if (parent && (parent._isDevice_ || parent._isPipe_)) {
         return parent
       }
       return _find(parent)
@@ -188,6 +215,7 @@ export class DeviceThreeScene extends ThreeScene {
 
     if (typeof this.extend.animateCall === 'function') this.extend.animateCall()
 
+    // 设备动画
     if (this.deviceGroup.children.length) {
       let delta = this.clock.getDelta()
       this.deviceGroup.children.forEach(el => {
@@ -206,6 +234,72 @@ export class DeviceThreeScene extends ThreeScene {
         }
       })
     }
+
+    // 管路动画
+    if (this.pipeGroup.children.length) {
+      this.pipeGroup.children.forEach(el => {
+        const pipe = el[DEFAULTCONFIG.meshKey.pipe]
+        if (pipe) {
+          const data = el.data
+          const bind = data.bind || []
+          // 运行中的设备
+          const runingDevices = this.deviceGroup.children
+            .filter(item => item.data && item.data.deviceCode && (item.data?.status ?? 0) > 0)
+            .map(it => it.data)
+          // 绑定的运行设备
+          const bingDevices = this.findFilterDevice(bind, runingDevices)
+
+          // 长度大于 0 则运行
+          const run = bingDevices.length > 0
+          let step = 0.01
+          // 绑定动画方向左右
+          if (data.left && data.right) {
+            const { left, right } = data
+            const isRight = this.findFilterDevice(right, bingDevices).length > 0
+            const isLeft = this.findFilterDevice(left, bingDevices).length > 0
+            step = isLeft && isRight ? 0 : isRight ? -0.01 : 0.01
+          }
+          pipe.forEach(ms => {
+            if (run) {
+              ms.material.map.offset.y -= step
+            }
+            ms.material.opacity = !!run ? 0.3 : 0
+          })
+        }
+      })
+    }
+  }
+
+  // 查找满足条件运行设备
+  findFilterDevice = (filters, devices) => {
+    if (filters.length == 0 || devices.length == 0) return []
+    let runDev: ObjectItem[] = []
+    filters.forEach(item => {
+      if (item instanceof Array) {
+        let s: ObjectItem[] = []
+        const d = item.filter(it => {
+          if (it instanceof Array) {
+            const ar = devices.filter(t => it.includes(t.deviceCode))
+            if (ar.length) {
+              ar.forEach(t => {
+                if (!s.includes(t)) s.push(t)
+              })
+            }
+            return ar.length > 0
+          }
+          const a = devices.find(t => t.deviceCode == it)
+          if (a && !s.includes(a)) s.push(a)
+          return !!a
+        })
+        if (d.length == item.length) {
+          runDev = runDev.concat(s)
+        }
+      } else {
+        const d = devices.find(it => it.deviceCode == item)
+        if (d) runDev.push(d)
+      }
+    })
+    return runDev
   }
 
   // 获取场景坐标

@@ -52,17 +52,6 @@ export declare interface ObjectItem {
   rotation?: XYZ
   scale?: XYZ
 
-  // 管路
-  // 贴图重复次数[x,y0]
-  map?: number[]
-  // 绑定设备（管路关联设备。设备动则动,只要满足一个设备运行则执行）
-  // [ [ 'LDB_1-1', 'FM_1-1' ], [ 'LDB_1-2', 'FM_1-1' ] ]
-  bind?: (string | string[] | string[][])[]
-  // 左
-  left?: (string | string[] | string[][])[]
-  // 右
-  right?: (string | string[] | string[][])[]
-
   // 字体
   font?: Font
   // 相机动画位置
@@ -92,6 +81,28 @@ export declare interface ObjectItem {
   onDblclick?: Function
   // 点击事件
   onClick?: Function
+}
+
+export declare interface PipeItem {
+  name: string
+  // 类型 初始化模型对应的 key
+  type: string
+
+  // 位置、旋转、缩放
+  position?: XYZ
+  rotation?: XYZ
+  scale?: XYZ
+
+  // 管路
+  // 贴图重复次数[x,y0]
+  map?: number[]
+  // 绑定设备（管路关联设备。设备动则动,只要满足一个设备运行则执行）
+  // [ [ 'LDB_1-1', 'FM_1-1' ], [ 'LDB_1-2', 'FM_1-1' ] ]
+  bind?: (string | string[] | string[][])[]
+  // 左
+  left?: (string | string[] | string[][])[]
+  // 右
+  right?: (string | string[] | string[][])[]
 }
 
 export declare interface Extra {

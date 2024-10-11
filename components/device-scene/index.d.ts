@@ -9,7 +9,7 @@ import type {
   AmbientLight,
   DirectionalLight
 } from '../../types/index'
-import type { XYZ, ModelItem, ObjectItem } from '../../types/model'
+import type { XYZ, ModelItem, ObjectItem, PipeItem } from '../../types/model'
 import type { IndexDB } from '../../types/indexdb'
 import type { Colors } from '../../types/color'
 
@@ -129,6 +129,8 @@ export declare interface Props {
   config?: Partial<Config>
   // 对象列表（设备列表）
   objects: ObjectItem[]
+  // 管路列表
+  pipes?: PipeItem[]
   // DOT 类型 key 默认: 'DOT'
   dotKey?: string
   // dot 点位展示严格模式（设备运行时展示） 默认: true

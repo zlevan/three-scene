@@ -43,7 +43,8 @@ export default {
     color: Symbol('__COLOR_'),
     warning: Symbol('__WARNING_'),
     local: Symbol('__LOCAL_'),
-    disabled: Symbol('__DISABLED_')
+    disabled: Symbol('__DISABLED_'),
+    pipe: Symbol('__PIPE__')
   },
 
   // 状态偏差值

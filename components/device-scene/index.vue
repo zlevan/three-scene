@@ -163,6 +163,48 @@ const toggleDotVisible = () => {
   }
 }
 
+// 管路初始化
+const initPipe = () => {
+  if (!props.pipes || props.pipes.length == 0) return
+
+  const list = props.pipes
+  for (let i = 0; i < list.length; i++) {
+    const item = list[i]
+    const { type, map } = item
+    const obj = getModel(type)
+    if (!obj) continue
+    // 深克隆
+    let model = UTILS.deepClone(obj)
+    const mapMeshName = obj._mapMeshName_
+    const { position: POS, scale: SCA, rotation: ROT } = UTILS.get_P_S_R_param(model, item)
+    const [x, y, z] = POS
+
+    const mesh = UTILS.findObjectsByHasProperty(model.children, [mapMeshName])
+    if (mesh.length) {
+      mesh.forEach(el => {
+        el.material.map = el.material.map.clone()
+        if (map) {
+          const repeat = el.material.map.repeat
+          // 纹理对象阵列
+          el.material.map.repeat.set(repeat.x * (map[0] ?? 1), repeat.y * (map[1] ?? 1))
+        }
+      })
+      model[DEFAULTCONFIG.meshKey.pipe] = mesh
+    }
+
+    // 缩放
+    model.scale.set(...SCA)
+    // 摆放位置
+    model.position.set(x, y, z)
+    // 转换方位
+    model.rotation.set(...ROT)
+
+    model._isPipe_ = true
+    model.data = item
+    scene.addPipe(model)
+  }
+}
+
 // 加载基础
 const loadBase = async (item: ObjectItem) => {
   const { type, url = '', name } = item
@@ -420,6 +462,9 @@ const assemblyScenario = async () => {
   await nextTick()
   initDeviceConfigs()
   await initDevices()
+
+  // 管路初始化
+  initPipe()
 
   // 巡航
   scene.setCruisePoint(props.cruise.points)
