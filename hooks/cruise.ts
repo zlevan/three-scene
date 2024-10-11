@@ -31,7 +31,7 @@ export const useCruise = () => {
     // 基础地址
     baseUrl: '',
     // 贴图地址
-    mapUrl: new URL('../imgs/texttures/arrow.png', import.meta.url).href,
+    mapUrl: new URL('../assets/imgs/texttures/arrow.png', import.meta.url).href,
     // 贴图重复
     repeat: [0.1, 1],
     // 宽度

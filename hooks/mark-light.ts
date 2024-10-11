@@ -18,11 +18,11 @@ export const useMarkLight = (options: Params = {}) => {
   let _options: Options = deepMerge(
     {
       // 标记点的图片url
-      pointTextureUrl: new URL('../imgs/texttures/point.png', import.meta.url).href,
+      pointTextureUrl: new URL('../assets/imgs/texttures/point.png', import.meta.url).href,
       // 光圈的URL
-      circleTextureUrl: new URL('../imgs/texttures/circle.png', import.meta.url).href,
+      circleTextureUrl: new URL('../assets/imgs/texttures/circle.png', import.meta.url).href,
       // 光柱的URL
-      lightTextureUrl: new URL('../imgs/texttures/light.png', import.meta.url).href,
+      lightTextureUrl: new URL('../assets/imgs/texttures/light.png', import.meta.url).href,
       // 系数
       factor: 1,
       color: 0x00ffff
