@@ -364,7 +364,11 @@ const loopLoadObject = async (item: ObjectItem) => {
   // 转换方位
   model.rotation.set(...ROT)
 
+  // 动画类型
   const animationModelType = props.animationModelType || []
+  // 颜色网格
+  const colorMeshName = props.colorMeshName || []
+
   if (animationModelType.includes(type)) {
     if (model.type !== 'Group') {
       const group = new THREE.Group()
@@ -385,6 +389,36 @@ const loopLoadObject = async (item: ObjectItem) => {
         })
       }
       model[DEFAULTCONFIG.meshKey.body] = mesh
+    }
+
+    // 升起动画
+    // model.position.y = y - 30
+    // UTILS.deviceAnimate( model, { y } )
+    const meshs = UTILS.findObjectsByHasProperty(model.children, colorMeshName)
+    // 叶轮动画
+    let mixer = new THREE.AnimationMixer(model)
+    let action
+    if (obj.animations.length) {
+      action = mixer.clipAction(obj.animations[0])
+      // 暂停
+      action.paused = true
+      // 动画速度
+      action.timeScale = 1.5
+      // 播放
+      action.play()
+    }
+    // 记录数据
+    model.extra = { action, mixer, meshs }
+  } else {
+    const meshs: any[] = []
+    model.traverse(el => {
+      if (typeof el.name == 'string' && colorMeshName.some(t => el.name.indexOf(t) > -1)) {
+        meshs.push(el)
+      }
+    })
+    if (meshs.length) {
+      // 记录数据
+      model[DEFAULTCONFIG.meshKey.color] = meshs
     }
   }
 
@@ -559,9 +593,20 @@ const updateObject = isRandom => {
 
 // 修改模型部件状态及颜色 (类型、模型、颜色对象、颜色、动画暂停状态、故障状态)
 const changeModleStatusColor = (opts: import('./index').ChangeMaterialOpts) => {
-  let { el, colorObj: cobj, color, paused } = opts
+  let { el, type, colorObj: cobj, color, paused } = opts
   let colors = UTILS.getColorArr(color)
   color = colors[0]
+
+  const meshKey = DEFAULTCONFIG.meshKey
+
+  const colorModelType = props.colorModelType || []
+  if (colorModelType.includes(type) && color != void 0) {
+    const meshs = el[meshKey.color] || []
+    meshs.forEach(e => {
+      UTILS.setMaterialColor(e, color)
+    })
+    return
+  }
 
   // 场景
   // 扩展数据
@@ -579,11 +624,11 @@ const changeModleStatusColor = (opts: import('./index').ChangeMaterialOpts) => {
   }
 
   // 主体变色
-  if (props.mainBodyChangeColor && el[DEFAULTCONFIG.meshKey.body]) {
+  if (props.mainBodyChangeColor && el[meshKey.body]) {
     const color = cobj.main != void 0 ? cobj.main : cobj.color
     let colors = UTILS.getColorArr(color)
     if (colors.length) {
-      el[DEFAULTCONFIG.meshKey.body].forEach((e, i) => {
+      el[meshKey.body].forEach((e, i) => {
         UTILS.setMaterialColor(e, colors[i % colors.length])
       })
     }

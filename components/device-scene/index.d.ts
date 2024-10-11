@@ -150,7 +150,7 @@ export declare interface Props {
 
   // 颜色材质名称（需要改变颜色的网格名称）
   colorMeshName?: string[]
-  // 颜色状态类型（需要根据状态改变颜色的类型） 默认： [ 'FM', 'XFM' ]
+  // 颜色状态类型（需要根据状态改变颜色的类型） 默认： [ 'FM' ]
   colorModelType?: string[]
   // 动态模型类型(有动画)
   animationModelType?: string[]
