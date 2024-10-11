@@ -21,6 +21,7 @@ $colors:
       display: inline-block;
       position: relative;
       font-size: 14px;
+      user-select: none;
       &::after {
         top: 100%;
         left: 0;
