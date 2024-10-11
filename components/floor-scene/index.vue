@@ -508,12 +508,14 @@ const assemblyScenario = async () => {
       // 入场动画
       UTILS.cameraInSceneAnimate(scene.camera, to, scene.controls.target).then(() => {
         emits('loaded')
+        scene.controlSave()
       })
     }
   } else {
     // 入场动画
     UTILS.cameraInSceneAnimate(scene.camera, to, scene.controls.target).then(() => {
       emits('loaded')
+      scene.controlSave()
     })
   }
 }
