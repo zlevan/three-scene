@@ -2,12 +2,12 @@
   <div :class="$style['device-scene']">
     <!-- 操作按钮 -->
     <div class="scene-operation">
-      <el-link type="success" @click="() => updateObject(true)">随机更新</el-link>
-      <el-link v-if="cruise.visible" @click="() => scene?.toggleCruise()" type="danger">定点巡航</el-link>
-      <el-link @click="() => scene?.getPosition()" type="success">场景坐标</el-link>
-      <el-link type="warning" @click="() => changeBackground(scene)">切换背景</el-link>
-      <el-link type="danger" @click="() => scene?.controlReset()">控制器重置</el-link>
-      <el-link v-if="cruise.visible" type="danger" @click="() => scene?.toggleCruiseDepthTest()">巡航深度</el-link>
+      <div class="btn" @click="() => updateObject(true)">随机更新</div>
+      <div class="btn" v-if="cruise.visible" @click="() => scene?.toggleCruise()">定点巡航</div>
+      <div class="btn" @click="() => scene?.getPosition()">场景坐标</div>
+      <div class="btn" @click="() => changeBackground(scene)">切换背景</div>
+      <div class="btn" @click="() => scene?.controlReset()">控制器重置</div>
+      <div class="btn" v-if="cruise.visible" @click="() => scene?.toggleCruiseDepthTest()">巡航深度</div>
     </div>
 
     <div :class="$style.container" ref="containerRef"></div>
