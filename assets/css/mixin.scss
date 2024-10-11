@@ -1,0 +1,160 @@
+$colors:
+  #67c23a,
+  #f56c6c,
+  #e6a23c,
+  #b83b5e,
+  #f08a5d,
+  #95e1d3,
+;
+
+// 操作按钮
+@mixin scene-operation( $el: '.scene-operation' ) {
+  #{ $el } {
+    left: 50%;
+    bottom: 30px;
+    z-index: 1;
+    position: absolute;
+    transform: translateX(-50%);
+    .btn {
+      margin: 0 3px;
+      cursor: pointer;
+      display: inline-block;
+      position: relative;
+      font-size: 14px;
+      &::after {
+        top: 100%;
+        left: 0;
+        width: 100%;
+        content: '';
+        display: none;
+        position: absolute;
+        border-bottom: 1px solid transparent;
+      }
+      @each $c in $colors {
+        $i: index($list: $colors, $value: $c);
+        &:nth-child(#{ $i }) {
+          color: $c;
+          &:hover {
+            color: darken($color: $c, $amount: 20%);
+            &::after {
+              display: block;
+              border-color: $c;
+            }
+          }
+        }
+      }
+    }
+    @content;
+  }
+}
+
+// 场景加载进度
+@mixin scene-loading( $el: '.loading' ) {
+  #{ $el } {
+    --bg-color: rgba(0, 0, 0, .5);
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    z-index: 9;
+    display: flex;
+    position: absolute;
+    transform: translate( -50%, -50% );
+    align-items: center;
+    justify-content: center;
+    background-color: var(--bg-color);
+    backdrop-filter: saturate(80%) blur(10px);
+  
+    .progress {
+      width: 60%;
+      display: flex;
+      .bar-out {
+        flex: 1;
+        height: 15px;
+        overflow: hidden;
+        border-radius: 20px;
+        background-color: var( --el-border-color-lighter );
+      }
+      .bar {
+        width: var( --percentage );
+        height: 100%;
+        animation: striped-flow 30s linear infinite;
+        border-radius: 20px;
+        background-color: var( --el-color-primary );
+        background-size: 1.25em 1.25em;
+        background-image: linear-gradient(45deg,rgba(0,0,0,.1) 25%,transparent 25%,transparent 50%,rgba(0,0,0,.1) 50%,rgba(0,0,0,.1) 75%,transparent 75%,transparent);
+      }
+  
+      @keyframes striped-flow {
+        0% {
+          background-position: -100%
+        }
+        100% {
+          background-position: 100%;
+        }
+      }
+      .text {
+        color: #fff;
+        width: 80px;
+        padding: 0 10px;
+        font-size: 16px;
+        font-weight: bold;
+      }
+    }
+
+    @content;
+  }
+}
+
+
+$dotColor: #596A78;
+$dotPointColor: #60FFAC;
+
+// 2d-label 
+@mixin dot-label( $el: '.three-scene__dot-wrap' ) {
+  #{ $el } {
+    --dot-border-color: #848D92;
+    --dot-bg-color: #{ $dotColor };
+    --dot-point-bg-color: #{ $dotPointColor };
+    font-size: max( 14px, 1em );
+    .dot-2D-label {
+      --px-1: max(1px, 0.08em);
+      --px-30: max(30px, 2.14em);
+      color: #fff;
+      width: 0.3em;
+      height: 0.3em;
+      cursor: pointer;
+      z-index: 2;
+      position: absolute;
+      font-size: 1em;
+      border-radius: 50%;
+      background-color: var(--dot-point-bg-color);
+      box-shadow: 0 0 0.4em 0.4em rgba($color: $dotPointColor, $alpha: .75);
+      .bg {
+        left: 50%;
+        width: 1px;
+        height: var(--px-30);
+        bottom: 0.3em;
+        position: absolute;
+        background-color: var(--dot-bg-color);
+        transform: translateX(-50%);
+      }
+      .inner {
+        left: 50%;
+        bottom: var(--px-30);
+        border: var(--px-1) solid var(--dot-border-color);
+        padding: 0 0.8em;
+        position: absolute;
+        min-width: 4em;
+        transform: translateX(-50%);
+        text-align: center;
+        white-space: nowrap;
+        line-height: 2;
+        border-radius: 2em;
+        backdrop-filter: saturate(50%) blur(2px);
+        background-color: rgba($color: $dotColor, $alpha: .2);
+      }
+    }
+    @content
+  }
+}
