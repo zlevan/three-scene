@@ -5,6 +5,8 @@ import { deepMerge, getUrl } from '../utils'
 import type { Cruise as Options } from '../types/index'
 export declare type Params = import('../types/utils').DeepPartial<Options>
 
+const mapUrl = new URL('../assets/imgs/texttures/arrow.png', import.meta.url).href
+
 // 巡航
 export const useCruise = () => {
   // 曲线
@@ -31,7 +33,7 @@ export const useCruise = () => {
     // 基础地址
     baseUrl: '',
     // 贴图地址
-    mapUrl: new URL('../assets/imgs/texttures/arrow.png', import.meta.url).href,
+    mapUrl: mapUrl,
     // 贴图重复
     repeat: [0.1, 1],
     // 宽度
