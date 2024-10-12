@@ -5,7 +5,7 @@ import { deepMerge, getUrl } from '../utils'
 import type { Cruise as Options } from '../types/index'
 export declare type Params = import('../types/utils').DeepPartial<Options>
 
-const mapUrl = new URL('../assets/imgs/texttures/arrow.png', import.meta.url).href
+const mapUrl = new URL('three-scene/assets/imgs/texttures/arrow.png', import.meta.url).href
 
 // 巡航
 export const useCruise = () => {
