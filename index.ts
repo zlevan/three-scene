@@ -473,4 +473,4 @@ export default class ThreeScene {
   }
 }
 
-export const version = '0.0.25'
+export const version = '0.0.26'

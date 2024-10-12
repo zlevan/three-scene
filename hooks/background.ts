@@ -17,10 +17,14 @@ export const useBackground = (code: string = '') => {
     if (index.value >= skys.length) index.value = 0
   }
 
+  // 获取背景组图
+  const getBgGroup = code => {
+    return ['posX.jpeg', 'negX.jpeg', 'posY.jpeg', 'negY.jpeg', 'posZ.jpeg', 'negZ.jpeg'].map(u => getImgUrl(code, u))
+  }
+
+  // 加载 -配合场景使用
   const load = (scene, code) => {
-    scene?.setBgTexture(
-      ['posX.jpeg', 'negX.jpeg', 'posY.jpeg', 'negY.jpeg', 'posZ.jpeg', 'negZ.jpeg'].map(u => getImgUrl(code, u))
-    )
+    scene?.setBgTexture(getBgGroup(code))
   }
   return {
     skys,
@@ -28,6 +32,7 @@ export const useBackground = (code: string = '') => {
     change,
     changeBackground: change,
     load,
+    getBgGroup,
     backgroundLoad: load
   }
 }
