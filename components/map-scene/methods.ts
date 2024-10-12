@@ -48,11 +48,11 @@ let outCircleTexture: InstanceType<typeof THREE.TextureLoader>
 // 背景内圈
 let innerRingTexture: InstanceType<typeof THREE.TextureLoader>
 
-const textureMapImg = new URL('../../assets/imgs/texttures/gz-map.jpg', import.meta.url).href
-const normalTextureMapImg = new URL('../../assets/imgs/texttures/gz-map-fx.jpg', import.meta.url).href
-const sideTextureMapImg = new URL('../../assets/imgs/texttures/border.png', import.meta.url).href
-const outCircleImg = new URL('../../assets/imgs/texttures/out-circle.png', import.meta.url).href
-const innerCircleImg = new URL('../../assets/imgs/texttures/inner-circle.png', import.meta.url).href
+const textureMapImg = new URL('three-scene/assets/imgs/texttures/gz-map.jpg', import.meta.url).href
+const normalTextureMapImg = new URL('three-scene/assets/imgs/texttures/gz-map-fx.jpg', import.meta.url).href
+const sideTextureMapImg = new URL('three-scene/assets/imgs/texttures/border.png', import.meta.url).href
+const outCircleImg = new URL('three-scene/assets/imgs/texttures/out-circle.png', import.meta.url).href
+const innerCircleImg = new URL('three-scene/assets/imgs/texttures/inner-circle.png', import.meta.url).href
 
 // 转换地址
 const transformUrl = (defaultUrl, url, baseUrl) => {
@@ -129,7 +129,7 @@ const createMapBlock = (_this, points) => {
 }
 
 // 省份名称背景
-const labelImg = new URL('../../assets/imgs/label.png', import.meta.url).href
+const labelImg = new URL('three-scene/assets/imgs/label.png', import.meta.url).href
 
 // 创建 css3d 省份名称
 const createCSS3Dlabel = (_this, properties, group) => {

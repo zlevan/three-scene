@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 
-import ThreeScene from 'three-scene'
+import ThreeScene from '../../index'
 import { useRaycaster } from '../../hooks/raycaster'
 import { useCSS2D, CSS2DRenderer } from '../../hooks/css2d'
 
