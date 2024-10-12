@@ -355,7 +355,7 @@ export default class ThreeScene {
   setBgTexture(bgUrl) {
     if (Array.isArray(bgUrl)) {
       const loader = new THREE.CubeTextureLoader()
-      const env = loader.load(getUrl(bgUrl))
+      const env = loader.load(getUrl(bgUrl, this.options.baseUrl))
       // 设置背景
       this.scene.background = env
     } else {
@@ -473,4 +473,4 @@ export default class ThreeScene {
   }
 }
 
-export const version = '0.0.22'
+export const version = '0.0.24'

@@ -146,7 +146,6 @@ const createCSS3Dlabel = (_this, properties, group) => {
     `,
     className: 'map-3D-label',
     position: [lon * scale, lat * scale * 0.995, depth * scale]
-    // onClick: e => {console.log(e)}
   })
   label.rotateX(Math.PI * 0.5)
   label.name = properties.name + '_CSS3D_label'
@@ -466,7 +465,7 @@ export class MapThreeScene extends ThreeScene {
     if (!this.mapGroup) return
     this.clearMapBar()
 
-    // 找对大
+    // 找最大
     const max = Math.max(...citys.map(it => it.value || 0))
     const { scale, depth } = this.config
     const COLOR = this.color
@@ -535,9 +534,7 @@ export class MapThreeScene extends ThreeScene {
   }
 
   // 双击
-  onDblclick(e: MouseEvent) {
-    console.log(e)
-  }
+  onDblclick(_e: MouseEvent) {}
 
   // 按下
   onPointerDown(e: PointerEvent) {
@@ -582,12 +579,12 @@ export class MapThreeScene extends ThreeScene {
     // 判断是否未点击
     const isClick = s < (this.config.rightClickBackDiffTime || DEFAULTCONFIG.rightClickBackDiffTime)
     if (e.button == 2) {
-      // console.log('你点了右键')
+      // 右键
     } else if (e.button == 0) {
-      // console.log('你点了左键', isClick)
+      // 左键
       isClick && this.clickObject(e)
     } else if (e.button == 1) {
-      // console.log('你点了滚轮')
+      // 滚轮
     }
   }
 

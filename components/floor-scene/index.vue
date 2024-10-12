@@ -72,11 +72,12 @@ const COLORS = deepMerge(colors, props.colors)
 
 import { useBackground } from '../../hooks/background'
 import { useModelLoader } from '../../hooks/model-loader'
-import { useDialog } from 'three-scene/hooks/dialog'
+import { useDialog } from '../../hooks/dialog'
 
 const { change: changeBackground, load: backgroundLoad } = useBackground()
 const { progress, loadModel, loadModels, getModel } = useModelLoader({
-  baseUrl: props.dracoUrl,
+  baseUrl: props.baseUrl,
+  dracoPath: props.dracoUrl,
   colors: COLORS,
   colorMeshName: props.colorMeshName,
   indexDB: props.indexDB

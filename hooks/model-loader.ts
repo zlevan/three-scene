@@ -282,7 +282,7 @@ export const useModelLoader = (options: Params = {}) => {
       const newUrl = getUrl(url, baseUrl)
 
       // 缓存
-      const store = await getCacheModel(url, size)
+      const store = await getCacheModel(newUrl, size)
       if (store) {
         const obj = store.scene.children[0]
         const del = modelNormalization(model, color, obj, store.animations)
