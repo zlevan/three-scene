@@ -344,7 +344,7 @@ export default class ThreeScene {
 
   // 设置环境
   setEnvironment(env) {
-    new RGBELoader().load(getUrl(env), texture => {
+    new RGBELoader().load(getUrl(env, this.options.baseUrl), texture => {
       texture.mapping = THREE.EquirectangularReflectionMapping
       // 将加载的材质texture设置给背景和环境
       this.scene.environment = texture
@@ -473,4 +473,4 @@ export default class ThreeScene {
   }
 }
 
-export const version = '0.0.24'
+export const version = '0.0.25'
