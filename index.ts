@@ -473,5 +473,4 @@ export default class ThreeScene {
   }
 }
 
-import packageJson from './package.json'
-export const version = packageJson.version
+export const version = '0.0.22'
