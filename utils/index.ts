@@ -108,7 +108,11 @@ export const random = (min: number, max: number): number => {
 export const checkUrl = (url: string): boolean => {
   !url && (url = '')
   let regex = /^([hH][tT]{2}[pP]:\/\/|[hH][tT]{2}[pP][sS]:\/\/)[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,}(\/\S*)?$/
-  if (!regex.test(url)) return false
+  if (!regex.test(url)) {
+    const reg = /^(https?:\/\/)(?:\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(?::\d{1,5})?(?:[/?#]\S*)?$/
+    return reg.test(url)
+  }
+  // return false
   return true
 }
 
@@ -118,6 +122,7 @@ export const getUrl = (url: string | string[], baseUrl: string = '') => {
   if (Array.isArray(url)) {
     return url.map(u => getUrl(u, baseUrl))
   }
+
   // 检查是否为完整链接 不是则拼接域名地址
   if (!checkUrl(url) && url.indexOf(baseUrl) < 0) {
     return baseUrl + url
