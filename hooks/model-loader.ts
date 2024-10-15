@@ -214,7 +214,6 @@ export const useModelLoader = (options: Params = {}) => {
 
   // 获取缓存模型数据
   const getCacheModel = (url: string, size: number = 0): Promise<any> => {
-    const loader = new GLTFLoader()
     return new Promise(async resolve => {
       // 加载缓存
       if (!_options.indexDB.cache) resolve(null)
