@@ -353,7 +353,7 @@ export const useModelLoader = (options: Params = {}) => {
         newUrl,
         font => {
           modelMap.set(MODEL_MAP.font, font)
-          dbStoreAdd(url)
+          dbStoreAdd(newUrl)
           resolve(font)
         },
         res => {
