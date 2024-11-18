@@ -1,4 +1,5 @@
 import { ref } from 'vue'
+import * as THREE from 'three'
 
 const getImgUrl = (code, jpg) => {
   return new URL(`../assets/imgs/sky/${code}/${jpg}`, import.meta.url).href
@@ -23,8 +24,20 @@ export const useBackground = (code: string = '') => {
   }
 
   // 加载 -配合场景使用
-  const load = (scene, code) => {
-    scene?.setBgTexture(getBgGroup(code))
+  const load = (scene: any = {}, code: string) => {
+    const bgUrl = getBgGroup(code)
+    if (typeof scene.setBgTexture === 'function') {
+      scene.setBgTexture(bgUrl)
+    } else {
+      if (Array.isArray(bgUrl)) {
+        const loader = new THREE.CubeTextureLoader()
+        const env = loader.load(bgUrl)
+        // 设置背景
+        scene.background = env
+      } else {
+        scene.background = new THREE.TextureLoader().load(bgUrl)
+      }
+    }
   }
   return {
     skys,
