@@ -164,6 +164,7 @@ onMounted(() => {
 | speed | Number | - | 1 | 巡航时速度 |
 | mapSpeed | Number | - | 0.006 | 贴图材质动画滚动速度 |
 | offset | Number | - | 10 | 巡航点偏差（距离巡航点的上下偏差）|
+| auto | Boolean | - | - | 自动巡航(可从动画函数执行机器人巡航) |
 | animateBack | Function | - | - | 帧动画回调函数 |
 
 
