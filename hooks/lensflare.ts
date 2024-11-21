@@ -9,14 +9,18 @@ export declare interface Options {
 
 export declare type Params = import('../types/utils').DeepPartial<Options>
 
+const getImgUrl = jpg => {
+  return new URL(`../assets/imgs/texttures/lensflare/${jpg}`, import.meta.url).href
+}
+
 export const useLensflare = (options: Params = {}) => {
   // 默认参数
   let _options: Options = deepMerge(
     {
       // 主光晕
-      mainTextureUrl: new URL('three-scene/assets/imgs/texttures/lensflare/lensflare0.png', import.meta.url).href,
+      mainTextureUrl: getImgUrl('lensflare0.png'),
       // 次光晕
-      minorTextureUrl: new URL('three-scene/assets/imgs/texttures/lensflare/lensflare3.png', import.meta.url).href
+      minorTextureUrl: getImgUrl('lensflare3.png')
     },
     options
   )
