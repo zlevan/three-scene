@@ -1,7 +1,7 @@
 import type { Fog, Render, Camera, Controls, Grid, Axes, Cruise, DirectionalLight } from '../../types/index'
 import type { XYZ, ModelItem, ObjectItem } from '../../types/model'
 import type { IndexDB } from '../../types/indexdb'
-import type { Colors } from '../../types/color'
+import type { Colors, ColorObject } from '../../types/color'
 
 export declare interface Config {
   // 场景相机位置

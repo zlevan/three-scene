@@ -45,7 +45,9 @@ export const useCruise = () => {
     // 系数
     factor: 1,
     // 索引
-    index: 0
+    index: 0,
+    // 帧动画回调
+    animateBack: void 0
   }
 
   const createCruise = (options: Params = {}, renderer) => {
@@ -62,6 +64,7 @@ export const useCruise = () => {
     // CatmullRomCurve3( 点位、曲线闭合、曲线类型、类型catmullrom时张力默认 0.5)
     // 曲线类型：centripetal、chordal和catmullrom
     cruiseCurve = new THREE.CatmullRomCurve3(newPoints, true, 'catmullrom', tension ?? 0)
+    cruiseCurve = new THREE.CatmullRomCurve3(getAllPoints(), true, 'catmullrom', tension ?? 0)
     const group = new THREE.Group()
 
     texture = new THREE.TextureLoader().load(getUrl(mapUrl, baseUrl), tx => {
@@ -86,7 +89,7 @@ export const useCruise = () => {
     // 向量
     const up = new THREE.Vector3(0, 1, 0)
     const pathPoints = new PathPointList()
-    pathPoints.set(cruiseCurve.getPoints(1000), 5, 1, up, false)
+    pathPoints.set(getAllPoints(), 5, 1, up, false)
 
     const geometry = new PathGeometry()
     geometry.update(pathPoints, {
@@ -141,6 +144,9 @@ export const useCruise = () => {
   // 长度
   const getCruiseLen = () => (_options.segment ?? 2) * 1000
 
+  // 所有点位
+  const getAllPoints = () => cruiseCurve?.getPoints(getCruiseLen())
+
   // 偏移坐标
   const getOffsetPoint = (offset, pos) => {
     return new THREE.Vector3(pos.x, pos.y + offset, pos.z)
@@ -156,24 +162,28 @@ export const useCruise = () => {
   const cruiseAnimate = camera => {
     if (!camera) return
     if (!cruiseCurve) return
-    const { mapSpeed, speed, factor, enabled, runing, offset, helper } = _options
+    const { mapSpeed, speed, factor, enabled, runing, offset, helper, animateBack } = _options
     if (texture) texture.offset.x -= mapSpeed
+    if (!runing || !enabled) return
     runing && enabled && (_options.index += factor * speed)
     const looptime = getCruiseLen()
     const t = (_options.index % looptime) / looptime
 
-    const pos = cruiseCurve.getPointAt(t)
+    const oft = 0.001
+    let ts = t + oft
+    if (ts > 1) ts = ts - 1
+
+    const pos = cruiseCurve.getPointAt(ts)
     if (helper && eye) {
       const nPos = getOffsetPoint(offset, pos)
       eye.position.copy(nPos)
     }
 
-    const oft = 0.03
-    let ts = t - oft
-    if (t < oft) ts = t + (1 - oft)
-    const _pos = getOffsetPoint(offset, cruiseCurve.getPointAt(ts))
+    const _pos = getOffsetPoint(offset, cruiseCurve.getPointAt(t))
     camera.position.copy(_pos)
     camera.lookAt(getOffsetPoint(offset, pos))
+
+    if (typeof animateBack === 'function') animateBack(_pos, pos)
   }
 
   const onKeyDown = e => {

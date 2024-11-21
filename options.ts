@@ -120,7 +120,9 @@ export default {
     // 系数
     factor: 1,
     // 索引
-    index: 0
+    index: 0,
+    // 帧动画回调
+    animateBack: void 0
   },
   // 网格
   grid: {

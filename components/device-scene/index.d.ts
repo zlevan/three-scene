@@ -11,7 +11,7 @@ import type {
 } from '../../types/index'
 import type { XYZ, ModelItem, ObjectItem, PipeItem } from '../../types/model'
 import type { IndexDB } from '../../types/indexdb'
-import type { Colors } from '../../types/color'
+import type { Colors, ColorObject } from '../../types/color'
 
 interface StatusOffsetItem {
   [key: string]: Record<'position' | 'rotation', XYZ>

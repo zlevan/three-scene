@@ -84,6 +84,7 @@ export declare interface Cruise {
   segment: number
   index: number
   helper: boolean
+  animateBack: ((position: any, lookAt: any) => void) | undefined
 }
 
 export declare interface Options {
