@@ -119,8 +119,8 @@ export default {
     offset: 10,
     // 系数
     factor: 1,
-    // 索引
-    index: 0,
+    // 自动巡航(可从动画函数执行机器人巡航)
+    auto: false,
     // 帧动画回调
     animateBack: void 0
   },

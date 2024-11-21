@@ -112,6 +112,7 @@ export const cameraInSceneAnimate = (
   at: XYZ
 ): Promise<InstanceType<typeof THREE.PerspectiveCamera>> => {
   camera.lookAt(at)
+  camera._lookAt_ = at
   return new Promise(resolve => {
     new TWEEN.Tween(camera.position)
       .to(to, 1000)
@@ -120,6 +121,7 @@ export const cameraInSceneAnimate = (
       .onUpdate(() => {
         // 设置相机对焦位置
         camera.lookAt(at)
+        camera._lookAt_ = at
       })
       .onComplete(() => {
         resolve(camera)

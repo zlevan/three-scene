@@ -16,7 +16,7 @@ export const useCruise = () => {
 
   let _options: Options = {
     visible: true,
-    // 激活
+    // 激活(可识别键盘操作)
     enabled: false,
     // 运行中
     runing: false,
@@ -46,6 +46,8 @@ export const useCruise = () => {
     factor: 1,
     // 索引
     index: 0,
+    // 自动巡航
+    auto: false,
     // 帧动画回调
     animateBack: void 0
   }
@@ -82,7 +84,7 @@ export const useCruise = () => {
       opacity: 0.5,
       transparent: true,
       // depthWrite: false,
-      depthTest: false,
+      depthTest: !false,
       blending: THREE.AdditiveBlending
     })
 
@@ -162,10 +164,15 @@ export const useCruise = () => {
   const cruiseAnimate = camera => {
     if (!camera) return
     if (!cruiseCurve) return
-    const { mapSpeed, speed, factor, enabled, runing, offset, helper, animateBack } = _options
+    const { mapSpeed, speed, factor, enabled, runing, offset, helper, auto, animateBack } = _options
     if (texture) texture.offset.x -= mapSpeed
-    if (!runing || !enabled) return
-    runing && enabled && (_options.index += factor * speed)
+
+    // 非自动、停止或非激活
+    if (!auto && (!runing || !enabled)) return
+
+    // 自动、激活且运行
+    if (auto || (runing && enabled)) _options.index += factor * speed
+
     const looptime = getCruiseLen()
     const t = (_options.index % looptime) / looptime
 
@@ -180,10 +187,14 @@ export const useCruise = () => {
     }
 
     const _pos = getOffsetPoint(offset, cruiseCurve.getPointAt(t))
-    camera.position.copy(_pos)
-    camera.lookAt(getOffsetPoint(offset, pos))
+    if (!auto || (runing && enabled)) {
+      camera.position.copy(_pos)
+      const at = getOffsetPoint(offset, pos)
+      camera._lookAt_ = at
+      camera.lookAt(at)
+    }
 
-    if (typeof animateBack === 'function') animateBack(_pos, pos)
+    if (typeof animateBack === 'function') animateBack(_pos, pos, cruiseCurve, t)
   }
 
   const onKeyDown = e => {
