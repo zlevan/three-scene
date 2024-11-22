@@ -25,10 +25,22 @@ export const useRaycaster = () => {
     style.top = -pointer.y * halfh + halfh
   }
 
+  // 平面转 3D 世界坐标
+  const screenToWorld = (e: PointerEvent, dom: Element, camera, hyper_z, scale = 1) => {
+    update(e, dom, scale)
+
+    const vector = new THREE.Vector3()
+    vector.set(pointer.x, pointer.y, hyper_z)
+    vector.unproject(camera)
+    vector.applyMatrix4(camera.matrixWorldInverse)
+    return vector
+  }
+
   return {
     raycaster,
     pointer,
     style,
-    update
+    update,
+    screenToWorld
   }
 }
