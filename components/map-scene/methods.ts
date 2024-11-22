@@ -62,7 +62,7 @@ const transformUrl = (defaultUrl, url, baseUrl) => {
 const createMaptexture = (config, baseUrl) => {
   textureMap = textureLoader.load(transformUrl(getImgUrl('gz-map.jpg'), config.map.map, baseUrl))
   normalTextureMap = textureLoader.load(transformUrl(getImgUrl('gz-map-fx.jpg'), config.map.normal, baseUrl))
-  sideTextureMap = textureLoader.load(transformUrl(getImgUrl('border.jpg'), config.map.side, baseUrl))
+  sideTextureMap = textureLoader.load(transformUrl(getImgUrl('border.png'), config.map.side, baseUrl))
   // 材质属性设置
   textureMap.wrapS = normalTextureMap.wrapS = sideTextureMap.wrapS = THREE.RepeatWrapping
   textureMap.wrapT = normalTextureMap.wrapT = sideTextureMap.wrapT = THREE.RepeatWrapping
@@ -127,7 +127,6 @@ const createMapBlock = (_this, points) => {
 }
 
 // 省份名称背景
-// const labelImg = new URL('three-scene/assets/imgs/label.png', import.meta.url).href
 const labelImg = getImgUrl('label.png', '')
 
 // 创建 css3d 省份名称
