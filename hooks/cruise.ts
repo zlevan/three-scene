@@ -9,6 +9,44 @@ const getImgUrl = jpg => {
   return new URL(`../assets/imgs/texttures/${jpg}`, import.meta.url).href
 }
 
+const getOpts = () => ({
+  visible: true,
+  // 激活(可识别键盘操作)
+  enabled: false,
+  // 运行中
+  runing: false,
+  // 辅助
+  helper: false,
+  // 点位
+  points: [],
+  // 分段
+  segment: 2,
+  // 曲线张力
+  tension: 0,
+  // 基础地址
+  baseUrl: '',
+  // 贴图地址
+  mapUrl: getImgUrl('arrow.png'),
+  // 贴图重复
+  repeat: [0.1, 1],
+  // 宽度
+  width: 15,
+  // 动画速度
+  speed: 1,
+  // 贴图速度
+  mapSpeed: 0.006,
+  //  巡航偏差
+  offset: 10,
+  // 系数
+  factor: 1,
+  // 索引
+  index: 0,
+  // 自动巡航
+  auto: false,
+  // 帧动画回调
+  animateBack: void 0
+})
+
 // 巡航
 export const useCruise = () => {
   // 曲线
@@ -18,47 +56,11 @@ export const useCruise = () => {
   // 辅助眼睛
   let eye: InstanceType<typeof THREE.Mesh>
 
-  let _options: Options = {
-    visible: true,
-    // 激活(可识别键盘操作)
-    enabled: false,
-    // 运行中
-    runing: false,
-    // 辅助
-    helper: false,
-    // 点位
-    points: [],
-    // 分段
-    segment: 2,
-    // 曲线张力
-    tension: 0,
-    // 基础地址
-    baseUrl: '',
-    // 贴图地址
-    mapUrl: getImgUrl('arrow.png'),
-    // 贴图重复
-    repeat: [0.1, 1],
-    // 宽度
-    width: 15,
-    // 动画速度
-    speed: 1,
-    // 贴图速度
-    mapSpeed: 0.006,
-    //  巡航偏差
-    offset: 10,
-    // 系数
-    factor: 1,
-    // 索引
-    index: 0,
-    // 自动巡航
-    auto: false,
-    // 帧动画回调
-    animateBack: void 0
-  }
+  let _options: Options = getOpts()
 
   const createCruise = (options: Params = {}, renderer) => {
     // 默认参数
-    _options = deepMerge(_options, options)
+    _options = deepMerge(getOpts(), options)
 
     const { points, tension, mapUrl, baseUrl, repeat, width, helper } = _options
 
