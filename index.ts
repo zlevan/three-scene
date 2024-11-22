@@ -72,10 +72,14 @@ export default class ThreeScene {
   }
 
   get camera() {
-    if (!this.cruiseCamera) return this.baseCamera
     const { visible, runing, auto } = this.options.cruise
-    // 自动或运行中
-    return visible && (!auto || runing) ? this.cruiseCamera : this.baseCamera
+    if (!visible || !this.cruiseCamera) return this.baseCamera
+    // 自动巡航
+    if (auto) {
+      return runing ? this.cruiseCamera : this.baseCamera
+    }
+    // 非自动巡航且运行中
+    return runing ? this.cruiseCamera : this.baseCamera
   }
 
   init() {
@@ -293,8 +297,8 @@ export default class ThreeScene {
     cruise.enabled = false
     cruise.runing = false
     const lookAtPos = this.controls.target
-    this.cruiseCamera.lookAt(lookAtPos)
-    this.cruiseCamera._lookAt_ = lookAtPos
+    this.camera.lookAt(lookAtPos)
+    this.camera._lookAt_ = lookAtPos
     if (cruise.baseUrl) {
       cruise.baseUrl = this.options.baseUrl
     }
