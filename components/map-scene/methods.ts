@@ -48,11 +48,9 @@ let outCircleTexture: InstanceType<typeof THREE.TextureLoader>
 // 背景内圈
 let innerRingTexture: InstanceType<typeof THREE.TextureLoader>
 
-const textureMapImg = new URL('three-scene/assets/imgs/texttures/gz-map.jpg', import.meta.url).href
-const normalTextureMapImg = new URL('three-scene/assets/imgs/texttures/gz-map-fx.jpg', import.meta.url).href
-const sideTextureMapImg = new URL('three-scene/assets/imgs/texttures/border.png', import.meta.url).href
-const outCircleImg = new URL('three-scene/assets/imgs/texttures/out-circle.png', import.meta.url).href
-const innerCircleImg = new URL('three-scene/assets/imgs/texttures/inner-circle.png', import.meta.url).href
+const getImgUrl = (jpg, path = '/texttures') => {
+  return new URL(`../../assets/imgs${path}/${jpg}`, import.meta.url).href
+}
 
 // 转换地址
 const transformUrl = (defaultUrl, url, baseUrl) => {
@@ -62,9 +60,9 @@ const transformUrl = (defaultUrl, url, baseUrl) => {
 
 // 创建地图材质
 const createMaptexture = (config, baseUrl) => {
-  textureMap = textureLoader.load(transformUrl(textureMapImg, config.map.map, baseUrl))
-  normalTextureMap = textureLoader.load(transformUrl(normalTextureMapImg, config.map.normal, baseUrl))
-  sideTextureMap = textureLoader.load(transformUrl(sideTextureMapImg, config.map.side, baseUrl))
+  textureMap = textureLoader.load(transformUrl(getImgUrl('gz-map.jpg'), config.map.map, baseUrl))
+  normalTextureMap = textureLoader.load(transformUrl(getImgUrl('gz-map-fx.jpg'), config.map.normal, baseUrl))
+  sideTextureMap = textureLoader.load(transformUrl(getImgUrl('border.jpg'), config.map.side, baseUrl))
   // 材质属性设置
   textureMap.wrapS = normalTextureMap.wrapS = sideTextureMap.wrapS = THREE.RepeatWrapping
   textureMap.wrapT = normalTextureMap.wrapT = sideTextureMap.wrapT = THREE.RepeatWrapping
@@ -75,8 +73,8 @@ const createMaptexture = (config, baseUrl) => {
   textureMap.repeat.set(scale, scale)
   normalTextureMap.repeat.set(scale, scale)
 
-  outCircleTexture = textureLoader.load(transformUrl(outCircleImg, config.map.bgOutCircle, baseUrl))
-  innerRingTexture = textureLoader.load(transformUrl(innerCircleImg, config.map.bgInnerCircle, baseUrl))
+  outCircleTexture = textureLoader.load(transformUrl(getImgUrl('out-circle.png'), config.map.bgOutCircle, baseUrl))
+  innerRingTexture = textureLoader.load(transformUrl(getImgUrl('inner-circle.png'), config.map.bgInnerCircle, baseUrl))
 }
 
 // 创建地图块
@@ -129,7 +127,8 @@ const createMapBlock = (_this, points) => {
 }
 
 // 省份名称背景
-const labelImg = new URL('three-scene/assets/imgs/label.png', import.meta.url).href
+// const labelImg = new URL('three-scene/assets/imgs/label.png', import.meta.url).href
+const labelImg = getImgUrl('label.png', '')
 
 // 创建 css3d 省份名称
 const createCSS3Dlabel = (_this, properties, group) => {

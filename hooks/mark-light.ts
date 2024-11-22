@@ -12,17 +12,21 @@ export declare interface Options {
 
 export declare type Params = import('../types/utils').DeepPartial<Options>
 
+const getImgUrl = jpg => {
+  return new URL(`../assets/imgs/texttures/${jpg}`, import.meta.url).href
+}
+
 // 光柱
 export const useMarkLight = (options: Params = {}) => {
   // 默认参数
   let _options: Options = deepMerge(
     {
       // 标记点的图片url
-      pointTextureUrl: new URL('three-scene/assets/imgs/texttures/point.png', import.meta.url).href,
+      pointTextureUrl: getImgUrl('point.png'),
       // 光圈的URL
-      circleTextureUrl: new URL('three-scene/assets/imgs/texttures/circle.png', import.meta.url).href,
+      circleTextureUrl: getImgUrl('circle.png'),
       // 光柱的URL
-      lightTextureUrl: new URL('three-scene/assets/imgs/texttures/light.png', import.meta.url).href,
+      lightTextureUrl: getImgUrl('light.png'),
       // 系数
       factor: 1,
       color: 0x00ffff
