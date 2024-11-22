@@ -59,7 +59,8 @@ const onClickDot = (item, e) => {
 |-----|-----|-----|-----|-----|
 | devEnv | Boolean | - | - | 是否开发环境 |
 | baseUrl | String | - | '' | 基础地址（加载资源地址）|
-| dracoUrl | String | - | - | draco 解码器文件地址（模型解码）|
+| dracoPath | String | - | - | draco 解码器文件路径（模型解码）|
+| basisPath | String | - | - | basis 解码器文件路径（模型解码）|
 | bgColor | String/Number | - | - | 背景色 |
 | skyCode | String | 216,217,218,219,220,221,222,223,224,225 | - | 天空 code（预存的天空图片组）|
 | bgUrl | String/Array | - | - | 背景图（数组时为 6 个一组，可生成空间图）|

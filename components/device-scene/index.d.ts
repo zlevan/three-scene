@@ -84,8 +84,10 @@ export declare interface Props {
   devEnv?: boolean
   // 基础地址（加载资源地址）
   baseUrl: string
-  // draco 解压文件地址
-  dracoUrl?: string
+  // draco 解压文件路径
+  dracoPath?: string
+  // basis 解压文件路径
+  basisPath?: string
   // 背景色
   bgColor?: string | number
   // 天空背景

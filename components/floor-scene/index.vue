@@ -77,7 +77,8 @@ import { useDialog } from '../../hooks/dialog'
 const { change: changeBackground, load: backgroundLoad } = useBackground()
 const { progress, loadModel, loadModels, getModel } = useModelLoader({
   baseUrl: props.baseUrl,
-  dracoPath: props.dracoUrl,
+  dracoPath: props.dracoPath,
+  basisPath: props.basisPath,
   colors: COLORS,
   colorMeshName: props.colorMeshName,
   indexDB: props.indexDB

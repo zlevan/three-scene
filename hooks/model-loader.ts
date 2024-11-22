@@ -2,6 +2,8 @@ import * as THREE from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js'
+import { KTX2Loader } from 'three/examples/jsm/loaders/KTX2Loader'
+import { MeshoptDecoder } from 'three/examples/jsm/libs/meshopt_decoder.module'
 
 import { deepMerge, getUrl } from '../utils'
 import * as UTILS from '../utils/model'
@@ -30,6 +32,7 @@ export declare interface Progress {
 export declare interface Options {
   baseUrl: string
   dracoPath: string
+  basisPath: string
   modelSizeKB: number
   colors: Colors
   loadCache: boolean
@@ -55,7 +58,9 @@ export const useModelLoader = (options: Params = {}) => {
       // 资源地址
       baseUrl: '',
       // draco 解压文件目录
-      dracoPath: '/draco/gltf/',
+      dracoPath: '/three/draco/gltf/',
+      // basis 解压文件目录
+      basisPath: '/three/basis/',
       // 模型 KB 倍数
       modelSizeKB: 1024 * 1024,
       // 颜色
@@ -127,6 +132,12 @@ export const useModelLoader = (options: Params = {}) => {
   dracoLoader.setDecoderPath(_options.baseUrl + _options.dracoPath)
   const loader = new GLTFLoader()
   loader.setDRACOLoader(dracoLoader)
+
+  const ktx2Loader = new KTX2Loader()
+  ktx2Loader.setTranscoderPath(_options.baseUrl + _options.basisPath)
+  loader.setKTX2Loader(ktx2Loader)
+
+  loader.setMeshoptDecoder(MeshoptDecoder)
 
   // 重置
   const reset = (length: number) => {
