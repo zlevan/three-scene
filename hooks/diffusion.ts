@@ -4,7 +4,7 @@ import * as THREE from 'three'
 export const useDiffusion = () => {
   let material: InstanceType<typeof THREE.Mesh>
 
-  const createDiffusion = (width = 10, color: number | string = 0xff0ff0) => {
+  const createDiffusion = (width = 10, color: number | string = 0xff0ff0, circle = 5) => {
     const geometry = new THREE.PlaneGeometry(width, width, 1, 1)
     const vertexShader = `
       varying vec2 vUv;
@@ -71,7 +71,7 @@ export const useDiffusion = () => {
         uColor: { value: new THREE.Color(color) },
         uOpacity: { value: 1 }, // 透明度
         uSpeed: { value: 0.1 }, // 速度
-        uSge: { value: 5 }, // 数量（圈数）
+        uSge: { value: circle }, // 数量（圈数）
         uRadius: { value: width / 2 },
         time: { value: 0.0 }
       },
