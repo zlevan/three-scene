@@ -45,6 +45,7 @@ export default class ThreeScene {
     const defaultOpts = defOptions
     // 配置
     this.options = deepMerge(defaultOpts, options)
+    console.log(this.options.camera)
     ThreeScene.total++
 
     this.pointer = {
@@ -296,9 +297,9 @@ export default class ThreeScene {
     const cruise = this.options.cruise
     cruise.enabled = false
     cruise.runing = false
-    const lookAtPos = this.controls.target
-    this.camera.lookAt(lookAtPos)
-    this.camera._lookAt_ = lookAtPos
+    // const lookAtPos = this.controls.target
+    // this.camera.lookAt(lookAtPos)
+    // this.camera._lookAt_ = lookAtPos
     if (cruise.baseUrl) {
       cruise.baseUrl = this.options.baseUrl
     }

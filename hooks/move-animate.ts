@@ -1,12 +1,22 @@
 import * as THREE from 'three'
-import { PathGeometry, PathPointList } from 'three.path'
+import type { XYZ } from '../types/model'
+
+export declare interface Options {
+  index: number
+  length: number
+  runing: boolean
+  model?: any
+  speed: number
+  endCallback?: (pos: XYZ) => void
+  rungingCall?: (pos: XYZ) => void
+}
 
 // 移动动画 move-animate
 export const useMoveAnimate = () => {
   // 曲线
   let cruiseCurve: InstanceType<typeof THREE.CatmullRomCurve3>
 
-  const options = {
+  const options: Options = {
     // 动画索引
     index: 0,
     // 总长度
@@ -14,13 +24,13 @@ export const useMoveAnimate = () => {
     // 运行中
     runing: false,
     // 模型
-    model: null,
+    model: void 0,
     // 速度
     speed: 1,
     // 结束回调
-    endCallback: null,
+    endCallback: void 0,
     // 运行中回调
-    rungingCall: null
+    rungingCall: void 0
   }
 
   const createMove = (model, moveTo, rungingCall?, endCallback?) => {
@@ -34,7 +44,7 @@ export const useMoveAnimate = () => {
     const distance = pos.distanceTo(moveTo)
     let len = Math.floor(distance / options.speed)
     if (len < 2) len = 2
-    console.log(len)
+
     const points = [pos, moveTo]
     cruiseCurve = new THREE.CatmullRomCurve3(points, false, 'catmullrom', 0)
     cruiseCurve = new THREE.CatmullRomCurve3(getAllPoints(len), false, 'catmullrom', 0)
