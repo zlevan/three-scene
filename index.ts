@@ -45,7 +45,7 @@ export default class ThreeScene {
     const defaultOpts = defOptions
     // 配置
     this.options = deepMerge(defaultOpts, options)
-    console.log(this.options.camera)
+
     ThreeScene.total++
 
     this.pointer = {
