@@ -327,9 +327,11 @@ export default class ThreeScene {
   }
 
   // 巡航启动或关闭
-  toggleCruise() {
-    const { visible, runing, auto } = this.options.cruise
+  toggleCruise(close?: boolean) {
+    let { visible, runing, auto } = this.options.cruise
     if (!visible) return
+    runing = close != void 0 ? close : runing
+    console.log(runing)
     this.options.cruise.runing = !runing
     this.options.cruise.enabled = !runing
     this.controls.enabled = auto || runing

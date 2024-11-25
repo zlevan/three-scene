@@ -36,25 +36,25 @@ export const get_P_S_R_param = (model, item, s: number = 1) => {
 }
 
 // 克隆材质
-const cloneMaterial = list => {
-  return list.map(el => {
-    if (el.children && el.children.length > 0) {
-      el.children = cloneMaterial(el.children)
-    } else if (el.material) {
-      if (el.material instanceof Array) {
-        el.material = el.material.map(el => el.clone())
-      } else {
-        el.material = el.material.clone()
-      }
-    }
-    return el
-  })
+const cloneMaterial = el => {
+  if (el.material instanceof Array) {
+    el.material = el.material.map(mat => mat.clone())
+  } else {
+    el.material = el.material.clone()
+  }
 }
 
 // 深克隆 // 防止数据感染
 export const deepClone = obj => {
   let model = obj.clone()
-  model.children = cloneMaterial(model.children)
+  if (obj.isMesh || obj.isSprite) {
+    cloneMaterial(obj)
+  }
+  model.traverse(el => {
+    if (el.isMesh) {
+      cloneMaterial(el)
+    }
+  })
   return model
 }
 
