@@ -310,9 +310,15 @@ export const useModelLoader = (options: Params = {}) => {
       loader.load(
         newUrl,
         glb => {
-          const group = new THREE.Group()
-          group.add(...glb.scene.children)
-          const del = modelNormalization(model, color as string | number, group, glb.animations)
+          const children = glb.scene.children
+          let object = new THREE.Group()
+          if (children.length > 1) {
+            object.add(...children)
+          } else {
+            object = children[children.length - 1]
+          }
+
+          const del = modelNormalization(model, color as string | number, object, glb.animations)
           dbStoreAdd(newUrl)
           resolve(del)
         },
