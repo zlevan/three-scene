@@ -246,7 +246,6 @@ export default class ThreeScene {
     if (!controls.visible) return
     // 创建控件
     const ctrl = new OrbitControls(this.camera, this.renderer.domElement)
-    console.log(controls)
     Object.keys(controls).forEach(key => {
       ctrl[key] = controls[key]
     })

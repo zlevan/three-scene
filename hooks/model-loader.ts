@@ -123,7 +123,9 @@ export const useModelLoader = (options: Params = {}) => {
     // local-本地标识，
     local: 'local',
     // disabled-禁用标识
-    disabled: 'disabled'
+    disabled: 'disabled',
+    // 聚光灯
+    spotlight: 'spotlight'
   }
 
   const modelMap = new Map()
@@ -155,7 +157,7 @@ export const useModelLoader = (options: Params = {}) => {
   // 计算加载大小
   const calcLoadSize = (models: ModelItem[]) => {
     for (let i = 0; i < models.length; i++) {
-      progress.total += models[i].size * _options.modelSizeKB
+      progress.total += (models[i].size || 0) * _options.modelSizeKB
     }
   }
 
@@ -246,7 +248,11 @@ export const useModelLoader = (options: Params = {}) => {
         }
       } else {
         // 数据库查询
-        const store = await IDB.getDataByKey(gDB, _options.indexDB?.tbName || DEFAULTCONFIG.indexdb.tbName, url)
+        const store = await IDB.getDataByKey(
+          gDB,
+          _options.indexDB?.tbName || DEFAULTCONFIG.indexdb.tbName,
+          url
+        )
         if (!!store && store.data) {
           const data = store.data
           if (typeof data === 'string') {
@@ -383,6 +389,31 @@ export const useModelLoader = (options: Params = {}) => {
     })
   }
 
+  // 创建聚光灯
+  const createSpotlight = (item: ModelItem) => {
+    const {
+      key,
+      color = 0xffffff,
+      intensity = 8,
+      distance = 10,
+      angle = Math.PI * 0.2,
+      penumbra = 0.2,
+      decay = 0
+    } = item
+    // 创建光源
+    // 点光源 (颜色、强度、距离、角度、半影衰减、衰减)
+    let spotLight = new THREE.SpotLight(color, intensity, distance, angle, penumbra, decay)
+    // 生产阴影
+    spotLight.castShadow = true
+    spotLight.visible = false
+    let s = 800
+    spotLight.shadow.camera.right = s
+    spotLight.shadow.camera.left = -s
+    spotLight.shadow.camera.top = s
+    spotLight.shadow.camera.bottom = -s
+    modelMap.set(key, spotLight)
+  }
+
   // 加载全部模型
   const loadModels = async (models: ModelItem[], onSuccess: Function, onProgress?: Function) => {
     await openDB()
@@ -418,12 +449,16 @@ export const useModelLoader = (options: Params = {}) => {
           item.key = MODEL_MAP.disabled
           await loadModel(item, onProgress)
           break
+        case MODEL_MAP.spotlight:
+          createSpotlight(item)
+          break
       }
 
       index++
       progress.loaded += size * _options.modelSizeKB
       // 加载完成
       if (index >= max) {
+        progress.percentage = 100
         progress.isEnd = true
         onSuccess()
       } else {

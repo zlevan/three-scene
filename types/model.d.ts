@@ -14,6 +14,7 @@ export declare type ModelType =
   | 'remote'
   | 'local'
   | 'disabled'
+  | 'spotlight'
 
 export declare interface ModelItem {
   // 模型 唯一 key（场景元素按照 对应 key 加载）
@@ -34,7 +35,21 @@ export declare interface ModelItem {
   // 精灵贴图
   repeat?: number[]
   // 精灵大小
-  range?: Pick<XYZ, 'x', 'y'>
+  range?: Pick<XYZ, 'x' | 'y'>
+
+  // ==== 灯光 ===
+  // 颜色
+  color?: string | number
+  // 强度
+  intensity?: number
+  // 距离
+  distance?: number
+  // 衰减
+  decay?: number
+  // 光线散射角度，最大为Math.PI/2。
+  angle?: number
+  // 聚光锥的半影衰减百分比。在0和1之间的值。默认为0。
+  penumbra?: number
 }
 
 export declare interface ObjectItem {

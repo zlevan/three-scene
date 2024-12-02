@@ -31,7 +31,17 @@ export default {
   },
   // 网格
   mesh: {
-    receiveShadowName: ['地面', '底座', '底板', '基础', '基础底座', '冷却塔基础']
+    receiveShadowName: [
+      '地面',
+      '底座',
+      '底板',
+      '基础',
+      '基础底座',
+      '冷却塔基础',
+      '草地',
+      'ground',
+      'Ground'
+    ]
   },
   // 模型类型
   keys: KEYS,
