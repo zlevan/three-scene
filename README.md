@@ -97,7 +97,7 @@ onMounted(() => {
 |-----|------|------|------|------|
 | visible | Boolean | - | false | 可见 |
 | enableDamping | Boolean | - | false | 阻尼（惯性）|
-| dampingFactor | Number | - | 0.25 | 阻尼系数，鼠标灵敏度 |
+| dampingFactor | Number | - | 0.25 | 阻尼系数，鼠标灵敏度(值越小惯性越大) |
 | autoRotate | Boolean | - | false | 自动旋转 |
 | maxPolarAngle | Number | - | - | 相机垂直旋转角度上限 | 
 | enableZoom | Boolean | - | true | 缩放 |
