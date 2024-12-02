@@ -12,20 +12,7 @@
 
     <div :class="$style.container" ref="containerRef"></div>
 
-    <div
-      class="loading"
-      :class="$style.loading"
-      :style="{ '--bg-color': bgColor ? String(bgColor) : '' }"
-      @dblclick.stop
-      v-if="progress.show"
-    >
-      <div :class="$style.progress" :style="{ '--percentage': progress.percentage + '%' }">
-        <div :class="$style['bar-out']">
-          <div :class="$style.bar"></div>
-        </div>
-        <div :class="$style.text">{{ progress.percentage }}%</div>
-      </div>
-    </div>
+    <t-loading v-model="progress.show" :progress="progress.percentage"></t-loading>
 
     <!-- 设备信息弹窗 -->
     <div :class="$style.dialog" v-if="dialog.show" :style="dialog.style">
@@ -35,6 +22,7 @@
 </template>
 
 <script lang="ts" setup>
+import tLoading from '../loading/index.vue'
 import { ref, watch, toRaw, onMounted, withDefaults, nextTick } from 'vue'
 import * as THREE from 'three'
 
