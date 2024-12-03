@@ -123,7 +123,7 @@ export const cameraInSceneAnimate = (
       .to(to, 1000)
       .easing(TWEEN.Easing.Quadratic.In)
       .start()
-      .onUpdate(pos => {
+      .onUpdate(() => {
         // 设置相机对焦位置
         camera.lookAt(at)
         camera._lookAt_ = at
@@ -132,6 +132,35 @@ export const cameraInSceneAnimate = (
         resolve(camera)
       })
   })
+}
+
+// 创建精灵动画
+export const createSpriteAnimate = (model, POS, range = 1, duration: number = 10) => {
+  // 创建动画
+  // 创建对象的关键帧数据
+  let times = [0, duration / 2, duration]
+  let values = [
+    ...POS, // 0
+    POS[0],
+    POS[1] + range,
+    POS[2], // 5
+    ...POS // 10
+  ]
+  let posTrack = new THREE.KeyframeTrack('sprite.position', times, values)
+  let clip = new THREE.AnimationClip('sprite_up_down', duration, [posTrack])
+
+  const mixer = new THREE.AnimationMixer(model)
+  const action = mixer.clipAction(clip)
+  // 暂停
+  // action.paused = true
+  // 动画速度
+  action.timeScale = 5
+  // 播放
+  action.play()
+  // 记录数据
+  model.__action__ = action
+  model.__mixer__ = mixer
+  return model
 }
 
 // 获取 3 维平面位置
