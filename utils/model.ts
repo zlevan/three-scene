@@ -59,7 +59,12 @@ export const deepClone = obj => {
 }
 
 // 材质替换
-export const replaceMaterial = (child: any, color: string | number = 0x676565, meshNames: string[], envMap?): void => {
+export const replaceMaterial = (
+  child: any,
+  color: string | number = 0x676565,
+  meshNames: string[],
+  envMap?
+): void => {
   const { type, name } = child
   // 灯光
   if (type.indexOf('Light') > -1) {
@@ -118,7 +123,7 @@ export const cameraInSceneAnimate = (
       .to(to, 1000)
       .easing(TWEEN.Easing.Quadratic.In)
       .start()
-      .onUpdate(() => {
+      .onUpdate(pos => {
         // 设置相机对焦位置
         camera.lookAt(at)
         camera._lookAt_ = at
@@ -192,7 +197,12 @@ export const getStatusOffset = (key, item, offset = {}) => {
 }
 
 // 创建文字
-export const createText = (item: ObjectItem, fontParser, color: string | number = 0xffffff, offset?) => {
+export const createText = (
+  item: ObjectItem,
+  fontParser,
+  color: string | number = 0xffffff,
+  offset?
+) => {
   const obj = getStatusOffset('TEXT', item, offset)
   let font = item.font || {}
   // 文字
@@ -230,7 +240,14 @@ export const createText = (item: ObjectItem, fontParser, color: string | number 
 }
 
 // 创建警告标识 key、数据、模型、光源半径、缩放
-export const createWarning = (key, item: ObjectItem, model, offset?, radius = 100, s: number = 1) => {
+export const createWarning = (
+  key,
+  item: ObjectItem,
+  model,
+  offset?,
+  radius = 100,
+  s: number = 1
+) => {
   if (!model) return
   const obj = getStatusOffset('WARNING', item, offset)
   let group = new THREE.Group()
@@ -263,10 +280,18 @@ export const createWarning = (key, item: ObjectItem, model, offset?, radius = 10
 
   // 创建颜色关键帧对象
   // 0 时刻对应颜色 1，0，0   .25时刻对应颜色 1，1，1 .75...
-  let colorKF = new THREE.KeyframeTrack('红色.material.color', [0, 0.25, 0.75], [1, 0, 0, 1, 1, 0, 1, 0, 0])
+  let colorKF = new THREE.KeyframeTrack(
+    '红色.material.color',
+    [0, 0.25, 0.75],
+    [1, 0, 0, 1, 1, 0, 1, 0, 0]
+  )
   let lightKF = new THREE.KeyframeTrack('灯光.color', [0, 0.25, 0.75], [1, 0, 0, 1, 1, 0, 1, 0, 0])
   // 创建名为Sphere对象的关键帧数据  从0~20时间段，尺寸scale缩放3倍
-  let scaleTrack = new THREE.KeyframeTrack('警告标识.scale', [0, 0.5, 1], [1, 1, 1, 1.2, 1.2, 2, 1, 1, 1])
+  let scaleTrack = new THREE.KeyframeTrack(
+    '警告标识.scale',
+    [0, 0.5, 1],
+    [1, 1, 1, 1.2, 1.2, 2, 1, 1, 1]
+  )
   // 多个帧动画作为元素创建一个剪辑 clip 对象，命名‘warning_’，持续时间1
   let clip = new THREE.AnimationClip(`warning_`, 1, [colorKF, lightKF, scaleTrack])
   let action = mixer.clipAction(clip)

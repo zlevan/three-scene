@@ -9,6 +9,8 @@ import defOptions from './options'
 import { useCruise } from './hooks/cruise'
 import { useGrid } from './hooks/grid'
 
+import type { XYZ } from './types/model'
+
 const { createCruise, cruiseAnimate, updateCruise, bindEvent, removeEvent } = useCruise()
 const { createFork } = useGrid()
 export default class ThreeScene {
@@ -413,6 +415,17 @@ export default class ThreeScene {
       position: this.camera.position,
       target: this.controls.target
     }
+  }
+
+  // 判断相机位置是否移动
+  isCameraMove(to: XYZ, threshold = 1) {
+    const pos = this.camera.position
+    // 坐标差距小于 threshold 则未移动
+    return (
+      Math.abs(pos.x - to.x) < threshold &&
+      Math.abs(pos.y - to.y) < threshold &&
+      Math.abs(pos.z - to.z) < threshold
+    )
   }
 
   // 添加对象到场景

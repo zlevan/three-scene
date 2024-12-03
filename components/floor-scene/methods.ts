@@ -21,7 +21,10 @@ export class FloorThreeScene extends ThreeScene {
   extend: Partial<ExtendOptions>
   // CSS2D 渲染器
   css2DRender: InstanceType<typeof CSS2DRenderer>
-  constructor(options: ConstructorParameters<typeof ThreeScene>[0], extend: Partial<ExtendOptions>) {
+  constructor(
+    options: ConstructorParameters<typeof ThreeScene>[0],
+    extend: Partial<ExtendOptions>
+  ) {
     super(options)
 
     this.extend = extend
@@ -218,12 +221,6 @@ export class FloorThreeScene extends ThreeScene {
     // 中心点位
     this.controls.target.set(target.x, target.y, target.z)
     return to
-  }
-
-  // 获取场景坐标
-  getPosition() {
-    console.log('视角', this.camera.position)
-    console.log('目标位置', this.controls.target)
   }
 
   resize() {

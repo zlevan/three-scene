@@ -24,7 +24,10 @@ export class DeviceThreeScene extends ThreeScene {
   extend: Partial<ExtendOptions>
   // 时间
   clock: InstanceType<typeof THREE.Clock>
-  constructor(options: ConstructorParameters<typeof ThreeScene>[0], extend: Partial<ExtendOptions>) {
+  constructor(
+    options: ConstructorParameters<typeof ThreeScene>[0],
+    extend: Partial<ExtendOptions>
+  ) {
     super(options)
 
     this.extend = extend
@@ -300,12 +303,6 @@ export class DeviceThreeScene extends ThreeScene {
       }
     })
     return runDev
-  }
-
-  // 获取场景坐标
-  getPosition() {
-    console.log('视角', this.camera.position)
-    console.log('目标位置', this.controls.target)
   }
 
   // 获取动画目标点
