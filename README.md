@@ -82,7 +82,8 @@ onMounted(() => {
 |-----|------|------|------|------|
 | visible | Boolean | - | false | 可见 |
 | near | Number | - | 100 | 雾化最近距离 |
-| far | Number | - | 1000 | 雾化最远距离
+| far | Number | - | 1000 | 雾化最远距离 |
+| color | Number/String | - | - | 雾化颜色 |
 
 ### Render
 | 属性名 | 类型 | 可选值 | 默认值 | 说明 |
