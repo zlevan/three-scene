@@ -7,7 +7,9 @@
       <div class="btn" @click="() => scene?.getPosition()">场景坐标</div>
       <div class="btn" @click="() => changeBackground(scene)">切换背景</div>
       <div class="btn" @click="() => scene?.controlReset()">控制器重置</div>
-      <div class="btn" v-if="cruise.visible" @click="() => scene?.toggleCruiseDepthTest()">巡航深度</div>
+      <div class="btn" v-if="cruise.visible" @click="() => scene?.toggleCruiseDepthTest()">
+        巡航深度
+      </div>
     </div>
     <div :class="$style.container" ref="containerRef"></div>
 
@@ -15,7 +17,12 @@
 
     <!-- 设备信息弹窗 -->
     <div :class="$style.dialog" v-if="dialog.show" :style="dialog.style">
-      <slot name="dialog" :data="dialog.data" :title="dialog.title" :position="dialog.position"></slot>
+      <slot
+        name="dialog"
+        :data="dialog.data"
+        :title="dialog.title"
+        :position="dialog.position"
+      ></slot>
     </div>
   </div>
 </template>
@@ -228,6 +235,7 @@ const isCameraMove = (to: XYZ) => {
 const fllowModelAnimate = (mode: string, items: ThreeModelItem[], cy: number, cz: number) => {
   if (items.length === 0) return
 
+  console.log(items)
   items.forEach(el => {
     const pos = el._position_
     const ty = mode == 'UD' ? (pos?.y ?? 0) + cy : pos?.y ?? 0
@@ -369,7 +377,9 @@ const loopLoadObject = async (item: ObjectItem) => {
     // 主体网格
     if (props.mainBodyChangeColor) {
       const children = model.children[0]?.children || []
-      const mesh = children.filter(it => (props.mainBodyMeshName || []).some(t => it.name.indexOf(t) > -1))
+      const mesh = children.filter(it =>
+        (props.mainBodyMeshName || []).some(t => it.name.indexOf(t) > -1)
+      )
       const cobj = COLORS.normal
       let color = cobj.main || cobj.color
       let colrs = UTILS.getColorArr(color)
@@ -420,6 +430,11 @@ const loopLoadObject = async (item: ObjectItem) => {
     // 原始点位 备用
     model._position_ = { x, y, z }
     model._isFloor_ = true
+  }
+
+  // 记录备用坐标(更随标记)
+  if (item.followMark || item.mark) {
+    model._position_ = { x, y, z }
   }
 
   // 锚点
