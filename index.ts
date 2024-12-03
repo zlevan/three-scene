@@ -143,6 +143,7 @@ export default class ThreeScene {
     if (this.options.fog.visible) {
       const { color, near, far } = this.options.fog
       this.scene.fog = new THREE.Fog(color ?? this.scene.background, near, far)
+      // this.scene.fog = new THREE.FogExp2(0xefd1b5, 0.0005)
     }
 
     // 渲染顺序
