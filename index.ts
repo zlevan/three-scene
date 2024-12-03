@@ -404,6 +404,16 @@ export default class ThreeScene {
     link.click()
   }
 
+  // 获取场景坐标
+  getPosition() {
+    console.log('camera.position', this.camera.position)
+    console.log('controls.target', this.controls.target)
+    return {
+      position: this.camera.position,
+      target: this.controls.target
+    }
+  }
+
   // 添加对象到场景
   addObject(...objects: object[]) {
     this.scene.add(...objects)
