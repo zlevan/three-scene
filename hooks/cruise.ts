@@ -120,12 +120,22 @@ export const useCruise = () => {
   const createHelper = (group, points) => {
     eye = new THREE.Mesh(
       new THREE.SphereGeometry(2),
-      new THREE.MeshBasicMaterial({ color: 0x000000, opacity: 0.8, depthTest: false, transparent: true })
+      new THREE.MeshBasicMaterial({
+        color: 0x000000,
+        opacity: 0.8,
+        depthTest: false,
+        transparent: true
+      })
     )
     group.add(eye)
 
     const geo = new THREE.BufferGeometry().setFromPoints(points.concat(points[0]))
-    const material = new THREE.LineBasicMaterial({ color: 0x0000ff, opacity: 1, depthTest: false, transparent: true })
+    const material = new THREE.LineBasicMaterial({
+      color: 0x0000ff,
+      opacity: 1,
+      depthTest: false,
+      transparent: true
+    })
     const mesh = new THREE.Line(geo, material)
     group.add(mesh)
 

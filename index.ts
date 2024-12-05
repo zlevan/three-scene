@@ -334,7 +334,7 @@ export default class ThreeScene {
     let { visible, runing, auto } = this.options.cruise
     if (!visible) return
     runing = close != void 0 ? close : runing
-    console.log(runing)
+
     this.options.cruise.runing = !runing
     this.options.cruise.enabled = !runing
     this.controls.enabled = auto || runing
@@ -441,6 +441,7 @@ export default class ThreeScene {
   // 控制重置
   controlReset() {
     this.controls.reset()
+    this.toggleCruise(true)
   }
 
   // 重置画布大小

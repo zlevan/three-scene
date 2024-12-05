@@ -134,6 +134,23 @@ export const cameraInSceneAnimate = (
   })
 }
 
+// 相机聚焦转场
+export const cameraLookatAnimate = (
+  camera: InstanceType<typeof THREE.PerspectiveCamera>,
+  to: XYZ,
+  target: InstanceType<typeof THREE.Vector3>
+) => {
+  new TWEEN.Tween(target)
+    .to(to, 1000)
+    .easing(TWEEN.Easing.Quadratic.In)
+    .start()
+    .onUpdate(pos => {
+      // 设置相机对焦位置
+      camera.lookAt(pos)
+      camera._lookAt_ = pos
+    })
+}
+
 // 创建精灵动画
 export const createSpriteAnimate = (model, POS, range = 1, duration: number = 10) => {
   // 创建动画

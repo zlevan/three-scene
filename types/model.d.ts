@@ -21,7 +21,7 @@ export declare interface ModelItem {
   key: string
   name: string
   // 模型文件大小 （M 为单位）
-  size: number
+  size?: number
   // 模型加载地址
   url?: string
   // 模型类型
