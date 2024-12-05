@@ -81,6 +81,7 @@ export const replaceMaterial = (
   } else if (child.isMesh) {
     envMap && (child.material.envMap = envMap)
     child.castShadow = true
+    child.receiveShadow = true
   }
 }
 
@@ -99,6 +100,8 @@ export const getColorArr = (color: Color) => {
 export const setMaterialColor = (e: any, color: number | string): void => {
   e.traverse(el => {
     if (el.isMesh) {
+      el.castShadow = true
+      el.receiveShadow = true
       if (Array.isArray(el.material)) {
         el.material.forEach(mt => {
           mt.color.set(color)

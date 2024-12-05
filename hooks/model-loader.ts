@@ -8,41 +8,15 @@ import { MeshoptDecoder } from 'three/examples/jsm/libs/meshopt_decoder.module'
 import { deepMerge, getUrl } from '../utils'
 import * as UTILS from '../utils/model'
 import type { ModelItem } from '../types/model'
-import type { Colors } from '../types/color'
-import type { IndexDB } from '../types/indexdb'
 
 import { reactive } from 'vue'
 
 import * as IDB from '../utils/indexdb'
 import DEFAULTCONFIG from '../config'
-export declare interface ProgressListItem {
-  name: string
-  percentage: number
-}
 
-export declare interface Progress {
-  percentage: number
-  show: boolean
-  isEnd: boolean
-  list: ProgressListItem[]
-  total: number
-  loaded: number
-}
+import type { Progress, Options, VtOptions } from '../types/model-loader'
 
-export declare interface Options {
-  baseUrl: string
-  dracoPath: string
-  basisPath: string
-  modelSizeKB: number
-  colors: Colors
-  loadCache: boolean
-  colorMeshName: string[]
-  indexDB: IndexDB
-}
-
-export declare type Params = import('../types/utils').DeepPartial<Options>
-
-export const useModelLoader = (options: Params = {}) => {
+export const useModelLoader = (options: import('../types/utils').DeepPartial<Options> = {}) => {
   // 数据库
   let gDB: IDBDatabase
 
@@ -471,11 +445,79 @@ export const useModelLoader = (options: Params = {}) => {
   // 获取缓存模型
   const getModel = key => modelMap.get(key)
 
+  // 设置模型虚化
+  const setModelVirtualization = (
+    model,
+    opts: import('../types/utils').DeepPartial<VtOptions> = {}
+  ) => {
+    // 默认参数
+    opts = deepMerge(
+      {
+        color: 0x00e0ff,
+        wireframe: true,
+        opacity: 0.5
+      },
+      opts
+    )
+    model.traverse(el => {
+      if (el.isMesh) {
+        if (!el.__material__) {
+          el.__material__ = el.material
+        }
+        el.material = new THREE.MeshBasicMaterial({
+          color: opts.color,
+          wireframe: opts.wireframe,
+          transparent: true,
+          opacity: opts.opacity
+        })
+      }
+    })
+  }
+
+  // 虚化模型 其他模型传入则虚化除目标之外的模型
+  const virtualization = (
+    model: any,
+    models: any[] = [],
+    opts: import('../types/utils').DeepPartial<VtOptions> = {}
+  ) => {
+    if (models.length) {
+      for (let i = 0; i < models.length; i++) {
+        const mod = models[i]
+        if (model.uuid !== mod.uuid) {
+          setModelVirtualization(mod, opts)
+        }
+      }
+    } else {
+      // 虚化材质
+      setModelVirtualization(model, opts)
+    }
+  }
+
+  const closeVirtualization = (model: any) => {
+    if (Array.isArray(model)) {
+      for (let i = 0; i < model.length; i++) {
+        model[i].traverse(el => {
+          if (el.isMesh && el.__material__) {
+            el.material = el.__material__
+          }
+        })
+      }
+    } else {
+      model.traverse(el => {
+        if (el.isMesh && el.__material__) {
+          el.material = el.__material__
+        }
+      })
+    }
+  }
+
   return {
     progress,
     MODEL_MAP,
     loadModel,
     loadModels,
-    getModel
+    getModel,
+    virtualization,
+    closeVirtualization
   }
 }
