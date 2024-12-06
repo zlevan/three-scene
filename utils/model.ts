@@ -143,15 +143,49 @@ export const cameraLookatAnimate = (
   to: XYZ,
   target: InstanceType<typeof THREE.Vector3>
 ) => {
-  new TWEEN.Tween(target)
-    .to(to, 1000)
-    .easing(TWEEN.Easing.Quadratic.In)
-    .start()
-    .onUpdate(pos => {
-      // 设置相机对焦位置
-      camera.lookAt(pos)
-      camera._lookAt_ = pos
-    })
+  return new Promise(resolve => {
+    new TWEEN.Tween(target)
+      .to(to, 1000)
+      .easing(TWEEN.Easing.Quadratic.In)
+      .start()
+      .onUpdate(pos => {
+        // 设置相机对焦位置
+        camera.lookAt(pos)
+        camera._lookAt_ = pos
+      })
+      .onComplete(() => {
+        resolve(camera)
+      })
+  })
+}
+
+// 相机于控制联动动画
+export const cameraLinkageControlsAnimate = (
+  controls: any,
+  camera: InstanceType<typeof THREE.PerspectiveCamera>,
+  to: XYZ,
+  target: InstanceType<typeof THREE.Vector3>
+) => {
+  return new Promise(resolve => {
+    new TWEEN.Tween(camera.position)
+      .to(to, 1000)
+      .easing(TWEEN.Easing.Quadratic.In)
+      .start()
+      .onUpdate(() => {
+        // 设置相机对焦位置
+        const at = controls.target
+        camera.lookAt(at)
+        camera._lookAt_ = at
+      })
+
+    new TWEEN.Tween(controls.target)
+      .to(target, 1000)
+      .easing(TWEEN.Easing.Quadratic.In)
+      .start()
+      .onComplete(() => {
+        resolve(camera)
+      })
+  })
 }
 
 // 创建精灵动画
