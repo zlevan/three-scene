@@ -85,11 +85,7 @@ export const useFence = () => {
     const group = new THREE.Group()
 
     var boxHelper = new THREE.BoxHelper(model, color)
-    // 更新
     boxHelper.update()
-    // 获取模型的包围盒
-    const box = new THREE.Box3().setFromObject(model)
-
     const pos = boxHelper.geometry.getAttribute('position').array
 
     const arr: any[] = []
