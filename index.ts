@@ -487,11 +487,9 @@ export default class ThreeScene {
       if (el.geometry) el.geometry.dispose()
 
       el?.clear()
-      el = null
     })
     obj?.clear()
     this.scene.remove(obj)
-    obj = null
   }
 
   // 销毁
@@ -505,7 +503,7 @@ export default class ThreeScene {
       this.renderer.dispose()
       this.renderer.forceContextLoss()
       this.renderer.content = null
-      console.log(this.scene)
+
       let gl = this.renderer.domElement.getContext('webgl')
       gl && gl.getExtension('WEBGL_lose_context').loseContext()
 
@@ -517,7 +515,6 @@ export default class ThreeScene {
       this.grid = null
       this.cruiseGroup = null
       this.container.innerHTML = ''
-      console.log(this)
     } catch (e) {
       console.log(e)
     }
