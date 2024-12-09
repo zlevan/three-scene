@@ -84,8 +84,11 @@ export declare interface Cruise {
   segment: number
   index: number
   helper: boolean
+  close: boolean
   auto: boolean
-  animateBack: ((position: any, lookAt: any, cruiseCurve: any, progress: number) => void) | undefined
+  animateBack:
+    | ((position: any, lookAt: any, cruiseCurve: any, progress: number) => void)
+    | undefined
 }
 
 export declare interface Options {

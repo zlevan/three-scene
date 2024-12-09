@@ -21,6 +21,8 @@ const getOpts = () => ({
   points: [],
   // 分段
   segment: 2,
+  // 闭合
+  close: true,
   // 曲线张力
   tension: 0,
   // 基础地址
@@ -62,7 +64,7 @@ export const useCruise = () => {
     // 默认参数
     _options = deepMerge(getOpts(), options)
 
-    const { points, tension, mapUrl, baseUrl, repeat, width, helper } = _options
+    const { points, tension, mapUrl, baseUrl, repeat, width, helper, close } = _options
 
     const newPoints: InstanceType<typeof THREE.Vector3>[] = []
     for (let i = 0; i < points.length; i++) {
@@ -71,8 +73,8 @@ export const useCruise = () => {
     }
     // CatmullRomCurve3( 点位、曲线闭合、曲线类型、类型catmullrom时张力默认 0.5)
     // 曲线类型：centripetal、chordal和catmullrom
-    cruiseCurve = new THREE.CatmullRomCurve3(newPoints, true, 'catmullrom', tension ?? 0)
-    cruiseCurve = new THREE.CatmullRomCurve3(getAllPoints(), true, 'catmullrom', tension ?? 0)
+    cruiseCurve = new THREE.CatmullRomCurve3(newPoints, close, 'catmullrom', tension ?? 0)
+    cruiseCurve = new THREE.CatmullRomCurve3(getAllPoints(), close, 'catmullrom', tension ?? 0)
     const group = new THREE.Group()
 
     texture = new THREE.TextureLoader().load(getUrl(mapUrl, baseUrl), tx => {

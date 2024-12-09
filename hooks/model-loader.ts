@@ -290,6 +290,7 @@ export const useModelLoader = (options: import('../types/utils').DeepPartial<Opt
       loader.load(
         newUrl,
         glb => {
+          console.log(glb, key, newUrl)
           const children = glb.scene.children
           let object = new THREE.Group()
           if (children.length > 1) {

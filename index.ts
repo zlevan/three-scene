@@ -478,7 +478,7 @@ export default class ThreeScene {
     obj?.clear()
   }
 
-  // 清除对象缓存
+  // 销毁对象
   disposeObj(obj) {
     if (!obj || !obj.traverse) return
     obj.traverse(el => {
@@ -487,21 +487,37 @@ export default class ThreeScene {
       if (el.geometry) el.geometry.dispose()
 
       el?.clear()
+      el = null
     })
     obj?.clear()
     this.scene.remove(obj)
+    obj = null
   }
 
   // 销毁
   dispose() {
     removeEvent()
+    this.stopAnimate()
     try {
+      THREE.Cache.clear()
+      this.disposeObj(this.scene)
       this.scene.clear()
       this.renderer.dispose()
       this.renderer.forceContextLoss()
       this.renderer.content = null
+      console.log(this.scene)
       let gl = this.renderer.domElement.getContext('webgl')
       gl && gl.getExtension('WEBGL_lose_context').loseContext()
+
+      this.scene = null
+      this.renderer = null
+      this.baseCamera = null
+      this.cruiseCamera = null
+      this.controls = null
+      this.grid = null
+      this.cruiseGroup = null
+      this.container.innerHTML = ''
+      console.log(this)
     } catch (e) {
       console.log(e)
     }

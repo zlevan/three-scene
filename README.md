@@ -158,6 +158,7 @@ onMounted(() => {
 | helper | Boolean | - | false | 辅助器 |
 | points | Array | - | [] | 巡航点位 |
 | segment | Number | - | 2 | 巡航分段数 |
+| close | Boolean | - | true | 路径闭合 |
 | tension | Number | - | 0 | 巡航曲线张力 |
 | mapUrl | String | - | - | 贴图地址 |
 | repeat | Array | - | [0.1, 1] | 贴图重复 |

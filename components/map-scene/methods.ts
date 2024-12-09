@@ -61,8 +61,12 @@ const transformUrl = (defaultUrl, url, baseUrl) => {
 // 创建地图材质
 const createMaptexture = (config, baseUrl) => {
   textureMap = textureLoader.load(transformUrl(getImgUrl('gz-map.jpg'), config.map.map, baseUrl))
-  normalTextureMap = textureLoader.load(transformUrl(getImgUrl('gz-map-fx.jpg'), config.map.normal, baseUrl))
-  sideTextureMap = textureLoader.load(transformUrl(getImgUrl('border.png'), config.map.side, baseUrl))
+  normalTextureMap = textureLoader.load(
+    transformUrl(getImgUrl('gz-map-fx.jpg'), config.map.normal, baseUrl)
+  )
+  sideTextureMap = textureLoader.load(
+    transformUrl(getImgUrl('border.png'), config.map.side, baseUrl)
+  )
   // 材质属性设置
   textureMap.wrapS = normalTextureMap.wrapS = sideTextureMap.wrapS = THREE.RepeatWrapping
   textureMap.wrapT = normalTextureMap.wrapT = sideTextureMap.wrapT = THREE.RepeatWrapping
@@ -73,8 +77,12 @@ const createMaptexture = (config, baseUrl) => {
   textureMap.repeat.set(scale, scale)
   normalTextureMap.repeat.set(scale, scale)
 
-  outCircleTexture = textureLoader.load(transformUrl(getImgUrl('out-circle.png'), config.map.bgOutCircle, baseUrl))
-  innerRingTexture = textureLoader.load(transformUrl(getImgUrl('inner-circle.png'), config.map.bgInnerCircle, baseUrl))
+  outCircleTexture = textureLoader.load(
+    transformUrl(getImgUrl('out-circle.png'), config.map.bgOutCircle, baseUrl)
+  )
+  innerRingTexture = textureLoader.load(
+    transformUrl(getImgUrl('inner-circle.png'), config.map.bgInnerCircle, baseUrl)
+  )
 }
 
 // 创建地图块
@@ -245,12 +253,20 @@ const createScatter = (_this, longitude: number, latitude: number) => {
   const size = 0.2 * scale
   // 圆盘
   const circle = new THREE.CircleGeometry(size, 32)
-  const circleMat = new THREE.MeshBasicMaterial({ color: COLOR.scatterColor1, transparent: true, opacity: 1 })
+  const circleMat = new THREE.MeshBasicMaterial({
+    color: COLOR.scatterColor1,
+    transparent: true,
+    opacity: 1
+  })
   const circleMesh = new THREE.Mesh(circle, circleMat)
 
   // 半球
   const sphere = new THREE.SphereGeometry(size * 0.8, 32, 32, 0, Math.PI)
-  const sphereMat = new THREE.MeshBasicMaterial({ color: COLOR.scatterColor2, transparent: true, opacity: 1 })
+  const sphereMat = new THREE.MeshBasicMaterial({
+    color: COLOR.scatterColor2,
+    transparent: true,
+    opacity: 1
+  })
   const sphereMesh = new THREE.Mesh(sphere, sphereMat)
   group.add(circleMesh, sphereMesh)
   group.position.set(longitude * scale, latitude * scale, depth * scale * 1.005)
@@ -611,7 +627,9 @@ export class MapThreeScene extends ThreeScene {
     this.mapGroup.traverse(el => {
       if (el.isProvinceBlock) {
         el.material[0].color.set(el.parent.uuid === puuid ? this.color.mainHover : this.color.main)
-        el.material[1].color.set(el.parent.uuid === puuid ? this.color.borderHoverColor : this.color.borderColor)
+        el.material[1].color.set(
+          el.parent.uuid === puuid ? this.color.borderHoverColor : this.color.borderColor
+        )
       } else if (el.isLabel) {
         const isTarget = el.parent.uuid === puuid
         el.element.className = `map-3D-label${isTarget ? ' is-active' : ''}`
@@ -712,5 +730,26 @@ export class MapThreeScene extends ThreeScene {
       const { width, height } = this.options
       this.css3DRender.setSize(width, height)
     }
+  }
+
+  dispose() {
+    this.disposeObj(this.corrugatedPlate)
+    this.disposeObj(this.mapGroup)
+    this.disposeObj(this.scatterGroup)
+    this.disposeObj(this.flywireGroup)
+    this.disposeObj(this.outline)
+    this.disposeObj(this.outRingMesh)
+    this.disposeObj(this.innerRingMesh)
+
+    this.clock = null
+    this.css3DRender = null
+    this.corrugatedPlate = null
+    this.mapGroup = null
+    this.scatterGroup = null
+    this.flywireGroup = null
+    this.outline = null
+    this.outRingMesh = null
+    this.innerRingMesh = null
+    super.dispose()
   }
 }

@@ -324,4 +324,18 @@ export class DeviceThreeScene extends ThreeScene {
     const { width, height } = this.options
     this.css2DRender.setSize(width, height)
   }
+
+  dispose() {
+    this.disposeObj(this.deviceGroup)
+    this.disposeObj(this.dotGroup)
+    this.disposeObj(this.pipeGroup)
+
+    this.clock = null
+    this.css2DRender = null
+    this.deviceGroup = null
+    this.dotGroup = null
+    this.pipeGroup = null
+    this.extend = {}
+    super.dispose()
+  }
 }
