@@ -232,14 +232,22 @@ export default class ThreeScene {
   initCamera() {
     const { width, height, camera } = this.options
     // 透视投影相机对象 参数（现场角度，窗口长宽比，开始渲染位置，结束渲染位置）
-    const cam = new THREE.PerspectiveCamera(36, width / height, camera.near, camera.far)
+    let cam = new THREE.PerspectiveCamera(36, width / height, camera.near, camera.far)
+
+    if (camera.orthogonal) {
+      let k = width / height,
+        s = 260
+      // 创建相机对象 参数（左边界，右边界，上边界，下边界，开始渲染位置，结束渲染位置）
+      cam = new THREE.OrthographicCamera(-s * k, s * k, s, -s, camera.near, camera.far)
+    }
+
     // 相机位置
     cam.position.set(...camera.position)
     if (camera.helper) {
       const helper = new THREE.CameraHelper(cam)
       this.addObject(helper)
     }
-    this.addObject(cam)
+
     return cam
   }
 

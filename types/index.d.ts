@@ -46,6 +46,7 @@ export declare interface Camera {
   helper: boolean
   near: number
   far: number
+  orthogonal: boolean
   position: [number, number, number]
 }
 
