@@ -36,25 +36,42 @@ export default {
   controls: {
     // 是否开启
     visible: true,
-    // 阻尼
+    // 自动旋转
+    autoRotate: false,
+    // 自动旋转速度
+    autoRotateSpeed: 2.0,
+    // 阻尼(惯性)
     enableDamping: false,
     // 阻尼系数，鼠标灵敏度
     dampingFactor: 0.25,
-    // 自动旋转
-    autoRotate: false,
-    // 相机垂直旋转角度的上限
-    // maxPolarAngle: Math.PI * 0.46,
 
+    // 相机平移（右键拖拽）
+    enablePan: true,
+    // 相机旋转
+    enableRotate: true,
     // 缩放
     enableZoom: true,
-    // 右键拖拽
-    enablePan: true,
-    // 垂直平移
-    screenSpacePanning: true,
-    // 相机距离原点最近距离
+
+    // 旋转角度上限
+    maxAzimuthAngle: Infinity,
+    // 旋转角度下限
+    minAzimuthAngle: Infinity,
+    // 相机最近距离
     minDistance: 1,
-    // 相机距离原点最远距离
-    maxDistance: 2000
+    // 相机最远距离
+    maxDistance: 2000,
+
+    // 垂直角度下限
+    minPolarAngle: 0,
+    // 垂直角度上限
+    maxPolarAngle: Math.PI,
+    // 目标移动半径
+    maxTargetRadius: Infinity,
+
+    // 旋转速度
+    rotateSpeed: 1,
+    // 空间内平移/垂直平面平移
+    screenSpacePanning: true
   },
   // 环境光
   ambientLight: {

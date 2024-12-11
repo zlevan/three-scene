@@ -14,16 +14,22 @@ export declare interface Render {
 
 export declare interface Controls {
   visible: boolean
+  autoRotate: boolean
+  autoRotateSpeed: number
   enableDamping: boolean
   dampingFactor: number
-  autoRotate: boolean
-  minPolarAngle: number
-  maxPolarAngle: number
-  enableZoom: boolean
   enablePan: boolean
-  screenSpacePanning: boolean
+  enableRotate: boolean
+  enableZoom: boolean
+  maxAzimuthAngle: number
+  minAzimuthAngle: number
   minDistance: number
   maxDistance: number
+  minPolarAngle: number
+  maxPolarAngle: number
+  maxTargetRadius: number
+  rotateSpeed: number
+  screenSpacePanning: boolean
 }
 
 export declare interface AmbientLight {

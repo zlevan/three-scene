@@ -97,15 +97,24 @@ onMounted(() => {
 | 属性名 | 类型 | 可选值 | 默认值 | 说明 |
 |-----|------|------|------|------|
 | visible | Boolean | - | false | 可见 |
+| autoRotate | Boolean | - | false | 自动旋转 |
+| autoRotateSpeed | Boolean | - | 2 | 自动旋转速度 |
 | enableDamping | Boolean | - | false | 阻尼（惯性）|
 | dampingFactor | Number | - | 0.25 | 阻尼系数，鼠标灵敏度(值越小惯性越大) |
-| autoRotate | Boolean | - | false | 自动旋转 |
-| maxPolarAngle | Number | - | - | 相机垂直旋转角度上限 | 
+| enablePan | Boolean | - | true | 相机平移（右键拖拽） |
+| enableRotate | Boolean | - | true | 相机旋转 |
 | enableZoom | Boolean | - | true | 缩放 |
-| enablePan | Boolean | - | true | 右键拖拽 |
-| screenSpacePanning | Boolean | - | true | 相机垂直平移 |
-| minDistance | Number | - | 1 | 相机距离原点最近距离 |
-| maxDistance | Number | - | 2000 | 相机距离原点最远距离 |
+| maxAzimuthAngle | Number | - | Infinity | 旋转角度上限 |
+| minAzimuthAngle | Number | - | Infinity | minAzimuthAngle |
+| minDistance | Number | - | 1 | 相机最近距离 |
+| maxDistance | Number | - | 2000 | 相机最远距离 |
+| minPolarAngle | Number | - | 0 | 垂直角度下限 |
+| maxPolarAngle | Number | - | Math.PI | 垂直角度上限 | 
+| maxTargetRadius | Number | - | Infinity | 目标移动半径 | 
+| rotateSpeed | Number | - | 1 | 旋转速度 | 
+| screenSpacePanning | Boolean | - | true | 空间内平移/垂直平面平移 |
+
+
 
 ### AmbientLight
 | 属性名 | 类型 | 可选值 | 默认值 | 说明 |
