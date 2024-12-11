@@ -539,6 +539,9 @@ export default class ThreeScene {
       let gl = this.renderer.domElement.getContext('webgl')
       gl && gl.getExtension('WEBGL_lose_context').loseContext()
 
+      this.disposeObj(this.cruiseGroup)
+      this.disposeObj(this.grid)
+
       this.scene = null
       this.renderer = null
       this.baseCamera = null
