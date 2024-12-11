@@ -243,6 +243,8 @@ export default class ThreeScene {
 
     // 相机位置
     cam.position.set(...camera.position)
+    // 未添加控制轨道则需要设置 lookat 否则渲染无效
+    cam.lookAt(0, 0, 0)
     if (camera.helper) {
       const helper = new THREE.CameraHelper(cam)
       this.addObject(helper)
