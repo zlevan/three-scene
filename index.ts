@@ -452,6 +452,30 @@ export default class ThreeScene {
     this.toggleCruise(true)
   }
 
+  // 获取有效的目标点 并设置中心点
+  getValidTargetPosition(
+    config: {
+      to?: XYZ
+      target?: XYZ
+    },
+    _to?: XYZ,
+    _target?: XYZ,
+    defaultTo: XYZ = {
+      x: -104,
+      y: 7,
+      z: 58
+    }
+  ) {
+    const to = _to || config.to || defaultTo
+    const target = _target || config.target || { x: 0, y: 0, z: 0 }
+    const ctr = this.controls
+    if (ctr && ctr.target) {
+      // 中心点位
+      ctr.target.set(target.x, target.y, target.z)
+    }
+    return to
+  }
+
   // 重置画布大小
   resize() {
     // 重新设置宽高
