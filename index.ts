@@ -67,9 +67,9 @@ export default class ThreeScene {
     this.scene = new THREE.Scene()
 
     this.renderer = this.initRenderer()
-    this.init()
     this.baseCamera = this.initCamera()
     this.controls = this.initControls()
+    this.init()
     this.initCruise()
     console.log(this)
   }
@@ -543,6 +543,7 @@ export default class ThreeScene {
 
       this.disposeObj(this.cruiseGroup)
       this.disposeObj(this.grid)
+      if (this.controls) this.controls.dispose()
 
       this.scene = null
       this.renderer = null
