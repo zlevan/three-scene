@@ -3,7 +3,7 @@ import { PathGeometry, PathPointList } from 'three.path'
 
 import { deepMerge, getUrl } from '../utils'
 import type { Cruise as Options } from '../types/index'
-export declare type Params = import('../types/utils').DeepPartial<Options>
+type Params = import('../types/utils').DeepPartial<Options>
 
 import { getTextturesUrl } from '../utils/asssets'
 

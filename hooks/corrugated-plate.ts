@@ -1,18 +1,10 @@
 import * as THREE from 'three'
 import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils.js'
 
+import type { Options } from '../types/corrugated-plate'
 import { deepMerge } from '../utils'
 
-export declare interface Options {
-  range: number
-  interval: number
-  size: number
-  color: string | number
-  light: string | number
-  factor: number
-}
-
-export declare type Params = import('../types/utils').DeepPartial<Options>
+type Params = import('../types/utils').DeepPartial<Options>
 
 export const useCorrugatedPlate = (options: Params = {}) => {
   // 默认参数
