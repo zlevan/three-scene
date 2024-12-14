@@ -5,8 +5,10 @@ export const useCSS2D = () => {
   const initCSS2DRender = (options: { width: number; height: number }, container: HTMLElement) => {
     const { width, height } = options
     const CSS2DRender = new CSS2DRenderer()
+
     // 设置渲染器的尺寸
     CSS2DRender.setSize(width, height)
+
     // 容器 css 样式
     CSS2DRender.domElement.style.position = 'absolute'
     CSS2DRender.domElement.style.left = '0px'
