@@ -28,6 +28,7 @@ export const useCountryLine = () => {
       const coordinates = element.geometry.coordinates
       for (let j = 0; j < coordinates.length; j++) {
         const coords = coordinates[j]
+
         // 每一块的点数据
         const points: InstanceType<typeof THREE.Vector3>[] = []
         if (lineType === 'Line2') {
@@ -88,6 +89,7 @@ export const useCountryLine = () => {
       geometry.setPositions(points)
       line = new Line2(geometry, material)
       line.name = 'countryLine2'
+
       // 计算线段距离
       line.computeLineDistances()
     } else {
