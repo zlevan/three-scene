@@ -1,6 +1,6 @@
 import * as TWEEN from 'three/examples/jsm/libs/tween.module.js'
 
-import { deepMerge, getUrl } from '../utils'
+import { deepMerge } from '../utils'
 import type { Options } from '../types/floor'
 
 type Params = import('../types/utils').DeepPartial<Options>
