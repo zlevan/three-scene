@@ -5,9 +5,7 @@ import { deepMerge, getUrl } from '../utils'
 import type { Cruise as Options } from '../types/index'
 export declare type Params = import('../types/utils').DeepPartial<Options>
 
-const getImgUrl = jpg => {
-  return new URL(`../assets/imgs/texttures/${jpg}`, import.meta.url).href
-}
+import { getTextturesUrl } from '../utils/asssets'
 
 const getOpts = () => ({
   visible: true,
@@ -28,7 +26,7 @@ const getOpts = () => ({
   // 基础地址
   baseUrl: '',
   // 贴图地址
-  mapUrl: getImgUrl('arrow.png'),
+  mapUrl: getTextturesUrl('arrow.png'),
   // 贴图重复
   repeat: [0.1, 1],
   // 宽度
