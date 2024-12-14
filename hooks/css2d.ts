@@ -24,7 +24,7 @@ export const useCSS2D = () => {
     name: string
     className?: string
     position?: [number, number, number]
-    onClick?: (e: Event) => void
+    onClick?: (e: Event, label: InstanceType<typeof CSS2DObject>) => void
   }) => {
     const { name, className = '', onClick, position } = options
     const dom = document.createElement('div')
@@ -35,7 +35,7 @@ export const useCSS2D = () => {
     dom.style.pointerEvents = onClick ? 'auto' : 'none'
     dom.style.position = 'absolute'
     if (typeof onClick === 'function') {
-      dom.addEventListener('click', onClick)
+      dom.addEventListener('click', e => onClick(e, label))
     }
     if (position) {
       label.position.set(...position)

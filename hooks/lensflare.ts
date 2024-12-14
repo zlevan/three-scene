@@ -7,10 +7,6 @@ import type { Options } from '../types/lensflare'
 
 type Params = import('../types/utils').DeepPartial<Options>
 
-// const getTextturesUrl = jpg => {
-//   return new URL(`../assets/imgs/texttures/lensflare/${jpg}`, import.meta.url).href
-// }
-
 // 太阳光晕 lensflare
 export const useLensflare = (options: Params = {}) => {
   // 默认参数
