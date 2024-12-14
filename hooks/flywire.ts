@@ -1,26 +1,8 @@
 import * as THREE from 'three'
 import { deepMerge } from '../utils'
 
-export declare interface Options {
-  depth: number
-  height: number
-  divisions: number
-  coords: number[][]
-  color: string | number
-  flyColor: string | number
-  pointColor: string | number
-  pointWidth: number
-  tubularSegments: number
-  radius: number
-  flyPointWidth: number
-  radialSegments: number
-  closed: boolean
-  length: number
-  factor: number
-  speed: number
-}
-
-export declare type Params = import('../types/utils').DeepPartial<Options>
+import type { Options } from '../types/flywire'
+type Params = import('../types/utils').DeepPartial<Options>
 
 // 飞线
 export const useFlywire = (options: Params = {}) => {

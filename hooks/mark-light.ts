@@ -1,20 +1,11 @@
 import * as THREE from 'three'
 import * as TWEEN from 'three/examples/jsm/libs/tween.module.js'
 import { deepMerge, random } from '../utils'
+import { getTextturesUrl } from '../utils/asssets'
 
-export declare interface Options {
-  pointTextureUrl: string
-  circleTextureUrl: string
-  lightTextureUrl: string
-  factor: number
-  color: string | number
-}
+import type { Options } from '../types/mark-light'
 
-export declare type Params = import('../types/utils').DeepPartial<Options>
-
-const getImgUrl = jpg => {
-  return new URL(`../assets/imgs/texttures/${jpg}`, import.meta.url).href
-}
+type Params = import('../types/utils').DeepPartial<Options>
 
 // 光柱
 export const useMarkLight = (options: Params = {}) => {
@@ -22,11 +13,11 @@ export const useMarkLight = (options: Params = {}) => {
   let _options: Options = deepMerge(
     {
       // 标记点的图片url
-      pointTextureUrl: getImgUrl('point.png'),
+      pointTextureUrl: getTextturesUrl('point.png'),
       // 光圈的URL
-      circleTextureUrl: getImgUrl('circle.png'),
+      circleTextureUrl: getTextturesUrl('circle.png'),
       // 光柱的URL
-      lightTextureUrl: getImgUrl('light.png'),
+      lightTextureUrl: getTextturesUrl('light.png'),
       // 系数
       factor: 1,
       color: 0x00ffff

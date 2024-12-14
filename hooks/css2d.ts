@@ -1,5 +1,6 @@
 import { CSS2DRenderer, CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer.js'
 
+// three css 2d 标签
 export const useCSS2D = () => {
   // 初始化 CSS2D 标签
   const initCSS2DRender = (options: { width: number; height: number }, container: HTMLElement) => {

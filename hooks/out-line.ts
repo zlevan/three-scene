@@ -1,16 +1,10 @@
 import * as THREE from 'three'
 import { deepMerge } from '../utils'
+import type { Options } from '../types/out-line'
 
-export declare interface Options {
-  size: number
-  color: string | number
-  range: number
-  factor: number
-  speed: number
-}
+type Params = import('../types/utils').DeepPartial<Options>
 
-export declare type Params = import('../types/utils').DeepPartial<Options>
-
+// 边缘线(地图 边界) out-line
 export const useOutline = (options: Params = {}) => {
   // 默认参数
   let _options: Options = deepMerge(
@@ -27,7 +21,10 @@ export const useOutline = (options: Params = {}) => {
     },
     options
   )
-  const createOutline = (points: number[], options: Params = {}): InstanceType<typeof THREE.Points> => {
+  const createOutline = (
+    points: number[],
+    options: Params = {}
+  ): InstanceType<typeof THREE.Points> => {
     _options = deepMerge(_options, options)
     const { size, factor, range, color } = _options
     const positions = new Float32Array(points)

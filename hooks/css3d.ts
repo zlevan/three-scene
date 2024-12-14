@@ -1,12 +1,19 @@
-import { CSS3DRenderer, CSS3DObject, CSS3DSprite } from 'three/examples/jsm/renderers/CSS3DRenderer.js'
+import {
+  CSS3DRenderer,
+  CSS3DObject,
+  CSS3DSprite
+} from 'three/examples/jsm/renderers/CSS3DRenderer.js'
 
+// three 场景 cdd 3d 标签
 export const useCSS3D = () => {
   // 初始化 CSS3D 标签
   const initCSS3DRender = (options: { width: number; height: number }, container: HTMLElement) => {
     const { width, height } = options
     const CSS3DRender = new CSS3DRenderer()
+
     // 设置渲染器的尺寸
     CSS3DRender.setSize(width, height)
+
     // 容器 css 样式
     CSS3DRender.domElement.style.position = 'absolute'
     CSS3DRender.domElement.style.left = '0px'

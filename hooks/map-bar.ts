@@ -2,20 +2,13 @@ import * as THREE from 'three'
 import { useCSS3D } from './css3d'
 
 import { deepMerge } from '../utils'
+import type { Options } from '../types/map-bar'
+
+type Params = import('../types/utils').DeepPartial<Options>
 
 const { createCSS3DDom } = useCSS3D()
 
-export declare interface Options {
-  height: number
-  factor: number
-  size: number
-  color1: string | number
-  color2: string | number
-}
-
-export declare type Params = import('../types/utils').DeepPartial<Options>
-
-// 地图柱状图
+// 地图柱状图 map-bar
 export const useMapBar = (options: Params = {}) => {
   // 默认参数
   let _options: Options = deepMerge(

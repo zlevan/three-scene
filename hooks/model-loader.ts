@@ -16,6 +16,7 @@ import DEFAULTCONFIG from '../config'
 
 import type { Progress, Options, VtOptions } from '../types/model-loader'
 
+// 模型加载 model-loader
 export const useModelLoader = (options: import('../types/utils').DeepPartial<Options> = {}) => {
   // 数据库
   let gDB: IDBDatabase

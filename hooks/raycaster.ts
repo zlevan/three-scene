@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 
-// 光线投射
+// 光线投射 平面坐标于 3D 坐标转换
 export const useRaycaster = () => {
   const raycaster = new THREE.Raycaster()
   const pointer = new THREE.Vector2()

@@ -1,29 +1,29 @@
 import * as THREE from 'three'
 import { Lensflare, LensflareElement } from 'three/examples/jsm/objects/Lensflare.js'
 import { deepMerge } from '../utils'
+import { getTextturesUrl } from '../utils/asssets'
 
-export declare interface Options {
-  mainTextureUrl: string
-  minorTextureUrl: string
-}
+import type { Options } from '../types/lensflare'
 
-export declare type Params = import('../types/utils').DeepPartial<Options>
+type Params = import('../types/utils').DeepPartial<Options>
 
-const getImgUrl = jpg => {
-  return new URL(`../assets/imgs/texttures/lensflare/${jpg}`, import.meta.url).href
-}
+// const getTextturesUrl = jpg => {
+//   return new URL(`../assets/imgs/texttures/lensflare/${jpg}`, import.meta.url).href
+// }
 
+// 太阳光晕 lensflare
 export const useLensflare = (options: Params = {}) => {
   // 默认参数
   let _options: Options = deepMerge(
     {
       // 主光晕
-      mainTextureUrl: getImgUrl('lensflare0.png'),
+      mainTextureUrl: getTextturesUrl('lensflare0.png'),
       // 次光晕
-      minorTextureUrl: getImgUrl('lensflare3.png')
+      minorTextureUrl: getTextturesUrl('lensflare3.png')
     },
     options
   )
+  console.log(_options)
 
   const textureLoader = new THREE.TextureLoader()
   const textureFlare0 = textureLoader.load(_options.mainTextureUrl)

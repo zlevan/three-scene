@@ -1,6 +1,6 @@
 import type { ThreeModelItem, ObjectItem } from './model'
 
-export declare interface Dialog {
+export declare interface Options {
   show: boolean
   style: {
     left: string

@@ -3,7 +3,7 @@ import * as THREE from 'three'
 import type { Grid } from '../types'
 type Options = Pick<Grid, 'width' | 'divisions' | 'forkColor' | 'forkSize'>
 
-export declare type Params = import('../types/utils').DeepPartial<Options>
+type Params = import('../types/utils').DeepPartial<Options>
 
 // 网格交叉
 export const useGrid = () => {
