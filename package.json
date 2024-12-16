@@ -19,7 +19,8 @@
   "exports": {
     ".": {
       "types": "./types/index.d.ts",
-      "import": "./index.ts"
+      "import": "./index.ts",
+      "config": "./config.ts"
     },
     "./assets/*": "./assets/*",
     "./hooks/*": "./hooks/*",

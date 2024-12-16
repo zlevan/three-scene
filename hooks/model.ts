@@ -174,6 +174,7 @@ export const useModel = () => {
     )
   }
 
+  // 获取动画
   const getAnimations = model => {
     const animations: any[] = []
 
@@ -189,9 +190,54 @@ export const useModel = () => {
 
     return optimizedAnimations
   }
+
+  // 设置金属材质
+  const setMetalnessMaterial = (mat = { color: 0xffffff }, metalness, roughness) => {
+    return new THREE.MeshStandardMaterial({
+      ...getMaterialAttr(mat),
+      metalness: metalness, // 金属度
+      roughness: roughness // 粗糙度
+    })
+  }
+  // 设置玻璃材质
+  const setGlassMaterial = (
+    mat = {
+      color: 0xffffff
+    },
+    { metalness, roughness, envMapIntensity, transmission, ior }
+  ) => {
+    return new THREE.MeshPhysicalMaterial({
+      ...getMaterialAttr(mat),
+      metalness, //玻璃非金属  金属度设置0
+      roughness, //玻璃表面光滑
+      envMapIntensity, //环境贴图对Mesh表面影响程度
+      transmission, //透射度(透光率)
+      ior //折射率
+    })
+  }
+
+  // 盒子模型辅助
+  const centerBoxHelper = (model: any, hex = 0xff0000) => {
+    // 创建 BoxHelper
+    var boxHelper = new THREE.BoxHelper(model, hex)
+    //更新
+    boxHelper.update()
+    // 获取模型的包围盒
+    const box = new THREE.Box3().setFromObject(model)
+    const center = box.getCenter(new THREE.Vector3())
+    return {
+      helper: boxHelper,
+      center
+    }
+  }
+
   return {
     materialReplace,
+    changeTransparent,
     exportGlb,
-    getAnimations
+    getAnimations,
+    setMetalnessMaterial,
+    setGlassMaterial,
+    centerBoxHelper
   }
 }
