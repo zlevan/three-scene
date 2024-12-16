@@ -27,7 +27,6 @@ export const useUpload = (options: Params) => {
   const uploadModel = (files, onSuccess: Function, onProgress?: Function) => {
     const { baseUrl, dracoPath, basisPath } = _options
     const file = files[0]
-    console.log(file)
     const filename = file.name
     const type = filename.split('.').pop().toLowerCase()
 
@@ -35,8 +34,7 @@ export const useUpload = (options: Params) => {
     reader.addEventListener('progress', event => {
       const size = '(' + Math.floor(event.total / 1000) + ' KB)'
       const progress = Math.floor((event.loaded / event.total) * 100) + '%'
-      console.log('Loading', filename, size, progress)
-      if (onProgress) onProgress({ progress })
+      if (onProgress) onProgress({ progress, filename, size })
     })
 
     reader.addEventListener('load', async (event: any) => {
@@ -72,7 +70,6 @@ export const useUpload = (options: Params) => {
       } else if (type == 'fbx') {
         const loader = new FBXLoader()
         const object = loader.parse(contents)
-        console.log(type, ' 模型', object)
         onSuccess(object)
       }
     })
