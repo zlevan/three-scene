@@ -2,6 +2,8 @@ import * as THREE from 'three'
 import { GLTFExporter } from 'three/examples/jsm/exporters/GLTFExporter'
 import DefaultConfig from '../config'
 
+import type { ReplaceOpts } from '../types/model'
+
 // 模型 model
 export const useModel = () => {
   // 改变透明
