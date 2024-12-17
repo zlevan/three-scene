@@ -510,6 +510,7 @@ export const useModelLoader = (options: import('../types/utils').DeepPartial<Opt
     }
   }
 
+  // 关闭虚化
   const closeVirtualization = (model: any) => {
     if (Array.isArray(model)) {
       for (let i = 0; i < model.length; i++) {

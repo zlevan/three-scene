@@ -26,8 +26,19 @@ export const useFloor = (options: Params = {}) => {
       const pos = el._position_
       let k = i - (!isExist ? i : index)
       const cy = k * margin
-      const ty = (pos?.y ?? 0) + cy
-      const tz = index == i ? (pos?.z ?? 0) + margin : pos?.z ?? 0
+
+      // 原始坐标+偏移
+      let ty = (pos.y ?? 0) + cy
+      let tz = index == i ? (pos.z ?? 0) + margin : pos.z ?? 0
+
+      // 当前点击目标已经移动过，则收起
+      const isMove =
+        index === i &&
+        ((mode === 'UD' && ty === el.position.y) || (mode === 'BA' && tz === el.position.z))
+      if (isMove) {
+        ty = pos.y ?? 0
+        tz = pos.z ?? 0
+      }
 
       // 判断模式
       // UD 上下
@@ -43,7 +54,12 @@ export const useFloor = (options: Params = {}) => {
       if (el.data?.mark) {
         const mark = el.data.mark
         const items = getFllowMarkFn(mark)
-        fllowModelAnimate(mode, items, cy, index == i ? margin : 0)
+        // 偏移
+        let offset = index == i ? margin : 0
+        if (isMove) {
+          offset = 0
+        }
+        fllowModelAnimate(mode, items, cy, offset)
       }
 
       new TWEEN.Tween(el.position)
@@ -65,8 +81,8 @@ export const useFloor = (options: Params = {}) => {
 
     items.forEach(el => {
       const pos = el._position_
-      const ty = mode == 'UD' ? (pos?.y ?? 0) + cy : pos?.y ?? 0
-      const tz = mode == 'BA' ? (pos?.z ?? 0) + cz : pos?.z ?? 0
+      const ty = mode == 'UD' ? (pos.y ?? 0) + cy : pos.y ?? 0
+      const tz = mode == 'BA' ? (pos.z ?? 0) + cz : pos.z ?? 0
       new TWEEN.Tween(el.position)
         .to(
           {
