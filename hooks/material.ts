@@ -2,10 +2,10 @@ import * as THREE from 'three'
 import { GLTFExporter } from 'three/examples/jsm/exporters/GLTFExporter'
 import DefaultConfig from '../config'
 
-import type { ReplaceOpts } from '../types/model'
+import type { ReplaceOpts } from '../types/material'
 
-// 模型 model
-export const useModel = () => {
+// 材质 material
+export const useMaterial = () => {
   // 改变透明
   const changeTransparent = (mode, opacity = 0.5) => {
     // 改变透明度
@@ -138,7 +138,6 @@ export const useModel = () => {
   }
 
   const saveArrayBuffer = (buffer, filename) => {
-    console.log(buffer)
     saveFile(new Blob([buffer], { type: 'application/octet-stream' }), filename)
   }
 
