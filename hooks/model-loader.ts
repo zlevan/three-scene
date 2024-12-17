@@ -456,11 +456,16 @@ export const useModelLoader = (options: import('../types/utils').DeepPartial<Opt
       {
         color: 0x00e0ff,
         wireframe: true,
-        opacity: 0.5
+        opacity: 0.5,
+        filter: [],
+        filterMatch: []
       },
       opts
     )
     model.traverse(el => {
+      if (opts.filter?.includes(el.name) || matchFilter(el.name, opts.filterMatch)) {
+        return
+      }
       if (el.isMesh) {
         if (!el.__material__) {
           el.__material__ = el.material
@@ -475,16 +480,27 @@ export const useModelLoader = (options: import('../types/utils').DeepPartial<Opt
     })
   }
 
+  // 匹配过滤
+  const matchFilter = (name: string = '', filters: string[] = []) => {
+    return filters.filter(match => name.indexOf(match) > -1).length > 0
+  }
+
   // 虚化模型 其他模型传入则虚化除目标之外的模型
   const virtualization = (
-    model: any,
     models: any[] = [],
+    model: any,
     opts: import('../types/utils').DeepPartial<VtOptions> = {}
   ) => {
+    const filter = opts.filter || []
+    const filterMatch = opts.filterMatch || []
     if (models.length) {
       for (let i = 0; i < models.length; i++) {
         const mod = models[i]
-        if (model.uuid !== mod.uuid) {
+        if (
+          model.uuid !== mod.uuid &&
+          !filter.includes(mod.name) &&
+          !matchFilter(mod.name, filterMatch)
+        ) {
           setModelVirtualization(mod, opts)
         }
       }
