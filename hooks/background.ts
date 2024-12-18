@@ -7,7 +7,7 @@ const getImgUrl = (code, jpg) => {
 
 // 背景
 export const useBackground = (code: string = '') => {
-  const skys = ['216', '217', '218', '219', '220', '221', '222', '223', '224', '225']
+  const skys = ['216', '217', '218', '219', '220', '221', '222', '223', '224', '225', '226']
   const i = skys.findIndex(t => t == code)
   const index = ref(i < 0 ? 0 : i)
   const change = scene => {
@@ -20,7 +20,9 @@ export const useBackground = (code: string = '') => {
 
   // 获取背景组图
   const getBgGroup = code => {
-    return ['posX.jpeg', 'negX.jpeg', 'posY.jpeg', 'negY.jpeg', 'posZ.jpeg', 'negZ.jpeg'].map(u => getImgUrl(code, u))
+    return ['posX.jpeg', 'negX.jpeg', 'posY.jpeg', 'negY.jpeg', 'posZ.jpeg', 'negZ.jpeg'].map(u =>
+      getImgUrl(code, u)
+    )
   }
 
   // 加载 -配合场景使用

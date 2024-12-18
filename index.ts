@@ -305,6 +305,22 @@ export default class ThreeScene {
     this.addObject(axesHelper)
   }
 
+  // 创建地面
+  createGround(sizeX = 5000, sizeY?, color = 0xb2dbdb) {
+    sizeY = sizeY === void 0 ? sizeX : sizeY
+    const geo = new THREE.PlaneGeometry(sizeX, sizeY)
+    const mat = new THREE.MeshPhongMaterial({
+      color,
+      shininess: 10 // 高亮阈值
+    })
+    const mesh = new THREE.Mesh(geo, mat)
+    mesh.name = 'ground'
+    mesh.rotation.x = Math.PI * 1.5
+    // 接收阴影
+    mesh.receiveShadow = true
+    return mesh
+  }
+
   // 重置巡航参数
   #resetCruiseOpts() {
     const cruise = this.options.cruise
