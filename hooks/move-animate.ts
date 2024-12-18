@@ -6,7 +6,7 @@ export const useMoveAnimate = () => {
   // 曲线
   let cruiseCurve: InstanceType<typeof THREE.CatmullRomCurve3>
 
-  const options: Options = {
+  const _options: Options = {
     // 动画索引
     index: 0,
     // 总长度
@@ -32,40 +32,56 @@ export const useMoveAnimate = () => {
 
     // 长度
     const distance = pos.distanceTo(moveTo)
-    let len = Math.floor(distance / options.speed)
+    let len = Math.floor(distance / _options.speed)
     if (len < 2) len = 2
 
     const points = [pos, moveTo]
     cruiseCurve = new THREE.CatmullRomCurve3(points, false, 'catmullrom', 0)
     cruiseCurve = new THREE.CatmullRomCurve3(getAllPoints(len), false, 'catmullrom', 0)
 
-    options.model = model
-    options.index = 0
-    options.length = len
-    options.rungingCall = rungingCall
-    options.endCallback = endCallback
+    _options.model = model
+    _options.index = 0
+    _options.length = len
+    _options.rungingCall = rungingCall
+    _options.endCallback = endCallback
 
-    options.runing = true
+    _options.runing = true
   }
 
   // 所有点位
   const getAllPoints = len => cruiseCurve?.getPoints(len)
 
+  // 获取进度坐标
+  const getProgressPosition = index => {
+    let t = index / _options.length
+    if (t > 1) t = 1
+    else if (t < 0) t = 0
+    return cruiseCurve.getPointAt(t)
+  }
+
+  // 停止 后退
+  const stop = (retreat: boolean = true) => {
+    _options.runing = false
+    if (retreat) {
+      const index = _options.index - 1
+      _options.model.position.copy(getProgressPosition(index))
+    }
+  }
+
   // 动画
   const moveAnimate = (factor = 1) => {
-    if (!options.runing) return
-    options.index += factor
-    let t = options.index / options.length
+    if (!_options.runing) return
+    _options.index += factor
+    let t = _options.index / _options.length
     if (t > 1) t = 1
     const pos = cruiseCurve.getPointAt(t)
-    const { x, y, z } = pos
-    options.model.position.set(x, y, z)
+    _options.model.position.copy(pos)
 
     if (t >= 1) {
-      options.runing = false
-      if (typeof options.endCallback === 'function') options.endCallback(pos)
+      _options.runing = false
+      if (typeof _options.endCallback === 'function') _options.endCallback(pos)
     } else {
-      if (typeof options.rungingCall === 'function') options.rungingCall(pos)
+      if (typeof _options.rungingCall === 'function') _options.rungingCall(pos, stop)
     }
   }
 

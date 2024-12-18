@@ -7,5 +7,5 @@ export declare interface Options {
   model?: any
   speed: number
   endCallback?: (pos: XYZ) => void
-  rungingCall?: (pos: XYZ) => void
+  rungingCall?: (pos: XYZ, stop: () => void) => void
 }
