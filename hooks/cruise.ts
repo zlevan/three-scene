@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import { PathGeometry, PathPointList } from 'three.path'
+import { PathGeometry, PathPointList, PathTubeGeometry } from 'three-cruise-path'
 
 import { deepMerge, getUrl } from '../utils'
 import type { Cruise as Options } from '../types/index'
@@ -43,6 +43,14 @@ const getOpts = () => ({
   index: 0,
   // 自动巡航
   auto: false,
+  // 管路
+  tube: false,
+  // 材质颜色
+  color: 0xffffff,
+  // 半径 (管路模式未管路半径、平面模式为拐角半径)
+  radius: 1,
+  // 分段
+  radialSegments: 1,
   // 帧动画回调
   animateBack: void 0
 })
@@ -62,7 +70,20 @@ export const useCruise = () => {
     // 默认参数
     _options = deepMerge(getOpts(), options)
 
-    const { points, tension, mapUrl, baseUrl, repeat, width, helper, close } = _options
+    const {
+      points,
+      tension,
+      mapUrl,
+      baseUrl,
+      repeat,
+      width,
+      helper,
+      close,
+      tube,
+      color,
+      radius,
+      radialSegments
+    } = _options
 
     const newPoints: InstanceType<typeof THREE.Vector3>[] = []
     for (let i = 0; i < points.length; i++) {
@@ -86,25 +107,41 @@ export const useCruise = () => {
 
     // 材质
     const mat = new THREE.MeshPhongMaterial({
+      color,
       map: texture,
-      opacity: 0.5,
+      opacity: 0.9,
       transparent: true,
       // depthWrite: false,
       depthTest: !false,
-      blending: THREE.AdditiveBlending
+      side: THREE.FrontSide
+      // blending: THREE.AdditiveBlending
     })
 
     // 向量
     const up = new THREE.Vector3(0, 1, 0)
     const pathPoints = new PathPointList()
     // 点位集合、拐角半径、拐角分段、方向向量、闭合
-    pathPoints.set(getAllPoints(), 5, 1, up, false)
+    pathPoints.set(getAllPoints(), radius, radialSegments, up, false)
 
-    const geometry = new PathGeometry()
-    geometry.update(pathPoints, {
-      width: width,
-      arrow: false
-    })
+    const geometry = tube ? new PathTubeGeometry() : new PathGeometry()
+    geometry.update(
+      pathPoints,
+      tube
+        ? {
+            radius, // 半径
+            radialSegments, // 分段
+            progress: 1, // 进度
+            startRad: 0
+          }
+        : {
+            width: width, // 宽度
+            arrow: false, // 箭头
+            progress: 1, // 进度
+            side: 'both' // left/right/both  左/右/两者
+          }
+      // false
+    )
+    console.log(geometry)
 
     const mesh = new THREE.Mesh(geometry, mat)
     group.add(mesh)
@@ -161,7 +198,7 @@ export const useCruise = () => {
   }
 
   // 长度
-  const getCruiseLen = () => (_options.segment ?? 2) * 1000
+  const getCruiseLen = () => (_options.segment ?? 2) * 900
 
   // 所有点位
   const getAllPoints = () => cruiseCurve?.getPoints(getCruiseLen())

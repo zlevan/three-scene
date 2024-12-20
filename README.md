@@ -178,6 +178,10 @@ onMounted(() => {
 | offset | Number | - | 10 | 巡航点偏差（距离巡航点的上下偏差）|
 | auto | Boolean | - | - | 自动巡航(可从动画函数执行机器人巡航) |
 | animateBack | Function | - | - | 帧动画回调函数 |
+| tube | Boolean | - | false | 管路模式 |
+| color | Number/String | - | 0xffffff | 材质颜色 |
+| radius | Number | - | 1 | 半径 (管路模式未管路半径、平面模式为拐角半径) |
+| radialSegments | Number | - | 1 | 路径分段 |
 
 
 

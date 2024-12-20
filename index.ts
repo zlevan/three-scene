@@ -42,6 +42,9 @@ export default class ThreeScene {
     isClick: boolean
   }
 
+  // 时间
+  clock?: InstanceType<typeof THREE.Clock>
+
   constructor(options: import('./types').Params = {}) {
     // 默认配置
     const defaultOpts = defOptions
@@ -321,6 +324,11 @@ export default class ThreeScene {
     return mesh
   }
 
+  // 创建时间
+  createClock() {
+    this.clock = new THREE.Clock()
+  }
+
   // 重置巡航参数
   #resetCruiseOpts() {
     const cruise = this.options.cruise
@@ -352,6 +360,7 @@ export default class ThreeScene {
     if (!points || points.length == 0) return
     const group = createCruise(this.options.cruise, this.renderer)
     this.cruiseGroup = group
+    group.visible = false
     this.addObject(group)
   }
 
@@ -364,6 +373,7 @@ export default class ThreeScene {
     this.options.cruise.runing = !runing
     this.options.cruise.enabled = !runing
     this.controls.enabled = auto || runing
+    this.cruiseGroup.visible = !runing
     updateCruise(this.options.cruise)
   }
 

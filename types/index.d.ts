@@ -93,6 +93,10 @@ export declare interface Cruise {
   helper: boolean
   close: boolean
   auto: boolean
+  tube: boolean
+  color: string | number
+  radius: number
+  radialSegments: number
   animateBack:
     | ((position: any, lookAt: any, cruiseCurve: any, progress: number) => void)
     | undefined
