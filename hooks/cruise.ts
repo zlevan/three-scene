@@ -97,6 +97,7 @@ export const useCruise = () => {
     // 向量
     const up = new THREE.Vector3(0, 1, 0)
     const pathPoints = new PathPointList()
+    // 点位集合、拐角半径、拐角分段、方向向量、闭合
     pathPoints.set(getAllPoints(), 5, 1, up, false)
 
     const geometry = new PathGeometry()
