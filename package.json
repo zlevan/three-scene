@@ -2,8 +2,10 @@
   "name": "three-scene",
   "version": "0.0.33",
   "description": "3D 场景",
-  "main": "index.ts",
+  "main": "build/three-scene.js",
+  "module": "build/three-scene.module.js",
   "scripts": {
+    "build": "rollup -c",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "homepage": "https://github.com/zlevan/three-scene",
@@ -22,6 +24,7 @@
       "import": "./index.ts",
       "config": "./config.ts"
     },
+    "./build/*": "./build/*",
     "./assets/*": "./assets/*",
     "./hooks/*": "./hooks/*",
     "./plugin/*": "./plugin/*",
@@ -43,14 +46,25 @@
     "FLOOR.md",
     "README.md"
   ],
+  "author": "evan",
+  "license": "ISC",
   "dependencies": {
     "three": "^0.171.0",
-    "three-cruise-path": "^1.0.3",
-    "vue": "^3.5.3"
+    "three-cruise-path": "^1.0.6"
   },
   "devDependencies": {
-    "sass": "^1.69.7"
-  },
-  "author": "evan",
-  "license": "ISC"
+    "@babel/core": "^7.15.0",
+    "@babel/preset-env": "^7.15.0",
+    "@rollup/plugin-babel": "^5.3.0",
+    "@rollup/plugin-commonjs": "^28.0.2",
+    "@rollup/plugin-node-resolve": "^16.0.0",
+    "@types/three": "^0.171.0",
+    "eslint": "^7.32.0",
+    "rollup": "^2.79.2",
+    "rollup-plugin-terser": "^7.0.2",
+    "rollup-plugin-typescript2": "^0.36.0",
+    "tslib": "^2.8.1",
+    "typescript": "^5.7.2",
+    "vue": "^3.5.13"
+  }
 }

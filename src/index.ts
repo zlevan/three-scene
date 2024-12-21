@@ -23,13 +23,17 @@ export default class ThreeScene {
   // 渲染器
   renderer: InstanceType<typeof THREE.WebGLRenderer>
   // 基础相机
-  baseCamera: InstanceType<typeof THREE.PerspectiveCamera>
+  baseCamera:
+    | InstanceType<typeof THREE.PerspectiveCamera>
+    | InstanceType<typeof THREE.OrthographicCamera>
   // 巡航相机
-  cruiseCamera?: InstanceType<typeof THREE.PerspectiveCamera>
+  cruiseCamera?:
+    | InstanceType<typeof THREE.PerspectiveCamera>
+    | InstanceType<typeof THREE.OrthographicCamera>
   // 巡航组
-  cruiseGroup?: InstanceType<typeof THREE.group>
+  cruiseGroup?: InstanceType<typeof THREE.Group>
   // 控制器
-  controls: InstanceType<typeof OrbitControls>
+  controls?: InstanceType<typeof OrbitControls>
   // 网格
   grid?: InstanceType<typeof THREE.GridHelper>
   // 动画 id
@@ -114,7 +118,7 @@ export default class ThreeScene {
       this.renderer.render(this.scene, this.camera)
     }
     // 控制相机旋转缩放的更新
-    if (this.options.controls.visible) this.controls.update()
+    if (this.options.controls.visible) this.controls?.update()
 
     cruiseAnimate(this.cruiseCamera)
 
@@ -183,7 +187,8 @@ export default class ThreeScene {
     // 平行光
     if (directionalLight.visible) {
       const direLight = this.createDirectionalLight()
-      direLight.position.set(...directionalLight.position)
+      const [x = 0, y = 0, z = 0] = directionalLight.position
+      direLight.position.set(x, y, z)
       this.addObject(direLight)
       if (directionalLight.helper) {
         const dirLightHelper = new THREE.DirectionalLightHelper(direLight, 1)
@@ -196,7 +201,8 @@ export default class ThreeScene {
 
       if (directionalLight.light2) {
         const dirLight2 = this.createDirectionalLight(false)
-        dirLight2.position.set(...directionalLight.position2)
+        const [x = 0, y = 0, z = 0] = directionalLight.position2
+        dirLight2.position.set(x, y, z)
         this.addObject(dirLight2)
         if (directionalLight.helper) {
           const dirLigh2tHelper = new THREE.DirectionalLightHelper(dirLight2, 1)
@@ -219,7 +225,7 @@ export default class ThreeScene {
       dirLight.castShadow = castShadow
       // 设置阴影贴图模糊度
       const shadowCam = dirLight.shadow.camera
-      shadowCam.radius = 10
+      // shadowCam.radius = 10
       shadowCam.near = near
       shadowCam.far = far
       shadowCam.top = shadowCam.right = s
@@ -235,7 +241,14 @@ export default class ThreeScene {
   initCamera() {
     const { width, height, camera } = this.options
     // 透视投影相机对象 参数（现场角度，窗口长宽比，开始渲染位置，结束渲染位置）
-    let cam = new THREE.PerspectiveCamera(36, width / height, camera.near, camera.far)
+    let cam:
+      | InstanceType<typeof THREE.PerspectiveCamera>
+      | InstanceType<typeof THREE.OrthographicCamera> = new THREE.PerspectiveCamera(
+      36,
+      width / height,
+      camera.near,
+      camera.far
+    )
 
     if (camera.orthogonal) {
       let k = width / height,
@@ -263,6 +276,7 @@ export default class ThreeScene {
     // 创建控件
     const ctrl = new OrbitControls(this.camera, this.renderer.domElement)
     Object.keys(controls).forEach(key => {
+      // @ts-ignore
       ctrl[key] = controls[key]
     })
     // 聚焦坐标
@@ -295,6 +309,7 @@ export default class ThreeScene {
     if (fork) {
       const group = createFork(grid)
       group.name = '辅助交叉点'
+      // @ts-ignore
       group._isGridFork_ = true
       this.addObject(group)
     }
@@ -309,7 +324,7 @@ export default class ThreeScene {
   }
 
   // 创建地面
-  createGround(sizeX = 5000, sizeY?, color = 0xb2dbdb) {
+  createGround(sizeX = 5000, sizeY?: number, color = 0xb2dbdb) {
     sizeY = sizeY === void 0 ? sizeX : sizeY
     const geo = new THREE.PlaneGeometry(sizeX, sizeY)
     const mat = new THREE.MeshPhongMaterial({
@@ -344,7 +359,7 @@ export default class ThreeScene {
   }
 
   // 设置巡航点位
-  setCruisePoint(points) {
+  setCruisePoint(points: number[][]) {
     this.options.cruise.points = points
     this.createCruise()
   }
@@ -372,14 +387,15 @@ export default class ThreeScene {
 
     this.options.cruise.runing = !runing
     this.options.cruise.enabled = !runing
-    this.controls.enabled = auto || runing
-    this.cruiseGroup.visible = !runing
+    this.controls && (this.controls.enabled = auto || runing)
+    this.cruiseGroup && (this.cruiseGroup.visible = !runing)
     updateCruise(this.options.cruise)
   }
 
   // 开启或关闭巡航深度测试
   toggleCruiseDepthTest(depthTest?: boolean) {
-    this.cruiseGroup.traverse(el => {
+    if (!this.cruiseGroup) return
+    this.cruiseGroup.traverse((el: any) => {
       if (el.isMesh || el.isLine) {
         el.material.depthTest = depthTest != void 0 ? depthTest : !el.material.depthTest
       }
@@ -392,8 +408,8 @@ export default class ThreeScene {
   }
 
   // 设置环境
-  setEnvironment(env) {
-    new RGBELoader().load(getUrl(env, this.options.baseUrl), texture => {
+  setEnvironment(env: string) {
+    new RGBELoader().load(getUrl(env, this.options.baseUrl) as string, texture => {
       texture.mapping = THREE.EquirectangularReflectionMapping
       // 将加载的材质texture设置给背景和环境
       this.scene.environment = texture
@@ -401,14 +417,14 @@ export default class ThreeScene {
   }
 
   // 设置背景图
-  setBgTexture(bgUrl) {
+  setBgTexture(bgUrl: string | string[]) {
     if (Array.isArray(bgUrl)) {
       const loader = new THREE.CubeTextureLoader()
-      const env = loader.load(getUrl(bgUrl, this.options.baseUrl))
+      const env = loader.load(getUrl(bgUrl, this.options.baseUrl) as string[])
       // 设置背景
       this.scene.background = env
     } else {
-      this.scene.background = new THREE.TextureLoader().load(getUrl(bgUrl))
+      this.scene.background = new THREE.TextureLoader().load(getUrl(bgUrl) as string)
     }
   }
 
@@ -446,10 +462,10 @@ export default class ThreeScene {
   // 获取场景坐标
   getPosition() {
     console.log('camera.position', this.camera.position)
-    console.log('controls.target', this.controls.target)
+    console.log('controls.target', this.controls?.target)
     return {
       position: this.camera.position,
-      target: this.controls.target
+      target: this.controls?.target
     }
   }
 
@@ -465,18 +481,18 @@ export default class ThreeScene {
   }
 
   // 添加对象到场景
-  addObject(...objects: object[]) {
+  addObject(...objects: any[]) {
     this.scene.add(...objects)
   }
 
   // 控制保存
   controlSave() {
-    this.controls.saveState()
+    this.controls?.saveState()
   }
 
   // 控制重置
   controlReset() {
-    this.controls.reset()
+    this.controls?.reset()
     this.toggleCruise(true)
   }
 
@@ -510,13 +526,20 @@ export default class ThreeScene {
     this.options.width = this.container.offsetWidth || window.innerWidth
     this.options.height = this.container.offsetHeight || window.innerHeight
 
-    const { width, height } = this.options
+    const { width, height, camera } = this.options
     const k = width / height
-    this.baseCamera.aspect = k
+
+    if (!camera.orthogonal) {
+      // @ts-ignore
+      this.baseCamera.aspect = k
+    }
     this.baseCamera.updateProjectionMatrix()
     // 巡航相机
     if (this.cruiseCamera) {
-      this.cruiseCamera.aspect = k
+      if (!camera.orthogonal) {
+        // @ts-ignore
+        this.cruiseCamera.aspect = k
+      }
       this.cruiseCamera.updateProjectionMatrix()
     }
     this.renderer.setSize(width, height)
@@ -528,9 +551,9 @@ export default class ThreeScene {
   }
 
   // 清除对象
-  clear(obj) {
+  clear(obj: any) {
     if (!obj || !obj.traverse) return
-    obj.traverse(el => {
+    obj.traverse((el: any) => {
       if (el.material) el.material.dispose()
       if (el.geometry) el.geometry.dispose()
       el?.clear()
@@ -539,9 +562,9 @@ export default class ThreeScene {
   }
 
   // 销毁对象
-  disposeObj(obj) {
+  disposeObj(obj: any) {
     if (!obj || !obj.traverse) return
-    obj.traverse(el => {
+    obj.traverse((el: any) => {
       if (el.material) el.material.dispose()
 
       if (el.geometry) el.geometry.dispose()
@@ -562,22 +585,25 @@ export default class ThreeScene {
       this.scene.clear()
       this.renderer.dispose()
       this.renderer.forceContextLoss()
-      this.renderer.content = null
+      // this.renderer.content = null
 
       let gl = this.renderer.domElement.getContext('webgl')
-      gl && gl.getExtension('WEBGL_lose_context').loseContext()
+      gl && gl.getExtension('WEBGL_lose_context')?.loseContext()
 
       this.disposeObj(this.cruiseGroup)
       this.disposeObj(this.grid)
       if (this.controls) this.controls.dispose()
 
-      this.scene = null
-      this.renderer = null
-      this.baseCamera = null
-      this.cruiseCamera = null
-      this.controls = null
-      this.grid = null
-      this.cruiseGroup = null
+      // @ts-ignore
+      this.scene = void 0
+      // @ts-ignore
+      this.renderer = void 0
+      // @ts-ignore
+      this.baseCamera = void 0
+      this.cruiseCamera = void 0
+      this.controls = void 0
+      this.grid = void 0
+      this.cruiseGroup = void 0
       this.container.innerHTML = ''
     } catch (e) {
       console.log(e)

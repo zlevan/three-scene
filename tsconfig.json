@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "ESNext",
+    "strict": true,
+    "esModuleInterop": true,
+
+    "moduleResolution": "node",
+
+    "types":[
+      "node"
+    ],
+    
+    "typeRoots": [ "./node_modules/@types", "../node_modules/@types", "../../node_modules/@types" ],
+    
+    "baseUrl": "./",// 解析非相对模块的基础地址，默认是当前目录
+    "paths": {
+      // "three": [ "node_modules/three/build/three.module.js" ],
+    },
+  },
+  "include": [
+    "node_modules/**/*",
+    "src/**/*",
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

@@ -213,6 +213,11 @@ onMounted(() => {
 | addObject | ...objects | - | 场景添加对象 |
 | controlReset | - | - | 控制器重置 |
 | resize | - | - | 重置画布大小 | 
+| createClock | - | - | 创建时间控件 | 
+| createGround | （sizeX, sizeY, color） | 地面网格对象 | 创建地面 | 
+| getPosition | - | 相机坐标、控制器 target | 获取当前视角坐标 | 
+| isCameraMove | (to, distance) | - | 检测相机是否移动|
+| getValidTargetPosition | (config, to, target, defaultTo) | - | 获取有效的目标点，并设置控制器中心点|
 | stopAnimate | - | - | 停止动画（requestAnimationFrame）|
 | disposeObj | obj | - | 清除场景对象 |
 | dispose | - | - | 场景销毁 |
