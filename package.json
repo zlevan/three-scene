@@ -1,6 +1,6 @@
 {
   "name": "three-scene",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "3D 场景",
   "main": "build/three-scene.module.js",
   "module": "build/three-scene.module.js",
@@ -31,7 +31,6 @@
     "MAP.md",
     "FLOOR.md",
     "README.md"
-    
   ],
   "author": "evan",
   "license": "ISC",
