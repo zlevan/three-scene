@@ -1,11 +1,11 @@
 import * as THREE from 'three'
 import * as TWEEN from 'three/examples/jsm/libs/tween.module.js'
-import { deepMerge, random } from '../utils'
-import { getTextturesUrl } from '../utils/asssets'
+import { deepMerge, random } from '../../utils'
+import { getTextturesUrl } from '../../utils/asssets'
 
-import type { Options } from '../types/mark-light'
+import type { Options } from '../../types/mark-light'
 
-type Params = import('../types/utils').DeepPartial<Options>
+type Params = import('../../types/utils').DeepPartial<Options>
 
 // 光柱
 export const useMarkLight = (options: Params = {}) => {

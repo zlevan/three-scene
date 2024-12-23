@@ -1,10 +1,10 @@
 import * as THREE from 'three'
-import { useCSS3D } from './css3d'
+import { useCSS3D } from '../module/css3d'
 
-import { deepMerge } from '../utils'
-import type { Options } from '../types/map-bar'
+import { deepMerge } from '../../utils'
+import type { Options } from '../../types/map-bar'
 
-type Params = import('../types/utils').DeepPartial<Options>
+type Params = import('../../types/utils').DeepPartial<Options>
 
 const { createCSS3DDom } = useCSS3D()
 

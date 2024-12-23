@@ -1,9 +1,9 @@
 
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('three'), require('three/examples/jsm/libs/tween.module.js'), require('three/examples/jsm/controls/OrbitControls'), require('three/examples/jsm/loaders/RGBELoader.js'), require('three-cruise-path')) :
-    typeof define === 'function' && define.amd ? define(['exports', 'three', 'three/examples/jsm/libs/tween.module.js', 'three/examples/jsm/controls/OrbitControls', 'three/examples/jsm/loaders/RGBELoader.js', 'three-cruise-path'], factory) :
-    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.THREE = global.THREE || {}, global.THREE, global.TWEEN, global.OrbitControls, global.RGBELoader_js, global.threeCruisePath));
-})(this, (function (exports, THREE, TWEEN, OrbitControls, RGBELoader_js, threeCruisePath) { 'use strict';
+    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('three'), require('three/examples/jsm/libs/tween.module.js'), require('three/examples/jsm/controls/OrbitControls'), require('three/examples/jsm/loaders/RGBELoader.js'), require('three/examples/jsm/geometries/TextGeometry.js'), require('three/examples/jsm/lines/Line2.js'), require('three/examples/jsm/lines/LineMaterial.js'), require('three/examples/jsm/lines/LineGeometry.js'), require('three/examples/jsm/renderers/CSS3DRenderer.js'), require('three/examples/jsm/utils/BufferGeometryUtils.js'), require('three/examples/jsm/objects/Lensflare.js'), require('vue'), require('three/examples/jsm/loaders/FBXLoader'), require('three/examples/jsm/loaders/DRACOLoader'), require('three/examples/jsm/loaders/GLTFLoader'), require('three/examples/jsm/loaders/KTX2Loader'), require('three/examples/jsm/libs/meshopt_decoder.module'), require('three-cruise-path'), require('three/examples/jsm/renderers/CSS2DRenderer.js'), require('three/examples/jsm/exporters/GLTFExporter'), require('three/examples/jsm/loaders/GLTFLoader.js'), require('three/examples/jsm/loaders/DRACOLoader.js'), require('three/examples/jsm/loaders/FontLoader.js')) :
+    typeof define === 'function' && define.amd ? define(['exports', 'three', 'three/examples/jsm/libs/tween.module.js', 'three/examples/jsm/controls/OrbitControls', 'three/examples/jsm/loaders/RGBELoader.js', 'three/examples/jsm/geometries/TextGeometry.js', 'three/examples/jsm/lines/Line2.js', 'three/examples/jsm/lines/LineMaterial.js', 'three/examples/jsm/lines/LineGeometry.js', 'three/examples/jsm/renderers/CSS3DRenderer.js', 'three/examples/jsm/utils/BufferGeometryUtils.js', 'three/examples/jsm/objects/Lensflare.js', 'vue', 'three/examples/jsm/loaders/FBXLoader', 'three/examples/jsm/loaders/DRACOLoader', 'three/examples/jsm/loaders/GLTFLoader', 'three/examples/jsm/loaders/KTX2Loader', 'three/examples/jsm/libs/meshopt_decoder.module', 'three-cruise-path', 'three/examples/jsm/renderers/CSS2DRenderer.js', 'three/examples/jsm/exporters/GLTFExporter', 'three/examples/jsm/loaders/GLTFLoader.js', 'three/examples/jsm/loaders/DRACOLoader.js', 'three/examples/jsm/loaders/FontLoader.js'], factory) :
+    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.THREE = global.THREE || {}, global.THREE, global.TWEEN, global.OrbitControls, global.RGBELoader_js, global.TextGeometry_js, global.Line2_js, global.LineMaterial_js, global.LineGeometry_js, global.CSS3DRenderer_js, global.BufferGeometryUtils, global.Lensflare_js, global.vue, global.FBXLoader, global.DRACOLoader, global.GLTFLoader, global.KTX2Loader, global.meshopt_decoder_module, global.threeCruisePath, global.CSS2DRenderer_js, global.GLTFExporter, global.GLTFLoader_js, global.DRACOLoader_js, global.FontLoader_js));
+})(this, (function (exports, THREE, TWEEN, OrbitControls, RGBELoader_js, TextGeometry_js, Line2_js, LineMaterial_js, LineGeometry_js, CSS3DRenderer_js, BufferGeometryUtils, Lensflare_js, vue, FBXLoader, DRACOLoader, GLTFLoader, KTX2Loader, meshopt_decoder_module, threeCruisePath, CSS2DRenderer_js, GLTFExporter, GLTFLoader_js, DRACOLoader_js, FontLoader_js) { 'use strict';
 
     function _interopNamespace(e) {
         if (e && e.__esModule) return e;
@@ -25,6 +25,7 @@
 
     var THREE__namespace = /*#__PURE__*/_interopNamespace(THREE);
     var TWEEN__namespace = /*#__PURE__*/_interopNamespace(TWEEN);
+    var BufferGeometryUtils__namespace = /*#__PURE__*/_interopNamespace(BufferGeometryUtils);
 
     /******************************************************************************
     Copyright (c) Microsoft Corporation.
@@ -41,6 +42,16 @@
     PERFORMANCE OF THIS SOFTWARE.
     ***************************************************************************** */
 
+    function __awaiter(thisArg, _arguments, P, generator) {
+    		function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    		return new (P || (P = Promise))(function (resolve, reject) {
+    				function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+    				function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+    				function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+    				step((generator = generator.apply(thisArg, _arguments || [])).next());
+    		});
+    }
+
     function __classPrivateFieldGet(receiver, state, kind, f) {
     		if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
     		if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
@@ -50,6 +61,686 @@
     typeof SuppressedError === "function" ? SuppressedError : function (error, suppressed, message) {
     		var e = new Error(message);
     		return e.name = "SuppressedError", e.error = error, e.suppressed = suppressed, e;
+    };
+
+    // 获取贴图地址
+    const getTextturesUrl = (jpg) => {
+        return new URL(`../assets/imgs/texttures/${jpg}`, (typeof document === 'undefined' && typeof location === 'undefined' ? new (require('u' + 'rl').URL)('file:' + __filename).href : typeof document === 'undefined' ? location.href : (document.currentScript && document.currentScript.tagName.toUpperCase() === 'SCRIPT' && document.currentScript.src || new URL('three-scene.js', document.baseURI).href))).href;
+    };
+
+    /**
+     * 校验url地址是否正确
+     * @param { string } url 需要校验的 url 地址
+     * @return { boolean } 校验结果
+     * @example
+     * checkUrl( 'https://www.baidu.com' )
+     */
+    const checkUrl = (url) => {
+        !url && (url = '');
+        let regex = /^([hH][tT]{2}[pP]:\/\/|[hH][tT]{2}[pP][sS]:\/\/)[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,}(\/\S*)?$/;
+        if (!regex.test(url)) {
+            const reg = /^(https?:\/\/)(?:\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(?::\d{1,5})?(?:[/?#]\S*)?$/;
+            return reg.test(url);
+        }
+        // return false
+        return true;
+    };
+
+    /**
+     * 换算单位(汉字单位-四舍五入)
+     * @param { number } num 需转换汉字的数值
+     * @param { number } precision 数值精度	默认：2
+     * @return { number | string } 换算后的值
+     * @example
+     * numConverter( 1111555 )
+     */
+    const numConverter = (num = 0, precision = 2) => {
+        if (Math.abs(num) >= 100000000) {
+            const n = num / 100000000;
+            return n.toFixed(precision) * 1 + '亿';
+        }
+        else if (Math.abs(num) >= 10000) {
+            const n = num / 10000;
+            return n.toFixed(precision) * 1 + '万';
+        }
+        else {
+            const n = num;
+            return n.toFixed(precision) * 1;
+        }
+    };
+    // 获取地址
+    const getUrl = (url, baseUrl = '') => {
+        // 判断数组
+        if (Array.isArray(url)) {
+            return url.map(u => getUrl(u, baseUrl));
+        }
+        // 检查是否为完整链接 不是则拼接域名地址
+        if (!checkUrl(url) && url.indexOf(baseUrl) < 0) {
+            return baseUrl + url;
+        }
+        return url;
+    };
+
+    // 删除 db
+    const deleteDB = (dbName) => {
+        return new Promise(resolve => {
+            // 删除数据库
+            const request = window.indexedDB.deleteDatabase(dbName);
+            console.log(request);
+            request.onsuccess = _ev => {
+                resolve(true);
+            };
+            request.onerror = ev => {
+                console.log('删除失败', ev);
+                resolve(false);
+            };
+        });
+    };
+    //获取当前的版本号
+    const getDBVersion = (dbName, version, tbName) => {
+        return new Promise(resolve => {
+            //打开数据库
+            var request = window.indexedDB.open(dbName);
+            // 数据库成功打开时触发onsuccess事件
+            request.onsuccess = (event) => {
+                const db = event.target.result;
+                const ver = db.version;
+                // 关闭
+                db.close();
+                if (ver !== version) {
+                    deleteDB(dbName).then(b => {
+                        resolve(b ? version : ver);
+                    });
+                }
+                else {
+                    // 判断表是否存在
+                    if (!db.objectStoreNames.contains(tbName)) {
+                        deleteDB(dbName).then(b => {
+                            resolve(b ? version : ver);
+                        });
+                    }
+                    else {
+                        resolve(ver);
+                    }
+                }
+            };
+        });
+    };
+    // 创建数据库
+    const createDB = (tbName_1, ...args_1) => __awaiter(void 0, [tbName_1, ...args_1], void 0, function* (tbName, dbName = 'THREE__MODEL_DB', version = 1) {
+        if (!window.indexedDB)
+            return Promise.resolve(void 0);
+        yield getDBVersion(dbName, version, tbName);
+        // 创建数据库 名称、版本号
+        let request = window.indexedDB.open(dbName, version);
+        return new Promise(resolve => {
+            request.onupgradeneeded = (ev) => {
+                const db = ev.target.result;
+                // 查询表是否存在
+                if (!db.objectStoreNames.contains(tbName)) {
+                    // 创建表
+                    db.createObjectStore(tbName, {
+                        // autoIncrement: true
+                        keyPath: 'path'
+                    });
+                }
+                else {
+                    console.log(db);
+                }
+            };
+            request.onsuccess = (ev) => {
+                const db = ev.target.result;
+                resolve(db);
+            };
+            request.onerror = ev => {
+                console.log('数据库打开失败', ev);
+                resolve(void 0);
+            };
+        });
+    });
+    // 获取数据
+    const getDataByKey = (db, objectStoreName, key) => {
+        if (!db || !objectStoreName || !key)
+            return Promise.resolve(null);
+        // 打开对象存储空间
+        const transaction = db.transaction([objectStoreName], 'readonly');
+        const store = transaction.objectStore(objectStoreName);
+        // 根据指定的键值查询数据
+        const request = store.get(key);
+        return new Promise((resolve, reject) => {
+            // 获取索引数据
+            request.onsuccess = (event) => {
+                const target = event.target;
+                const list = target.result;
+                resolve(list); // 输出结果
+            };
+            request.onerror = (event) => {
+                reject(event);
+            };
+        });
+    };
+    // 获取所有数据
+    const getAllData = (db, objectStoreName) => {
+        const db_tb = db.transaction(objectStoreName, 'readonly').objectStore(objectStoreName);
+        const request = db_tb.getAll();
+        return new Promise((resolve, reject) => {
+            request.onsuccess = (event) => {
+                const target = event.target;
+                const list = target.result;
+                resolve(list); // 输出结果
+            };
+            request.onerror = (event) => {
+                reject(event);
+            };
+        });
+    };
+
+    const KEYS = {
+        TEXT: 'TEXT', // 文字
+        JSQ: 'JSQ', // 集水器
+        LDB: 'LDB', // 冷冻泵
+        LQB: 'LQB', // 冷却泵
+        XBC: 'XBC', // 蓄冰槽
+        LXJ: 'LXJ', // 离心机
+        LGJ: 'LGJ', // 螺杆机
+        LGJ_2: 'LGJ_2', // 双头螺杆机
+        LGJ_3: 'LGJ_3', // 三机头螺杆机
+        LGJ_4: 'LGJ_4', // 四机头螺杆机
+        LQT: 'LQT', // 冷却塔
+        GL: 'GL', // 锅炉
+        BSHRQ: 'BSHRQ', // 板式换热器
+        BSHLQ: 'BSHLQ', // 板式换热器-制冷
+        FLRB: 'FLRB', // 风冷热泵
+        FJY_X: 'FJY_X', // 风机-右
+        FJZ_X: 'FJZ_X', // 风机-左
+        FJY: 'FJY', // 风机-右
+        FJZ: 'FJZ', // 风机-左
+        FM: 'FM', // 阀门
+        XFM: 'XFM' // 阀门
+    };
+    var DEFAULTCONFIG = {
+        // 本地缓存
+        indexdb: {
+            dbName: 'THREE__MODEL__DB',
+            tbName: 'TB',
+            version: 1
+        },
+        // 网格
+        mesh: {
+            // 接受阴影网格名称-（需要接受阴影）
+            receiveShadowName: [
+                '楼板',
+                '地面',
+                '底座',
+                '底板',
+                '基础',
+                '基础底座',
+                '冷却塔基础',
+                '草地',
+                'ground',
+                'Ground'
+            ],
+            // 动画材质网格名称
+            animatehName: [
+                '动画',
+                '螺杆A',
+                '螺杆B',
+                '螺杆A001',
+                '螺杆B001',
+                '螺杆A002',
+                '螺杆B002',
+                '叶轮A',
+                '叶轮B',
+                '叶轮C',
+                '阀门'
+            ],
+            // 透明网格名称
+            transparentName: ['透明', '透明外壳']
+        },
+        // 模型类型
+        keys: KEYS,
+        // 右键点击返回时间差
+        rightClickBackDiffTime: 300,
+        meshKey: {
+            body: Symbol('__BODY_'),
+            color: Symbol('__COLOR_'),
+            warning: Symbol('__WARNING_'),
+            local: Symbol('__LOCAL_'),
+            disabled: Symbol('__DISABLED_'),
+            pipe: Symbol('__PIPE__')
+        },
+        // 状态偏差值
+        statusOffset: {
+            TEXT: {
+                [KEYS.JSQ]: {
+                    position: { x: -20, y: 10, z: 0 },
+                    rotation: { x: 0, y: 270, z: 0 }
+                },
+                [KEYS.LDB]: {
+                    position: { x: -60, y: 0, z: 0 }
+                },
+                [KEYS.LQB]: {
+                    position: { x: 0, y: 0, z: 60 },
+                    rotation: { x: 0, y: 270, z: 0 }
+                },
+                [KEYS.LXJ]: {
+                    position: { x: 0, y: 16, z: 50 },
+                    rotation: { x: -20, y: 0, z: 0 }
+                },
+                [KEYS.LGJ]: {
+                    position: { x: 0, y: 16, z: 50 },
+                    rotation: { x: -20, y: 0, z: 0 }
+                },
+                [KEYS.LQT]: {
+                    position: { x: -60, y: 0, z: 0 }
+                },
+                [KEYS.BSHLQ]: {
+                    position: { x: 0, y: 16, z: 40 }
+                }
+            },
+            WARNING: {
+                [KEYS.JSQ]: {
+                    position: { x: 0, y: 62, z: 0 }
+                },
+                [KEYS.LDB]: {
+                    position: { x: -4, y: 45, z: 0 }
+                },
+                [KEYS.LQB]: {
+                    position: { x: 0, y: 45, z: 4 },
+                    rotation: { x: 0, y: 270, z: 0 }
+                },
+                [KEYS.LXJ]: {
+                    position: { x: 0, y: 78, z: 0 }
+                },
+                [KEYS.LGJ]: {
+                    position: { x: 0, y: 78, z: 0 }
+                },
+                [KEYS.LQT]: {
+                    position: { x: 0, y: 85, z: 0 }
+                },
+                [KEYS.BSHLQ]: {
+                    position: { x: 0, y: 88, z: 0 }
+                }
+            },
+            STATUS: {
+                [KEYS.LDB]: {
+                    position: { x: 9, y: 47, z: 0 }
+                },
+                [KEYS.LQB]: {
+                    position: { x: 0, y: 47, z: -9 },
+                    rotation: { x: 0, y: 270, z: 0 }
+                },
+                [KEYS.LXJ]: {
+                    position: { x: 27, y: 67, z: 42 }
+                },
+                [KEYS.LGJ]: {
+                    position: { x: -47, y: 67, z: 42 }
+                },
+                [KEYS.LQT]: {
+                    position: { x: -35, y: 69, z: 26 }
+                }
+            },
+            DISABLED: {
+                [KEYS.LDB]: {
+                    position: { x: 22, y: 47, z: 0 }
+                },
+                [KEYS.LQB]: {
+                    position: { x: 0, y: 47, z: -22 },
+                    rotation: { x: 0, y: 270, z: 0 }
+                },
+                [KEYS.LXJ]: {
+                    position: { x: 40, y: 67, z: 42 }
+                },
+                [KEYS.LGJ]: {
+                    position: { x: -34, y: 67, z: 42 }
+                },
+                [KEYS.LQT]: {
+                    position: { x: -22, y: 69, z: 26 }
+                }
+            }
+        }
+    };
+
+    // 获取位置、大小、缩放参数
+    const get_P_S_R_param = (model, item, s = 1) => {
+        // 模型本身
+        const _position_ = model.position, _rotation_ = model.rotation, _scale_ = model.scale;
+        // 设备配置
+        const position = item.position || { x: 0, y: 0, z: 0 }, rotation = item.rotation || { x: 0, y: 0, z: 0 }, scale = item.scale || { x: 1, y: 1, z: 1 };
+        // 判断配置角度倍数系数（小于 2 相当于使用的 180 度的倍数）
+        const PInsx = Math.abs(rotation.x) < 2 ? 1 : 180;
+        const PInsy = Math.abs(rotation.y) < 2 ? 1 : 180;
+        const PInsz = Math.abs(rotation.z) < 2 ? 1 : 180;
+        return {
+            position: [_position_.x + position.x, _position_.y + position.y, _position_.z + position.z],
+            rotation: [
+                _rotation_.x + (Math.PI / PInsx) * rotation.x,
+                _rotation_.y + (Math.PI / PInsy) * rotation.y,
+                _rotation_.z + (Math.PI / PInsz) * rotation.z
+            ],
+            scale: [_scale_.x * s * scale.x, _scale_.y * s * scale.y, _scale_.z * s * scale.z]
+        };
+    };
+    // 克隆材质
+    const cloneMaterial = (el) => {
+        if (el.material instanceof Array) {
+            el.material = el.material.map((mat) => mat.clone());
+        }
+        else {
+            el.material = el.material.clone();
+        }
+    };
+    // 深克隆 // 防止数据感染
+    const modelDeepClone = (obj) => {
+        let model = obj.clone();
+        if (obj.isMesh || obj.isSprite) {
+            cloneMaterial(obj);
+        }
+        model.traverse((el) => {
+            if (el.isMesh) {
+                cloneMaterial(el);
+            }
+        });
+        return model;
+    };
+    // 材质替换
+    const replaceMaterial = (child, color = 0x676565, meshNames, envMap) => {
+        const { type, name } = child;
+        // 灯光
+        if (type.indexOf('Light') > -1) ;
+        if (DEFAULTCONFIG.mesh.receiveShadowName.some(it => name.indexOf(it) > -1)) {
+            // 接收阴影
+            child.traverse((el) => {
+                if (el.isMesh) {
+                    el.receiveShadow = true;
+                }
+            });
+        }
+        else if (meshNames.some(it => name.indexOf(it) > -1)) {
+            setMaterialColor(child, color);
+        }
+        else if (child.isMesh) {
+            envMap && (child.material.envMap = envMap);
+            child.castShadow = true;
+            child.receiveShadow = true;
+        }
+    };
+    // 获取颜色数组
+    const getColorArr = (color) => {
+        let arr = [];
+        if (Array.isArray(color)) {
+            arr = color;
+        }
+        else if (color != void 0) {
+            arr = [color];
+        }
+        return arr;
+    };
+    // 设置材质颜色
+    const setMaterialColor = (e, color) => {
+        e.traverse((el) => {
+            if (el.isMesh) {
+                el.castShadow = true;
+                el.receiveShadow = true;
+                if (Array.isArray(el.material)) {
+                    el.material.forEach((mt) => {
+                        mt.color.set(color);
+                    });
+                }
+                else {
+                    el.material.color.set(color);
+                }
+            }
+        });
+    };
+    // 相机入场动画
+    const cameraInSceneAnimate = (camera, to, at) => {
+        camera.lookAt(at);
+        // @ts-ignore
+        camera._lookAt_ = at;
+        return new Promise(resolve => {
+            new TWEEN__namespace.Tween(camera.position)
+                .to(to, 1000)
+                .easing(TWEEN__namespace.Easing.Quadratic.In)
+                .start()
+                .onUpdate(() => {
+                // 设置相机对焦位置
+                camera.lookAt(at);
+                // @ts-ignore
+                camera._lookAt_ = at;
+            })
+                .onComplete(() => {
+                resolve(camera);
+            });
+        });
+    };
+    // 相机聚焦转场
+    const cameraLookatAnimate = (camera, to, target) => {
+        return new Promise(resolve => {
+            new TWEEN__namespace.Tween(target)
+                .to(to, 1000)
+                .easing(TWEEN__namespace.Easing.Quadratic.In)
+                .start()
+                .onUpdate(pos => {
+                // 设置相机对焦位置
+                camera.lookAt(pos);
+                // @ts-ignore
+                camera._lookAt_ = pos;
+            })
+                .onComplete(() => {
+                resolve(camera);
+            });
+        });
+    };
+    // 相机于控制联动动画
+    const cameraLinkageControlsAnimate = (controls, camera, to, target) => {
+        return new Promise(resolve => {
+            new TWEEN__namespace.Tween(camera.position)
+                .to(to, 1000)
+                .easing(TWEEN__namespace.Easing.Quadratic.In)
+                .start()
+                .onUpdate(() => {
+                // 设置相机对焦位置
+                const at = controls.target;
+                camera.lookAt(at);
+                // @ts-ignore
+                camera._lookAt_ = at;
+            });
+            new TWEEN__namespace.Tween(controls.target)
+                .to(target, 1000)
+                .easing(TWEEN__namespace.Easing.Quadratic.In)
+                .start()
+                .onComplete(() => {
+                resolve(camera);
+            });
+        });
+    };
+    // 创建精灵动画
+    const createSpriteAnimate = (model, POS, range = 1, duration = 10) => {
+        // 创建动画
+        // 创建对象的关键帧数据
+        let times = [0, duration / 2, duration];
+        let values = [
+            ...POS, // 0
+            POS[0],
+            POS[1] + range,
+            POS[2], // 5
+            ...POS // 10
+        ];
+        let posTrack = new THREE__namespace.KeyframeTrack('sprite.position', times, values);
+        let clip = new THREE__namespace.AnimationClip('sprite_up_down', duration, [posTrack]);
+        const mixer = new THREE__namespace.AnimationMixer(model);
+        const action = mixer.clipAction(clip);
+        // 暂停
+        // action.paused = true
+        // 动画速度
+        action.timeScale = 5;
+        // 播放
+        action.play();
+        // 记录数据
+        model.__action__ = action;
+        model.__mixer__ = mixer;
+        return model;
+    };
+    // 获取 3 维平面位置
+    const getPlanePosition = (dom, object, camera) => {
+        let halfw = dom.clientWidth / 2;
+        let halfh = dom.clientHeight / 2;
+        let position = object.position.clone();
+        const scale = object.scale;
+        position.y += scale.x / 2;
+        // 平面坐标
+        let vector = position.project(camera);
+        // 二维坐标 (没有加偏移量因为 css 父级又相对定位)
+        let pos = {
+            left: vector.x * halfw + halfw,
+            top: -vector.y * halfh + halfh
+        };
+        return pos;
+    };
+    // 查找模型对象中包含指定属性的集合
+    const findObjectsByHasProperty = (children, values, property = 'name') => {
+        let list = [];
+        if (!children || !children.length)
+            return [];
+        function find(data) {
+            data.forEach(el => {
+                const name = el[property];
+                if (typeof name == 'string' && values.some(t => name.indexOf(t) > -1)) {
+                    list.push(el);
+                }
+                if (el.children) {
+                    find(el.children);
+                }
+            });
+        }
+        find(children);
+        return list;
+    };
+    // 获取状态偏差值
+    const STATUS_OFFSET = DEFAULTCONFIG.statusOffset;
+    const getStatusOffset = (key, item, offset = {}) => {
+        const type = item.type;
+        // @ts-ignore
+        const defOffset = STATUS_OFFSET[key] || {};
+        const obj = offset[type] || defOffset[type] || {};
+        // 坐标
+        let position = deepMerge({ x: 0, y: 0, z: 0 }, obj.position || {});
+        // 角度
+        let rotation = deepMerge({ x: 0, y: 0, z: 0 }, obj.rotation || {});
+        (rotation.x = (Math.PI / 180) * rotation.x),
+            (rotation.y = (Math.PI / 180) * rotation.y),
+            (rotation.z = (Math.PI / 180) * rotation.z);
+        return {
+            position,
+            rotation
+        };
+    };
+    // 创建文字
+    const createText = (item, fontParser, color = 0xffffff, offset) => {
+        const obj = getStatusOffset('TEXT', item, offset);
+        let font = item.font || {};
+        // 文字
+        let textGeo = new TextGeometry_js.TextGeometry(item.name || '', {
+            font: fontParser,
+            size: font.size || 10,
+            depth: 0,
+            curveSegments: 12, // 曲线分段
+            bevelThickness: 1, // 斜面厚度
+            bevelSize: 0.1, // 斜角大小
+            bevelEnabled: true // 斜角
+        });
+        const rot = obj.rotation;
+        textGeo.rotateX(rot.x);
+        textGeo.rotateY(rot.y);
+        textGeo.rotateZ(rot.z);
+        const pos = obj.position;
+        // 计算边界
+        textGeo.computeBoundingBox();
+        // 计算垂直算法
+        textGeo.computeVertexNormals();
+        // @ts-ignore
+        let offsetX = 0.5 * (textGeo.boundingBox.max.x - textGeo.boundingBox.min.x);
+        // @ts-ignore
+        let offsetZ = 0.5 * (textGeo.boundingBox.max.z - textGeo.boundingBox.min.z);
+        let material = new THREE__namespace.MeshPhongMaterial({
+            color: font.color != void 0 ? font.color : color,
+            flatShading: !true
+        });
+        let mesh = new THREE__namespace.Mesh(textGeo, material);
+        mesh.castShadow = true;
+        mesh.position.set((pos.x || 0) - offsetX, pos.y || 0, (pos.z || 0) - offsetZ);
+        mesh.name = 'text';
+        // @ts-ignore
+        mesh._isText_ = true;
+        return mesh;
+    };
+    // 创建警告标识 key、数据、模型、光源半径、缩放
+    const createWarning = (key, item, model, offset, radius = 100, s = 1) => {
+        if (!model)
+            return;
+        const obj = getStatusOffset('WARNING', item, offset);
+        let group = new THREE__namespace.Group();
+        // 深克隆
+        let warningSigns = modelDeepClone(model);
+        warningSigns.scale.set(s, s, s);
+        // 位置
+        const pos = obj.position;
+        warningSigns.position.set(pos.x, pos.y, pos.z);
+        // 角度
+        const rot = obj.rotation;
+        warningSigns.rotation.set(rot.x, rot.y, rot.z);
+        group.add(warningSigns);
+        // 创建光源
+        // 点光源 (颜色、强度、距离、衰减) 衰减！！！不要默认值
+        let light = new THREE__namespace.PointLight(0xc20c00, 8, radius, 0);
+        // const sphere = new THREE.SphereGeometry( 1, 16, 8 )
+        // light.add( new THREE.Mesh( sphere, new THREE.MeshBasicMaterial( { color: 0xff0040 } ) ) )
+        light.name = '灯光';
+        light.position.y = pos.y + 30;
+        group.add(light);
+        group.name = key;
+        // 警告标识动画
+        let mixer = new THREE__namespace.AnimationMixer(group);
+        // 创建颜色关键帧对象
+        // 0 时刻对应颜色 1，0，0	 .25时刻对应颜色 1，1，1 .75...
+        let colorKF = new THREE__namespace.KeyframeTrack('红色.material.color', [0, 0.25, 0.75], [1, 0, 0, 1, 1, 0, 1, 0, 0]);
+        let lightKF = new THREE__namespace.KeyframeTrack('灯光.color', [0, 0.25, 0.75], [1, 0, 0, 1, 1, 0, 1, 0, 0]);
+        // 创建名为Sphere对象的关键帧数据	从0~20时间段，尺寸scale缩放3倍
+        let scaleTrack = new THREE__namespace.KeyframeTrack('警告标识.scale', [0, 0.5, 1], [1, 1, 1, 1.2, 1.2, 2, 1, 1, 1]);
+        // 多个帧动画作为元素创建一个剪辑 clip 对象，命名‘warning_’，持续时间1
+        let clip = new THREE__namespace.AnimationClip(`warning_`, 1, [colorKF, lightKF, scaleTrack]);
+        let action = mixer.clipAction(clip);
+        // 暂停
+        action.paused = true;
+        // 播放
+        action.play();
+        // 隐藏
+        group.visible = false;
+        // @ts-ignore
+        group._isWarning_ = true;
+        return {
+            group,
+            action,
+            mixer
+        };
+    };
+    // 创建状态标识
+    const createStatusMark = (item, model, offset, isDisabled) => {
+        if (!model)
+            return;
+        const obj = getStatusOffset(isDisabled ? 'DISABLED' : 'STATUS', item, offset);
+        // 深克隆
+        let status = modelDeepClone(model);
+        // 位置
+        const pos = obj.position;
+        status.position.set(pos.x, pos.y, pos.z);
+        // 角度
+        const rot = obj.rotation;
+        status.rotation.set(rot.x, rot.y, rot.z);
+        status.visible = false;
+        status._isStatus_ = true;
+        return status;
     };
 
     // 判断指定类型
@@ -146,35 +837,45 @@
         }
         return target;
     };
-    /**
-     * 校验url地址是否正确
-     * @param { string } url 需要校验的 url 地址
-     * @return { boolean } 校验结果
-     * @example
-     * checkUrl( 'https://www.baidu.com' )
-     */
-    const checkUrl = (url) => {
-        !url && (url = '');
-        let regex = /^([hH][tT]{2}[pP]:\/\/|[hH][tT]{2}[pP][sS]:\/\/)[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,}(\/\S*)?$/;
-        if (!regex.test(url)) {
-            const reg = /^(https?:\/\/)(?:\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(?::\d{1,5})?(?:[/?#]\S*)?$/;
-            return reg.test(url);
-        }
-        // return false
-        return true;
+
+    // 随机数
+    const random = (min, max) => {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
     };
-    // 获取地址
-    const getUrl = (url, baseUrl = '') => {
-        // 判断数组
-        if (Array.isArray(url)) {
-            return url.map(u => getUrl(u, baseUrl));
-        }
-        // 检查是否为完整链接 不是则拼接域名地址
-        if (!checkUrl(url) && url.indexOf(baseUrl) < 0) {
-            return baseUrl + url;
-        }
-        return url;
-    };
+
+    var index$1 = /*#__PURE__*/Object.freeze({
+        __proto__: null,
+        getTextturesUrl: getTextturesUrl,
+        numConverter: numConverter,
+        getUrl: getUrl,
+        deleteDB: deleteDB,
+        getDBVersion: getDBVersion,
+        createDB: createDB,
+        getDataByKey: getDataByKey,
+        getAllData: getAllData,
+        get_P_S_R_param: get_P_S_R_param,
+        modelDeepClone: modelDeepClone,
+        replaceMaterial: replaceMaterial,
+        getColorArr: getColorArr,
+        setMaterialColor: setMaterialColor,
+        cameraInSceneAnimate: cameraInSceneAnimate,
+        cameraLookatAnimate: cameraLookatAnimate,
+        cameraLinkageControlsAnimate: cameraLinkageControlsAnimate,
+        createSpriteAnimate: createSpriteAnimate,
+        getPlanePosition: getPlanePosition,
+        findObjectsByHasProperty: findObjectsByHasProperty,
+        getStatusOffset: getStatusOffset,
+        createText: createText,
+        createWarning: createWarning,
+        createStatusMark: createStatusMark,
+        isType: isType,
+        isObject: isObject,
+        isDOM: isDOM,
+        deepClone: deepClone,
+        deepMerge: deepMerge,
+        checkUrl: checkUrl,
+        random: random
+    });
 
     var defOptions = {
         container: document.body,
@@ -338,12 +1039,1271 @@
         }
     };
 
-    // 获取贴图地址
-    const getTextturesUrl = (jpg) => {
-        return new URL(`../assets/imgs/texttures/${jpg}`, (typeof document === 'undefined' && typeof location === 'undefined' ? new (require('u' + 'rl').URL)('file:' + __filename).href : typeof document === 'undefined' ? location.href : (document.currentScript && document.currentScript.tagName.toUpperCase() === 'SCRIPT' && document.currentScript.src || new URL('three-scene.js', document.baseURI).href))).href;
+    // 转换数据
+    const useConvertData = () => {
+        // 转换地图数据
+        const transformGeoJSON = (json) => {
+            let features = json.features;
+            for (let i = 0; i < features.length; i++) {
+                const item = features[i];
+                // 将 Polygon 处理跟 MultiPolygon 一样的数据结构
+                if (item.geometry.type === 'Polygon') {
+                    item.geometry.coordinates = [item.geometry.coordinates];
+                }
+            }
+            return json;
+        };
+        return {
+            transformGeoJSON
+        };
     };
 
-    const getOpts = () => ({
+    const useCountryLine = () => {
+        // 创建国家平面边线
+        const createCountryFlatLine = (data, materialOptions, lineType = 'LineLoop') => {
+            let materialOpt = {
+                color: 0x00ffff,
+                linewidth: 1,
+                depthTest: false
+            };
+            materialOpt = deepMerge(materialOpt, materialOptions);
+            let material = new THREE__namespace.LineBasicMaterial(materialOpt);
+            if (lineType === 'Line2') {
+                material = new LineMaterial_js.LineMaterial(materialOpt);
+            }
+            let features = data.features;
+            let lineGroup = new THREE__namespace.Group();
+            for (let i = 0; i < features.length; i++) {
+                const element = features[i];
+                const coordinates = element.geometry.coordinates;
+                for (let j = 0; j < coordinates.length; j++) {
+                    const coords = coordinates[j];
+                    // 每一块的点数据
+                    const points = [];
+                    if (lineType === 'Line2') {
+                        coords.forEach((polygon) => {
+                            polygon.forEach(item => {
+                                points.push(item[0], 0, -item[1]);
+                            });
+                        });
+                    }
+                    else {
+                        coords.forEach((polygon) => {
+                            polygon.forEach(item => {
+                                points.push(new THREE__namespace.Vector3(item[0], item[1], 0));
+                            });
+                        });
+                    }
+                    // 根据每一块的点数据创建线条
+                    let line = createLine(points, material, lineType);
+                    // 将线条插入到组中
+                    lineGroup.add(line);
+                }
+            }
+            // 返回所有线条
+            return lineGroup;
+        };
+        // 获取所有点位
+        const getPoints = (data, y = 0, isVector3) => {
+            let features = data.features;
+            const points = [];
+            for (let i = 0; i < features.length; i++) {
+                const element = features[i];
+                const coordinates = element.geometry.coordinates;
+                for (let j = 0; j < coordinates.length; j++) {
+                    coordinates[j].forEach((polygon) => {
+                        polygon.forEach(item => {
+                            if (isVector3) {
+                                points.push(new THREE__namespace.Vector3(item[0], y, -item[1]));
+                            }
+                            else {
+                                points.push(item[0], y, -item[1]);
+                            }
+                        });
+                    });
+                }
+            }
+            return points;
+        };
+        // 根据点数据创建闭合的线条
+        // 生成的线条类型 Line 线 | LineLoop 环线 | LineSegments 线段 | Line2
+        const createLine = (points, material, lineType = 'LineLoop') => {
+            let line;
+            if (lineType === 'Line2') {
+                const geometry = new LineGeometry_js.LineGeometry();
+                geometry.setPositions(points);
+                line = new Line2_js.Line2(geometry, material);
+                line.name = 'countryLine2';
+                // 计算线段距离
+                line.computeLineDistances();
+            }
+            else {
+                const geometry = new THREE__namespace.BufferGeometry();
+                geometry.setFromPoints(points);
+                line = new THREE__namespace[lineType](geometry, material);
+                line.name = 'countryLine';
+            }
+            return line;
+        };
+        return {
+            createCountryFlatLine,
+            getPoints
+        };
+    };
+
+    // three 场景 cdd 3d 标签
+    const useCSS3D = () => {
+        // 初始化 CSS3D 标签
+        const initCSS3DRender = (options, container) => {
+            const { width, height } = options;
+            const CSS3DRender = new CSS3DRenderer_js.CSS3DRenderer();
+            // 设置渲染器的尺寸
+            CSS3DRender.setSize(width, height);
+            // 容器 css 样式
+            CSS3DRender.domElement.style.position = 'absolute';
+            CSS3DRender.domElement.style.left = '0px';
+            CSS3DRender.domElement.style.top = '0px';
+            CSS3DRender.domElement.style.pointerEvents = 'none';
+            container.appendChild(CSS3DRender.domElement);
+            return CSS3DRender;
+        };
+        // 创建 3D 元素
+        const createCSS3DDom = (options) => {
+            const { name, className = '', onClick, position, sprite } = options;
+            const dom = document.createElement('div');
+            dom.innerHTML = name;
+            dom.className = className;
+            const label = sprite ? new CSS3DRenderer_js.CSS3DSprite(dom) : new CSS3DRenderer_js.CSS3DObject(dom);
+            dom.style.pointerEvents = onClick ? 'auto' : 'none';
+            dom.style.position = 'absolute';
+            if (typeof onClick === 'function') {
+                dom.addEventListener('click', onClick);
+            }
+            if (position) {
+                label.position.set(...position);
+            }
+            return label;
+        };
+        return {
+            initCSS3DRender,
+            createCSS3DDom
+        };
+    };
+
+    const { createCSS3DDom } = useCSS3D();
+    // 地图柱状图 map-bar
+    const useMapBar = (options = {}) => {
+        // 默认参数
+        let _options = deepMerge({
+            // 高度
+            height: 10,
+            // 柱状大小
+            size: 2,
+            // 高度系数
+            factor: 1,
+            color1: 0xfffff,
+            color2: 0xffffff
+        }, options);
+        const createBar = (opts = {}, options = {}) => {
+            var _a;
+            _options = deepMerge(_options, options);
+            let { size, height, factor, color1, color2 } = _options;
+            size *= factor;
+            height *= factor;
+            height = height * ((_a = opts.heightRatio) !== null && _a !== void 0 ? _a : factor);
+            const [x, y, z] = opts.position || [0, 0, 0];
+            const group = new THREE__namespace.Group();
+            // 创建柱状图几何体
+            const geo = new THREE__namespace.BoxGeometry(size, size, height);
+            // 自定义着色器材料
+            const mat = new THREE__namespace.ShaderMaterial({
+                depthTest: false,
+                // side: THREE.DoubleSide,
+                transparent: true,
+                vertexColors: false,
+                uniforms: {
+                    uColor1: { value: new THREE__namespace.Color(color1) },
+                    uColor2: { value: new THREE__namespace.Color(color2) },
+                    uOpacity: { value: 0.6 }
+                },
+                vertexShader: `
+				varying vec3 vColor;
+				uniform vec3 uColor1;
+				uniform vec3 uColor2;
+				void main() {
+					float percent = (position.z + 0.0) / 100.0; // 计算当前像素点在立方体高度上的百分比
+					vColor = mix(uColor1.rgb, uColor2.rgb, percent);
+					gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+				}
+			`,
+                fragmentShader: `
+				varying vec3 vColor;
+				uniform float uOpacity;
+				void main() {
+					gl_FragColor = vec4(vColor, uOpacity);
+				}
+			`
+            });
+            // 创建柱状图网格
+            const barMesh = new THREE__namespace.Mesh(geo, mat);
+            group.add(barMesh);
+            group.name = '柱状图';
+            group.position.set(x, y, z + height / 2);
+            group.renderOrder = 99;
+            if (opts.label) {
+                const { name = '', className = '', onClick } = opts.label;
+                const label = createCSS3DDom({
+                    name,
+                    className,
+                    position: [0, 0, height / 2],
+                    onClick
+                });
+                label.rotateX(Math.PI * 0.5);
+                group.add(label);
+            }
+            return group;
+        };
+        return {
+            createBar
+        };
+    };
+
+    // 边缘线(地图 边界) out-line
+    const useOutline = (options = {}) => {
+        // 默认参数
+        let _options = deepMerge({
+            // 粒子大小
+            size: 0.1,
+            color: 0xf57170,
+            // 动画范围
+            range: 500,
+            // 系数
+            factor: 1,
+            // 速度
+            speed: 6
+        }, options);
+        const createOutline = (points, options = {}) => {
+            _options = deepMerge(_options, options);
+            const { size, factor, range, color } = _options;
+            const positions = new Float32Array(points);
+            const opacityGeometry = new THREE__namespace.BufferGeometry();
+            // 设置顶点
+            opacityGeometry.setAttribute('position', new THREE__namespace.BufferAttribute(positions, 3));
+            // 设置索引
+            const vertexIndexs = new Float32Array(Math.floor(positions.length / 3)).map((_, i) => i);
+            opacityGeometry.setAttribute('aIndex', new THREE__namespace.BufferAttribute(vertexIndexs, 1));
+            const mat = new THREE__namespace.ShaderMaterial({
+                vertexShader: `
+				attribute float aOpacity;
+				uniform float uSize;
+
+				attribute float aIndex;
+				varying vec3 vp;
+				varying float vertexIndex;
+
+				void main(){
+					gl_Position = projectionMatrix*modelViewMatrix*vec4(position,1.0);
+					gl_PointSize = uSize;
+
+					vp = position;
+					vertexIndex = aIndex;
+				}
+			`,
+                fragmentShader: `
+				varying float vertexIndex;
+				uniform vec3 uColor;
+				uniform float uIndex;
+				uniform float uRange;
+
+				float invert(float n){
+					return 1.-n;
+				}
+
+				void main(){
+					float uOpacity = 1.0;
+					if(vertexIndex <= uIndex || vertexIndex >= (uRange + uIndex)){
+							discard;
+					}
+					uOpacity = (vertexIndex - uIndex)/uRange;
+					if ( uOpacity < 0.2) {
+						discard;
+					}
+					vec2 uv=vec2(gl_PointCoord.x,invert(gl_PointCoord.y));
+					vec2 cUv=2.*uv-1.;
+					vec4 color=vec4(1./length(cUv));
+					color*=uOpacity;
+					color.rgb*=uColor;
+					gl_FragColor=color;
+				}
+			`,
+                transparent: true, // 设置透明
+                depthTest: false,
+                uniforms: {
+                    uSize: {
+                        value: size * factor
+                    },
+                    uIndex: { value: 0 },
+                    uLength: { value: vertexIndexs.length },
+                    uRange: { value: range },
+                    uColor: {
+                        value: new THREE__namespace.Color(color)
+                    }
+                }
+            });
+            const opacityPoints = new THREE__namespace.Points(opacityGeometry, mat);
+            opacityPoints.name = '轮廓';
+            opacityPoints.scale.setScalar(factor);
+            return opacityPoints;
+        };
+        const update = (mesh) => {
+            const mat = mesh.material;
+            const uLength = mat.uniforms.uLength.value;
+            mat.uniforms.uIndex.value += _options.speed;
+            if (mat.uniforms.uIndex.value >= uLength) {
+                mat.uniforms.uIndex.value = 0;
+            }
+        };
+        return {
+            createOutline,
+            update,
+            outlineUpdate: update
+        };
+    };
+
+    // 光柱
+    const useMarkLight = (options = {}) => {
+        // 默认参数
+        let _options = deepMerge({
+            // 标记点的图片url
+            pointTextureUrl: getTextturesUrl('point.png'),
+            // 光圈的URL
+            circleTextureUrl: getTextturesUrl('circle.png'),
+            // 光柱的URL
+            lightTextureUrl: getTextturesUrl('light.png'),
+            // 系数
+            factor: 1,
+            color: 0x00ffff
+        }, options);
+        // 纹理加载器
+        const textureLoader = new THREE__namespace.TextureLoader();
+        // 创建底部光点
+        const createBottomPoint = () => {
+            // 标记点：几何体，材质，
+            const geometry = new THREE__namespace.PlaneGeometry(3, 3);
+            const material = new THREE__namespace.MeshBasicMaterial({
+                map: textureLoader.load(_options.pointTextureUrl),
+                color: _options.color,
+                side: THREE__namespace.DoubleSide,
+                transparent: true,
+                depthWrite: false //禁止写入深度缓冲区数据
+            });
+            let mesh = new THREE__namespace.Mesh(geometry, material);
+            mesh.renderOrder = 1;
+            mesh.name = '底部光点';
+            // 缩放
+            const scale = 0.3 * _options.factor;
+            mesh.scale.setScalar(scale);
+            return mesh;
+        };
+        // 创建光圈
+        const createLightCircle = () => {
+            // 标记点：几何体，材质，
+            const geometry = new THREE__namespace.PlaneGeometry(3, 3);
+            const material = new THREE__namespace.MeshBasicMaterial({
+                map: textureLoader.load(_options.circleTextureUrl),
+                color: _options.color,
+                side: THREE__namespace.DoubleSide,
+                opacity: 0,
+                transparent: true,
+                depthWrite: false //禁止写入深度缓冲区数据
+            });
+            let mesh = new THREE__namespace.Mesh(geometry, material);
+            mesh.renderOrder = 2;
+            mesh.name = 'createLightHalo';
+            // 缩放
+            const scale = 0.5 * _options.factor;
+            mesh.scale.setScalar(scale);
+            // 动画延迟时间
+            const delay = random(0, 2000);
+            // 动画：透明度缩放动画
+            // @ts-ignore
+            mesh.tween1 = new TWEEN__namespace.Tween({ scale: scale, opacity: 0 })
+                .to({ scale: scale * 1.5, opacity: 1 }, 1000)
+                .delay(delay)
+                .onUpdate(params => {
+                let { scale, opacity } = params;
+                mesh.scale.setScalar(scale);
+                mesh.material.opacity = opacity;
+            });
+            // @ts-ignore
+            mesh.tween2 = new TWEEN__namespace.Tween({ scale: scale * 1.5, opacity: 1 })
+                .to({ scale: scale * 2, opacity: 0 }, 1000)
+                .onUpdate(params => {
+                let { scale, opacity } = params;
+                mesh.scale.setScalar(scale);
+                mesh.material.opacity = opacity;
+            });
+            // 第一段动画完成后接第二段
+            // @ts-ignore
+            mesh.tween1.chain(mesh.tween2);
+            // 第二段动画完成后接第一段
+            // @ts-ignore
+            mesh.tween2.chain(mesh.tween1);
+            // @ts-ignore
+            mesh.tween1.start();
+            return mesh;
+        };
+        // 创建光柱
+        const createMarkLight = (position = [0, 0, 0], height = 10, options = {}) => {
+            _options = deepMerge(_options, options);
+            const group = new THREE__namespace.Group();
+            // 柱体的geo,6.19=柱体图片高度/宽度的倍数
+            const geometry = new THREE__namespace.PlaneGeometry(height / 6.219, height);
+            // 柱体旋转-90度，垂直于Z轴
+            geometry.rotateX(-Math.PI / 2);
+            // 柱体的z轴移动高度一半对齐中心点
+            geometry.translate(0, 0, height / 2);
+            // 柱子材质
+            const material = new THREE__namespace.MeshBasicMaterial({
+                map: textureLoader.load(_options.lightTextureUrl),
+                color: _options.color,
+                transparent: true,
+                depthWrite: false,
+                side: THREE__namespace.DoubleSide
+            });
+            // 光柱01
+            let light01 = new THREE__namespace.Mesh(geometry, material);
+            light01.rotateX(Math.PI);
+            light01.position.z = height;
+            // 渲染顺序
+            light01.renderOrder = 3;
+            light01.name = '光柱 01';
+            // 光柱02：复制光柱01
+            let light02 = light01.clone();
+            light02.name = '光柱 02';
+            // 光柱02，旋转90°，跟 光柱01交叉
+            light02.rotateZ(Math.PI / 2);
+            // 底部光点
+            const bottomPoint = createBottomPoint();
+            // 光圈
+            const circleLight = createLightCircle();
+            // 将光柱和标点添加到组里
+            group.add(light01, light02, bottomPoint, circleLight);
+            const [x, y, z] = position;
+            group.position.set(x, y, z);
+            group.rotateX(Math.PI * 0.5);
+            group.name = '光柱标记';
+            return group;
+        };
+        return {
+            createMarkLight
+        };
+    };
+
+    // 电子围栏 fence
+    const useFence = () => {
+        const repeat = [1, 0.8];
+        const offsetY = 0.2;
+        // 贴图
+        const texture = new THREE__namespace.TextureLoader().load(getTextturesUrl('fenceMap0.png'), tx => {
+            tx.wrapT = THREE__namespace.RepeatWrapping;
+            tx.repeat.x = repeat[0];
+            tx.repeat.y = repeat[1];
+            tx.offset.y = offsetY;
+        });
+        const texture2 = new THREE__namespace.TextureLoader().load(getTextturesUrl('fenceMap1.png'), tx => {
+            tx.wrapT = THREE__namespace.RepeatWrapping;
+            tx.repeat.x = repeat[0];
+            tx.repeat.y = repeat[1];
+            tx.offset.x = offsetY;
+        });
+        const texture3 = new THREE__namespace.TextureLoader().load(getTextturesUrl('fenceMap2.png'), tx => {
+            tx.wrapS = THREE__namespace.RepeatWrapping;
+            tx.wrapT = THREE__namespace.RepeatWrapping;
+        });
+        // 创建平面
+        const createPlane = (arr, indexArr, color) => {
+            // 获取定点坐标组成一维数组
+            const data = [];
+            for (let i = 0; i < indexArr.length; i++) {
+                const index = indexArr[i];
+                data.push(...arr[index]);
+            }
+            const geometry = new THREE__namespace.BufferGeometry();
+            // 设置几何图形顶点位置 3 个一组
+            const vertices = new Float32Array(data);
+            geometry.setAttribute('position', new THREE__namespace.BufferAttribute(vertices, 3));
+            const count = indexArr.length;
+            const normalAttribute = new THREE__namespace.BufferAttribute(new Float32Array(count * 3), 3);
+            geometry.setAttribute('normal', normalAttribute);
+            for (let i = 0; i < count; i++) {
+                normalAttribute.setXYZ(i, 0, 0, 0);
+            }
+            const uvs = [1, 1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1];
+            const uvsAttribute = new THREE__namespace.BufferAttribute(new Float32Array(uvs), 2);
+            geometry.setAttribute('uv', uvsAttribute);
+            const material = new THREE__namespace.MeshPhongMaterial({
+                color: color,
+                map: texture,
+                transparent: true,
+                blending: THREE__namespace.AdditiveBlending,
+                side: THREE__namespace.DoubleSide
+            });
+            const material2 = new THREE__namespace.MeshPhongMaterial({
+                color: color,
+                map: texture2,
+                transparent: true,
+                blending: THREE__namespace.AdditiveBlending,
+                side: THREE__namespace.DoubleSide
+            });
+            var material3 = new THREE__namespace.MeshPhongMaterial({
+                color: color,
+                map: texture3,
+                opacity: 0.5,
+                transparent: true,
+                side: THREE__namespace.DoubleSide
+            });
+            const mesh = new THREE__namespace.Mesh(geometry, material);
+            const group = new THREE__namespace.Group();
+            const mesh2 = new THREE__namespace.Mesh(geometry, material2);
+            const mesh3 = new THREE__namespace.Mesh(geometry, material3);
+            group.add(mesh, mesh2, mesh3);
+            // group.add(mesh2, mesh3)
+            return group;
+        };
+        const createFence = (model, color = 0xa7ff83) => {
+            const group = new THREE__namespace.Group();
+            var boxHelper = new THREE__namespace.BoxHelper(model, color);
+            boxHelper.update();
+            const pos = boxHelper.geometry.getAttribute('position').array;
+            const arr = [];
+            for (let i = 0; i < pos.length; i += 3) {
+                const x = pos[i];
+                const y = pos[i + 1];
+                const z = pos[i + 2];
+                arr.push([x, y, z]);
+            }
+            // 围栏
+            const m1 = createPlane(arr, [0, 1, 2, 2, 3, 0], color);
+            const m2 = createPlane(arr, [4, 5, 6, 6, 7, 4], color);
+            const m3 = createPlane(arr, [4, 0, 3, 3, 7, 4], color);
+            const m4 = createPlane(arr, [1, 5, 6, 6, 2, 1], color);
+            group.add(m1, m2, m3, m4);
+            console.log(group);
+            return group;
+        };
+        const fenceAnimate = (factor = 1) => {
+            const steep = 0.008 * factor;
+            if (texture) {
+                let y = texture.offset.y - steep;
+                if (y < 0)
+                    y = offsetY;
+                texture.offset.y = y;
+            }
+            if (texture2) {
+                let y = texture2.offset.y - steep;
+                if (y < 0)
+                    y = offsetY;
+                texture2.offset.y = y;
+            }
+        };
+        return {
+            createFence,
+            fenceAnimate
+        };
+    };
+
+    const useCorrugatedPlate = (options = {}) => {
+        // 默认参数
+        let _options = deepMerge({
+            // 范围
+            range: 100,
+            // 间隔
+            interval: 0.8,
+            // 单个平面大小
+            size: 0.2,
+            // 颜色
+            color: 0x00b8a9,
+            // 浅色
+            light: 0x0d7377,
+            // 系数
+            factor: 1
+        }, options);
+        const createGeometry = () => {
+            let { range, interval, size, factor } = _options;
+            range *= factor;
+            interval *= factor;
+            size *= factor;
+            const geometrys = [];
+            // 间隔，大小
+            const len = Math.floor(range / interval);
+            // 阵列多个立方体网格模型
+            for (let i = -len; i <= len; i++) {
+                for (let j = -len; j <= len; j++) {
+                    const geo = new THREE__namespace.PlaneGeometry(size, size);
+                    const x = i * interval;
+                    const z = j * interval;
+                    // 矩阵
+                    const matrix = new THREE__namespace.Matrix4();
+                    const pos = new THREE__namespace.Vector3(x, -size, z);
+                    // 四元数
+                    const quaternion = new THREE__namespace.Quaternion();
+                    // 欧拉对象
+                    const rotation = new THREE__namespace.Euler();
+                    // 缩放
+                    const scale = new THREE__namespace.Vector3(1, 1, 1);
+                    quaternion.setFromEuler(rotation);
+                    // 传入位置，角度，缩放 构建矩阵
+                    matrix.compose(pos, quaternion, scale);
+                    // 应用缩放矩阵到geometry的每个顶点
+                    geo.applyMatrix4(matrix);
+                    geometrys.push(geo);
+                }
+            }
+            return geometrys;
+        };
+        const createCorrugatedPlate = (options = {}) => {
+            _options = deepMerge(_options, options);
+            let { range, color, light, factor } = _options;
+            range *= factor;
+            const geometrys = createGeometry();
+            // 合并几何图形
+            const geometry = BufferGeometryUtils__namespace.mergeGeometries(geometrys);
+            const material = new THREE__namespace.ShaderMaterial({
+                //	着色器代码 变量
+                uniforms: {
+                    uColor: { value: new THREE__namespace.Color(light) },
+                    uTcolor: { value: new THREE__namespace.Color(color) },
+                    uRadius: { value: 1.25 },
+                    uLength: { value: range / 10 }, // 扫过区域(宽度)
+                    uRange: { value: range } // 扫过最大范围
+                },
+                // 顶点着色器
+                vertexShader: `
+				varying vec3 vp;
+				void main(){
+					vp = position;
+					gl_Position	= projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+				}
+			`,
+                // 片元着色器
+                fragmentShader: `
+				varying vec3 vp;
+				uniform vec3 uColor;
+				uniform vec3 uTcolor;
+				uniform float uRadius;
+				uniform float uLength;
+				float getLeng(float x, float y){
+					return	sqrt((x-0.0)*(x-0.0)+(y-0.0)*(y-0.0));
+				}
+				void main(){
+					float uOpacity = 0.8;
+					vec3 vColor = uColor;
+					float length = getLeng(vp.x,vp.z);
+					if ( length <= uRadius && length > uRadius - uLength ) {
+						float op = sin( (uRadius - length) / uLength ) ;
+						uOpacity = op;
+						if ( vp.y < 0.0 ) {
+							vColor = uColor * op;
+						} else {
+							vColor = uTcolor;
+						};
+						vColor = uTcolor;
+					}
+					gl_FragColor = vec4(vColor,uOpacity);
+				}
+			`,
+                transparent: true,
+                // 深度写入
+                depthWrite: false,
+                // depthTest: false,
+                side: THREE__namespace.DoubleSide
+            });
+            const mesh = new THREE__namespace.Mesh(geometry, material);
+            mesh.name = '波纹板';
+            return mesh;
+        };
+        const update = (mesh, dalte) => {
+            const mat = mesh.material;
+            // 扩散波半径
+            const range = mat.uniforms.uRange.value;
+            const length = mat.uniforms.uLength.value;
+            mat.uniforms.uRadius.value += dalte * (range / 4);
+            if (mat.uniforms.uRadius.value >= range + length) {
+                mat.uniforms.uRadius.value = 0;
+            }
+        };
+        return {
+            createCorrugatedPlate,
+            update,
+            corrugatedPlateUpdate: update
+        };
+    };
+
+    // 扩散波 diffusion
+    const useDiffusion = () => {
+        let material;
+        const createDiffusion = (width = 10, color = 0xff0ff0, circle = 5) => {
+            const geometry = new THREE__namespace.PlaneGeometry(width, width, 1, 1);
+            const vertexShader = [
+                'varying vec2 vUv;',
+                'void main() {',
+                'vUv = uv;',
+                // 最终顶点位置信息=投影矩阵*模型视图矩阵*每个顶点坐标
+                'gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );',
+                '}'
+            ].join('');
+            const fragmentShader = [
+                'varying vec2 vUv;',
+                'uniform vec3 uColor;',
+                'uniform float uOpacity;',
+                'uniform float uSpeed;',
+                'uniform float uSge;',
+                'uniform float time;',
+                'float PI = 3.14159265;',
+                'float drawCircle(float index, float range) {',
+                '	float opacity = 1.0;',
+                '	if (index >= 1.0 - range) {',
+                '		opacity = 1.0 - (index - (1.0 - range)) / range;',
+                '	} else if(index <= range) {',
+                '		opacity = index / range;',
+                '	}',
+                '	return opacity;',
+                '}',
+                'float distanceTo(vec2 src, vec2 dst) {',
+                '	float dx = src.x - dst.x;',
+                '	float dy = src.y - dst.y;',
+                '	float dv = dx * dx + dy * dy;',
+                '	return sqrt(dv);',
+                '}',
+                'void main() {',
+                '	float iTime = -time * uSpeed;',
+                '	float opacity = 0.0;',
+                '	float len = distanceTo(vec2(0.5, 0.5), vec2(vUv.x, vUv.y));',
+                '	float size = 1.0 / uSge;',
+                '	vec2 range = vec2(0.65, 0.75);',
+                '	float index = mod(iTime + len, size);',
+                // 中心圆
+                '	vec2 cRadius = vec2(0.06, 0.12);',
+                '	if (index < size && len <= 0.5) {',
+                '		float i = sin(index / size * PI);',
+                // 处理边缘锯齿
+                '		if (i >= range.x && i <= range.y){',
+                // 归一
+                '			float t = (i - range.x) / (range.y - range.x);',
+                // 边缘锯齿范围
+                '			float r = 0.3;',
+                '			opacity = drawCircle(t, r);',
+                '		}',
+                // 渐变
+                '		opacity *=	1.0 - len / 0.5;',
+                '	};',
+                '	gl_FragColor = vec4(uColor, uOpacity * opacity);',
+                '}'
+            ].join('');
+            material = new THREE__namespace.ShaderMaterial({
+                uniforms: {
+                    uColor: { value: new THREE__namespace.Color(color) },
+                    uOpacity: { value: 1 }, // 透明度
+                    uSpeed: { value: 0.1 }, // 速度
+                    uSge: { value: circle }, // 数量（圈数）
+                    uRadius: { value: width / 2 },
+                    time: { value: 0.0 }
+                },
+                transparent: true,
+                vertexShader: vertexShader,
+                fragmentShader: fragmentShader,
+                depthTest: false,
+                blending: THREE__namespace.AdditiveBlending,
+                side: THREE__namespace.DoubleSide
+            });
+            const mesh = new THREE__namespace.Mesh(geometry, material);
+            return mesh;
+        };
+        const updateDiffusion = (factor = 1) => {
+            if (!material)
+                return;
+            const time = performance.now() * 0.001 * factor;
+            material.uniforms.time.value = time;
+        };
+        return {
+            createDiffusion,
+            updateDiffusion
+        };
+    };
+
+    // 飞线
+    const useFlywire = (options = {}) => {
+        // 默认参数
+        let _options = deepMerge({
+            // 深度
+            depth: 0,
+            // 高度(凸起高度)
+            height: 4,
+            // 飞线点位数
+            divisions: 1000,
+            color: 0xffffff,
+            // 飞线-动态
+            flyColor: 0xffc107,
+            // 点位
+            pointColor: 0xff0ff0,
+            pointWidth: 2.5,
+            // 流动飞线点位宽度
+            flyPointWidth: 2.4,
+            // 管道分段数 默认值为64。
+            tubularSegments: 256,
+            // 管道的半径，默认值为1。
+            radius: 0.5,
+            // 管道横截面的分段数目，默认值为8
+            radialSegments: 8,
+            // 管道的两端是否闭合，默认值为false。
+            closed: false,
+            // 流动长度
+            length: 100,
+            // 系数
+            factor: 1,
+            // 流动速度
+            speed: 4
+        }, options);
+        // 流动材质
+        let flyMaterial;
+        // 做标点材质
+        let pointMaterial;
+        // 根据起点和终点获取曲线做标点
+        const getCurvePoint = (coords) => {
+            const [x1, z1] = coords[0];
+            const [x2, z2] = coords[1];
+            let { depth, height, factor, divisions } = _options;
+            height = (depth + height) * factor;
+            depth *= factor;
+            // 坐标起点
+            const v0 = new THREE__namespace.Vector3(x1, depth, -z1);
+            // 控制点1坐标
+            // 起点基础上，增加区间范围的 1/4
+            const v1 = new THREE__namespace.Vector3(x1 + (x2 - x1) / 4, height, -(z1 + (z2 - z1) / 4));
+            // 控制点2坐标
+            // 起点基础上，增加区间范围的 3/4
+            const v2 = new THREE__namespace.Vector3(x1 + ((x2 - x1) * 3) / 4, height, -(z1 + ((z2 - z1) * 3) / 4));
+            // 终点
+            const v3 = new THREE__namespace.Vector3(x2, depth, -z2);
+            // 使用3次贝塞尔曲线
+            const lineCurve = new THREE__namespace.CubicBezierCurve3(v0, v1, v2, v3);
+            // 获取曲线上的点
+            return lineCurve.getPoints(divisions);
+        };
+        // 创建飞线-动态
+        const createFly = (points) => {
+            const indexList = new Float32Array(points.map((_, index) => index));
+            // 根据点位创建几何体
+            const geo = new THREE__namespace.BufferGeometry().setFromPoints(points);
+            // 设置自定义索引标识
+            geo.setAttribute('aIndex', new THREE__namespace.BufferAttribute(indexList, 1));
+            return new THREE__namespace.Points(geo, flyMaterial);
+        };
+        // 创建坐标点
+        const createCroodPoint = (crood) => {
+            const [x, z] = crood;
+            let { pointWidth, depth, factor } = _options;
+            const width = pointWidth * factor;
+            depth *= factor;
+            // 创建平面
+            const geo = new THREE__namespace.PlaneGeometry(width, width, 1, 1);
+            const point = new THREE__namespace.Mesh(geo, pointMaterial);
+            point.position.set(x, depth, -z);
+            point.rotateX(-Math.PI * 0.5);
+            return point;
+        };
+        // 创建材质
+        const createFlywireTexture = (options = {}) => {
+            _options = deepMerge(_options, options);
+            flyMaterial = new THREE__namespace.ShaderMaterial({
+                depthTest: false,
+                uniforms: {
+                    // 线条颜色
+                    uColor: { value: new THREE__namespace.Color(_options.flyColor) },
+                    uIndex: { value: 0 },
+                    uTotal: { value: _options.divisions },
+                    // 流动宽度
+                    uWidth: { value: _options.flyPointWidth },
+                    // 流动长度
+                    uLength: { value: _options.length }
+                },
+                vertexShader: [
+                    'attribute float aIndex;',
+                    'uniform float uIndex;',
+                    'uniform float uWidth;',
+                    'uniform vec3 uColor;',
+                    'varying float vSize;',
+                    'uniform float uLength;',
+                    'void main(){',
+                    '		vec4 viewPosition = viewMatrix * modelMatrix * vec4(position,1);',
+                    '		gl_Position = projectionMatrix * viewPosition;',
+                    '		if(aIndex >= uIndex - uLength && aIndex < uIndex){',
+                    '			vSize = uWidth * ((aIndex - uIndex + uLength) / uLength);',
+                    '		}',
+                    '		gl_PointSize = vSize;',
+                    '}'
+                ].join(''),
+                side: THREE__namespace.DoubleSide,
+                fragmentShader: [
+                    'varying float vSize;',
+                    'uniform vec3 uColor;',
+                    'void main(){',
+                    '		if(vSize<=0.0){',
+                    '			gl_FragColor = vec4(1,0,0,0);',
+                    '		}else{',
+                    '			gl_FragColor = vec4(uColor,1);',
+                    '		}',
+                    '}'
+                ].join(''),
+                transparent: true,
+                vertexColors: false
+            });
+            pointMaterial = new THREE__namespace.ShaderMaterial({
+                uniforms: {
+                    uColor: { value: new THREE__namespace.Color(_options.pointColor) },
+                    uOpacity: { value: 1 }, // 透明度
+                    uSpeed: { value: 0.1 }, // 速度
+                    uSge: { value: 4 }, // 数量（圈数）
+                    uRadius: { value: (_options.pointWidth * _options.factor) / 2 },
+                    time: { value: 0.0 }
+                },
+                transparent: true,
+                depthTest: false,
+                vertexShader: [
+                    'varying vec2 vUv;',
+                    'void main() {',
+                    '	vUv = uv;',
+                    // 最终顶点位置信息=投影矩阵*模型视图矩阵*每个顶点坐标
+                    '	gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );',
+                    '}'
+                ].join(''),
+                fragmentShader: [
+                    'varying vec2 vUv;',
+                    'uniform vec3 uColor;',
+                    'uniform float uOpacity;',
+                    'uniform float uSpeed;',
+                    'uniform float uSge;',
+                    'uniform float time;',
+                    'float PI = 3.14159265;',
+                    'float drawCircle(float index, float range) {',
+                    '	float opacity = 1.0;',
+                    '	if (index >= 1.0 - range) {',
+                    '		opacity = 1.0 - (index - (1.0 - range)) / range;',
+                    '	} else if(index <= range) {',
+                    '		opacity = index / range;',
+                    '	}',
+                    '	return opacity;',
+                    '}',
+                    'float distanceTo(vec2 src, vec2 dst) {',
+                    '	float dx = src.x - dst.x;',
+                    '	float dy = src.y - dst.y;',
+                    '	float dv = dx * dx + dy * dy;',
+                    '	return sqrt(dv);',
+                    '}',
+                    'void main() {',
+                    '	float iTime = -time * uSpeed;',
+                    '	float opacity = 0.0;',
+                    '	float len = distanceTo(vec2(0.5, 0.5), vec2(vUv.x, vUv.y));',
+                    '	float size = 1.0 / uSge;',
+                    '	vec2 range = vec2(0.65, 0.75);',
+                    '	float index = mod(iTime + len, size);',
+                    // 中心圆
+                    '	vec2 cRadius = vec2(0.06, 0.12);',
+                    '	if (index < size && len <= 0.5) {',
+                    '		float i = sin(index / size * PI);',
+                    '		// 处理边缘锯齿',
+                    '		if (i >= range.x && i <= range.y){',
+                    // 归一'
+                    '			float t = (i - range.x) / (range.y - range.x);',
+                    // 边缘锯齿范围
+                    '			float r = 0.3;',
+                    '			opacity = drawCircle(t, r);',
+                    '		}',
+                    // 渐变
+                    '		opacity *=	1.0 - len / 0.5;',
+                    '	};',
+                    '	gl_FragColor = vec4(uColor, uOpacity * opacity);',
+                    '}'
+                ].join(''),
+                side: THREE__namespace.DoubleSide
+            });
+        };
+        const createFlywire = (coords) => {
+            const group = new THREE__namespace.Group();
+            // 坐标
+            const start = createCroodPoint(coords[0]);
+            const end = createCroodPoint(coords[1]);
+            group.add(start, end);
+            const points = getCurvePoint(coords);
+            // 平滑样条线
+            // CatmullRomCurve3( 点位、曲线闭合、曲线类型、类型catmullrom时张力默认 0.5)
+            // 曲线类型：centripetal、chordal和catmullrom
+            const curve = new THREE__namespace.CatmullRomCurve3(points, false, 'centripetal', 0.5);
+            // 管道
+            const tubeGeo = new THREE__namespace.TubeGeometry(
+            // 3D 路径
+            curve, 
+            // 管道分段数
+            _options.tubularSegments, 
+            // 半径
+            _options.radius, 
+            // 横截面分段
+            _options.radialSegments, 
+            // 管道闭合
+            _options.closed);
+            const tubMat = new THREE__namespace.ShaderMaterial({
+                transparent: true,
+                opacity: 1,
+                depthTest: false,
+                vertexColors: false,
+                uniforms: {
+                    uColor: { value: new THREE__namespace.Color(_options.color) },
+                    uOpacity: { value: 0.6 }
+                },
+                vertexShader: [
+                    'varying vec3 vColor;',
+                    'uniform vec3 uColor;',
+                    'void main() {',
+                    '	gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);',
+                    '}'
+                ].join(''),
+                fragmentShader: [
+                    'uniform vec3 uColor;',
+                    'uniform float uOpacity;',
+                    'void main() {',
+                    '	gl_FragColor = vec4(uColor, uOpacity);',
+                    '}'
+                ].join('')
+            });
+            const tubMesh = new THREE__namespace.Mesh(tubeGeo, tubMat);
+            tubMesh.renderOrder = 10;
+            // 飞线
+            const fly = createFly(points);
+            group.add(tubMesh, fly);
+            return group;
+        };
+        const update = () => {
+            const mat = flyMaterial;
+            const uTotal = mat.uniforms.uTotal.value;
+            mat.uniforms.uIndex.value += _options.speed;
+            if (mat.uniforms.uIndex.value >= uTotal) {
+                mat.uniforms.uIndex.value = 0;
+            }
+            const time = performance.now() * 0.001;
+            pointMaterial.uniforms.time.value = time;
+        };
+        createFlywireTexture();
+        return {
+            createFlywireTexture,
+            createFlywire,
+            update,
+            flywireUpdate: update
+        };
+    };
+
+    // 太阳光晕 lensflare
+    const useLensflare = (options = {}) => {
+        // 默认参数
+        let _options = deepMerge({
+            // 主光晕
+            mainTextureUrl: getTextturesUrl('lensflare0.png'),
+            // 次光晕
+            minorTextureUrl: getTextturesUrl('lensflare3.png')
+        }, options);
+        console.log(_options);
+        const textureLoader = new THREE__namespace.TextureLoader();
+        const textureFlare0 = textureLoader.load(_options.mainTextureUrl);
+        const textureFlare3 = textureLoader.load(_options.minorTextureUrl);
+        const addLensflare = (color, x, y, z) => {
+            const light = new THREE__namespace.PointLight(0xffffff, 1, 2000, 0);
+            light.color.set(color);
+            light.position.set(x, y, z);
+            const lensflare = new Lensflare_js.Lensflare();
+            lensflare.addElement(new Lensflare_js.LensflareElement(textureFlare0, 700, 0, light.color));
+            lensflare.addElement(new Lensflare_js.LensflareElement(textureFlare3, 60, 0.6));
+            lensflare.addElement(new Lensflare_js.LensflareElement(textureFlare3, 70, 0.7));
+            lensflare.addElement(new Lensflare_js.LensflareElement(textureFlare3, 120, 0.9));
+            lensflare.addElement(new Lensflare_js.LensflareElement(textureFlare3, 70, 1));
+            light.add(lensflare);
+            return light;
+        };
+        return {
+            addLensflare
+        };
+    };
+
+    // 加载文件
+    const useFileLoader = () => {
+        // 进度
+        const progress = vue.ref(0);
+        // 加载
+        const load = (url) => {
+            const loader = new THREE__namespace.FileLoader();
+            return new Promise((resolve, reject) => {
+                loader.load(url, data => {
+                    let json = {};
+                    try {
+                        json = JSON.parse(data);
+                    }
+                    catch (er) { }
+                    resolve(json);
+                }, xhr => {
+                    let { loaded, total } = xhr;
+                    progress.value = Number(((loaded / total) * 100).toFixed(0));
+                }, reject);
+            });
+        };
+        return {
+            load,
+            progress
+        };
+    };
+
+    // 上传 upload
+    const useUpload = (options) => {
+        const _options = deepMerge({
+            // 资源地址
+            baseUrl: '',
+            // draco 解压文件目录
+            dracoPath: '/three/draco/gltf/',
+            // basis 解压文件目录
+            basisPath: '/three/basis/'
+        }, options);
+        const uploadModel = (files, onSuccess, onProgress) => {
+            const { baseUrl, dracoPath, basisPath } = _options;
+            const file = files[0];
+            const filename = file.name;
+            const type = filename.split('.').pop().toLowerCase();
+            const reader = new FileReader();
+            reader.addEventListener('progress', event => {
+                const size = '(' + Math.floor(event.total / 1000) + ' KB)';
+                const progress = Math.floor((event.loaded / event.total) * 100) + '%';
+                if (onProgress)
+                    onProgress({ progress, filename, size });
+            });
+            reader.addEventListener('load', (event) => __awaiter(void 0, void 0, void 0, function* () {
+                const contents = event.target.result;
+                if (['glb', 'gltf'].includes(type)) {
+                    const loader = new GLTFLoader.GLTFLoader();
+                    const dracoLoader = new DRACOLoader.DRACOLoader();
+                    dracoLoader.setDecoderPath(`${baseUrl}${dracoPath}`);
+                    loader.setDRACOLoader(dracoLoader);
+                    const ktx2Loader = new KTX2Loader.KTX2Loader();
+                    ktx2Loader.setTranscoderPath(`${baseUrl}${basisPath}`);
+                    loader.setKTX2Loader(ktx2Loader);
+                    loader.setMeshoptDecoder(meshopt_decoder_module.MeshoptDecoder);
+                    loader.parse(contents, '', result => {
+                        var _a, _b, _c;
+                        const children = result.scene.children;
+                        let object = new THREE__namespace.Group();
+                        if (children.length > 1) {
+                            object.add(...children);
+                        }
+                        else {
+                            object = children[children.length - 1];
+                        }
+                        object.name = ((_a = object.userData) === null || _a === void 0 ? void 0 : _a.name) || filename;
+                        object.animations.push(...result.animations);
+                        onSuccess(object);
+                        (_b = loader.dracoLoader) === null || _b === void 0 ? void 0 : _b.dispose();
+                        (_c = loader.ktx2Loader) === null || _c === void 0 ? void 0 : _c.dispose();
+                    });
+                }
+                else if (type == 'fbx') {
+                    const loader = new FBXLoader.FBXLoader();
+                    const object = loader.parse(contents, '');
+                    onSuccess(object);
+                }
+            }));
+            reader.readAsArrayBuffer(file);
+        };
+        return {
+            uploadModel
+        };
+    };
+
+    // 碰撞 collide
+    const useCollide = () => {
+        // 检测射线
+        const raycaster = new THREE__namespace.Raycaster();
+        // 向量
+        const up = new THREE__namespace.Vector3(0, 2, 0);
+        // 检测碰撞（目标、坐标、检测的对象集合、是否检测子集）
+        const checkCollide = (target, pos, objects, recursive = true, upVector = up) => {
+            // 当前目标坐标,Y轴加一个固定向量，代表纵轴射线发射（检测碰撞的）位置
+            const origin = pos.clone().add(upVector);
+            // 获取目标朝向
+            const direction = new THREE__namespace.Vector3();
+            target.getWorldDirection(direction);
+            direction.normalize();
+            // 设置射线发射位置
+            raycaster.ray.origin.copy(origin);
+            // 设置射线发射方向
+            raycaster.ray.direction.copy(direction);
+            // 开始【前、后】检测：对于blender制作的模型，需要递归遍历所有child，否则无法实现射线碰撞检测{[childs], true}
+            const intersects = raycaster.intersectObjects(objects, recursive);
+            return intersects;
+        };
+        return {
+            checkCollide
+        };
+    };
+
+    const useCoord = () => {
+        // 计算包围盒
+        const getBoundingBox = (group) => {
+            // 包围盒计算模型对象的大小和位置
+            var box3 = new THREE__namespace.Box3();
+            // 计算模型包围盒
+            box3.expandByObject(group);
+            var size = new THREE__namespace.Vector3();
+            // 计算包围盒尺寸
+            box3.getSize(size);
+            var center = new THREE__namespace.Vector3();
+            // 计算一个层级模型对应包围盒的几何体中心坐标
+            box3.getCenter(center);
+            return {
+                box3,
+                center,
+                size
+            };
+        };
+        return {
+            getBoundingBox
+        };
+    };
+
+    // 光线投射 平面坐标于 3D 坐标转换
+    const useRaycaster = () => {
+        const raycaster = new THREE__namespace.Raycaster();
+        const pointer = new THREE__namespace.Vector2();
+        const style = {
+            left: 0,
+            top: 0
+        };
+        const update = (e, dom, scale = 1) => {
+            // 获取元素偏移量
+            const rect = dom.getBoundingClientRect() || { left: 0, top: 0 };
+            // 渲染元素作为子组件可能有缩放处理，元素大小需要计算处理
+            // 设置二维向量坐标 （-1， 1 范围）
+            pointer.x = ((e.clientX - rect.left) / (dom.clientWidth * scale)) * 2 - 1;
+            pointer.y = -((e.clientY - rect.top) / (dom.clientHeight * scale)) * 2 + 1;
+            const halfw = dom.clientWidth / 2;
+            const halfh = dom.clientHeight / 2;
+            // 二维坐标 (没有加偏移量因为 css 父级又相对定位)
+            style.left = pointer.x * halfw + halfw;
+            style.top = -pointer.y * halfh + halfh;
+        };
+        return {
+            raycaster,
+            pointer,
+            style,
+            update
+        };
+    };
+
+    const getOpts$1 = () => ({
         visible: true,
         // 激活(可识别键盘操作)
         enabled: false,
@@ -399,10 +2359,10 @@
         let texture;
         // 辅助眼睛
         let eye;
-        let _options = getOpts();
+        let _options = getOpts$1();
         const createCruise = (options = {}, renderer) => {
             // 默认参数
-            _options = deepMerge(getOpts(), options);
+            _options = deepMerge(getOpts$1(), options);
             const { points, tension, mapUrl, baseUrl, repeat, width, helper, close, tube, color, radius, radialSegments } = _options;
             const newPoints = [];
             for (let i = 0; i < points.length; i++) {
@@ -625,6 +2585,151 @@
         };
     };
 
+    // three css 2d 标签
+    const useCSS2D = () => {
+        // 初始化 CSS2D 标签
+        const initCSS2DRender = (options, container) => {
+            const { width, height } = options;
+            const CSS2DRender = new CSS2DRenderer_js.CSS2DRenderer();
+            // 设置渲染器的尺寸
+            CSS2DRender.setSize(width, height);
+            // 容器 css 样式
+            CSS2DRender.domElement.style.position = 'absolute';
+            CSS2DRender.domElement.style.left = '0px';
+            CSS2DRender.domElement.style.top = '0px';
+            CSS2DRender.domElement.style.pointerEvents = 'none';
+            container.appendChild(CSS2DRender.domElement);
+            return CSS2DRender;
+        };
+        // 创建 2D 元素
+        const createCSS2DDom = (options) => {
+            const { name, className = '', onClick, position } = options;
+            const dom = document.createElement('div');
+            dom.innerHTML = name;
+            dom.className = className;
+            const label = new CSS2DRenderer_js.CSS2DObject(dom);
+            dom.style.pointerEvents = onClick ? 'auto' : 'none';
+            dom.style.position = 'absolute';
+            if (typeof onClick === 'function') {
+                dom.addEventListener('click', e => onClick(e, label));
+            }
+            if (position) {
+                label.position.set(...position);
+            }
+            return label;
+        };
+        return {
+            initCSS2DRender,
+            createCSS2DDom
+        };
+    };
+
+    // 楼层 floor
+    const useFloor = (options = {}) => {
+        const _options = deepMerge({
+            mode: 'BA',
+            margin: 50
+        }, options);
+        const floorAnimate = (list, index, getFllowMarkFn) => {
+            var _a, _b, _c, _d, _e, _f;
+            // 执行目标是否存在
+            const isExist = index !== void 0 && index > -1;
+            const { margin, mode } = _options;
+            for (let i = 0; i < list.length; i++) {
+                const el = list[i];
+                // 换算间距
+                const pos = el._position_;
+                let k = i - (!isExist ? i : index);
+                const cy = k * margin;
+                // 原始坐标+偏移
+                let ty = ((_a = pos.y) !== null && _a !== void 0 ? _a : 0) + cy;
+                let tz = index == i ? ((_b = pos.z) !== null && _b !== void 0 ? _b : 0) + margin : (_c = pos.z) !== null && _c !== void 0 ? _c : 0;
+                // 当前点击目标已经移动过，则收起
+                const isMove = index === i &&
+                    ((mode === 'UD' && ty === el.position.y) || (mode === 'BA' && tz === el.position.z));
+                if (isMove) {
+                    ty = (_d = pos.y) !== null && _d !== void 0 ? _d : 0;
+                    tz = (_e = pos.z) !== null && _e !== void 0 ? _e : 0;
+                }
+                // 判断模式
+                // UD 上下
+                // BA 前后
+                // 移动目标为模型坐标则不执行动画
+                if (mode === 'UD') {
+                    if (el.position.y === ty)
+                        continue;
+                }
+                else if (mode === 'BA') {
+                    if (el.position.z === tz)
+                        continue;
+                }
+                // 标记跟随模型
+                if ((_f = el.data) === null || _f === void 0 ? void 0 : _f.mark) {
+                    const mark = el.data.mark;
+                    const items = getFllowMarkFn(mark);
+                    // 偏移
+                    let offset = index == i ? margin : 0;
+                    if (isMove) {
+                        offset = 0;
+                    }
+                    fllowModelAnimate(mode, items, cy, offset);
+                }
+                new TWEEN__namespace.Tween(el.position)
+                    .to({
+                    y: mode === 'UD' ? ty : el.position.y,
+                    z: mode === 'BA' ? tz : el.position.z
+                }, 500)
+                    .easing(TWEEN__namespace.Easing.Quadratic.Out)
+                    .start();
+            }
+        };
+        // 跟随模型动画
+        const fllowModelAnimate = (mode, items, cy, cz) => {
+            if (items.length === 0)
+                return;
+            items.forEach(el => {
+                var _a, _b, _c, _d;
+                const pos = el._position_;
+                const ty = mode == 'UD' ? ((_a = pos.y) !== null && _a !== void 0 ? _a : 0) + cy : (_b = pos.y) !== null && _b !== void 0 ? _b : 0;
+                const tz = mode == 'BA' ? ((_c = pos.z) !== null && _c !== void 0 ? _c : 0) + cz : (_d = pos.z) !== null && _d !== void 0 ? _d : 0;
+                new TWEEN__namespace.Tween(el.position)
+                    .to({
+                    y: ty,
+                    z: tz
+                }, 500)
+                    .easing(TWEEN__namespace.Easing.Quadratic.Out)
+                    .start();
+            });
+        };
+        return {
+            floorAnimate
+        };
+    };
+
+    // 弹窗配置
+    const useDialog = (options = {}) => {
+        const dialog = vue.reactive(deepMerge({
+            show: false,
+            style: {
+                left: '',
+                top: ''
+            },
+            select: [],
+            data: {},
+            title: '',
+            position: {
+                top: 0,
+                left: 0
+            }
+        }, options));
+        const show = vue.toRef(dialog.show);
+        return {
+            dialog,
+            options: dialog,
+            show
+        };
+    };
+
     // 网格交叉
     const useGrid = () => {
         const createFork = (options = {}) => {
@@ -656,6 +2761,1058 @@
             createFork
         };
     };
+
+    // 材质 material
+    const useMaterial = () => {
+        // 改变透明
+        const changeTransparent = (mode, opacity = 0.5) => {
+            // 改变透明度
+            const change = (mesh) => {
+                mesh.material.transparent = true;
+                mesh.material.opacity = opacity;
+            };
+            if (mode.isMesh) {
+                change(mode);
+            }
+            else {
+                mode.traverse((mode) => {
+                    if (mode.isMesh) {
+                        change(mode);
+                    }
+                });
+            }
+        };
+        const getMaterialAttr = (mat) => {
+            return {
+                color: mat.color, // 颜色
+                map: mat.map, // 贴图
+                emissive: mat.emissive, // 发光
+                emissiveIntensity: mat.emissiveIntensity,
+                emissiveMap: mat.emissiveMap,
+                bumpMap: mat.bumpMap, // 凹凸
+                normalMap: mat.normalMap, // 法线
+                displacementMap: mat.displacementMap, // 移动
+                opacity: mat.opacity, // 透明度
+                transparent: mat.transparent, // 透明
+                side: mat.side // 材质渲染面
+            };
+        };
+        // 材质优化 材质、是否反光、是否粗糙
+        const materialOptimize = (mat, glisten, side) => {
+            if (mat instanceof Array) {
+                let material = mat.map(mt => {
+                    return materialOptimize(mt, glisten, side);
+                });
+                mat = material;
+            }
+            else {
+                if (!glisten) {
+                    // 材质像金属的程度. 非金属材料，如木材或石材，使用0.0，金属使用1.0，中间没有（通常）.
+                    // 默认 0.5. 0.0到1.0之间的值可用于生锈的金属外观
+                    mat.metalness = 0.5;
+                    // 材料的粗糙程度. 0.0表示平滑的镜面反射，1.0表示完全漫反射. 默认 0.5
+                    mat.roughness = 1;
+                }
+                else {
+                    // mat.side = THREE.DoubleSide
+                    mat.metalness = 0.5;
+                    mat.roughness = 0;
+                }
+                // child.material.emissiveMap = child.material.map
+                mat = new THREE__namespace.MeshStandardMaterial(Object.assign(Object.assign({}, getMaterialAttr(mat)), { 
+                    // depthTest: false, // 深度写入（解决重叠）
+                    metalness: mat.metalness, roughness: mat.roughness, side: side ? THREE__namespace.DoubleSide : THREE__namespace.FrontSide // 材质渲染面
+                 }));
+            }
+            return mat;
+        };
+        // 材质替换	动画部分材质颜色
+        const materialReplace = (group, opts, child, color = 0x127e12) => {
+            const mesh = DEFAULTCONFIG.mesh;
+            const animateMeshName = mesh.animatehName;
+            const transparentMeshName = mesh.transparentName;
+            const { type, name } = child;
+            // 灯光
+            if (type.indexOf('Light') > -1) {
+                if (!child.shadow)
+                    return;
+                let s = 800;
+                child.castShadow = true;
+                child.shadow.camera.right = s;
+                child.shadow.camera.left = -s;
+                child.shadow.camera.top = s;
+                child.shadow.camera.bottom = -s;
+                if (type === 'SpotLight') {
+                    let helper = new THREE__namespace.SpotLightHelper(child, child.color);
+                    group.add(helper);
+                }
+                return;
+            }
+            if (!opts.transformMaterial || !child.isMesh)
+                return;
+            if (opts.opacitySkin && transparentMeshName.find(it => name.indexOf(it) > -1)) {
+                changeTransparent(child, opts.opacity);
+            }
+            if (mesh.receiveShadowName.find((it) => name.indexOf(it) > -1)) {
+                // 接收阴影
+                child.receiveShadow = true;
+                const glisten = opts.groundReflection;
+                child.material = materialOptimize(child.material, glisten, opts.side);
+            }
+            else if (animateMeshName.find((it) => name.indexOf(it) > -1)) {
+                // 动画材质
+                let material = new THREE__namespace.MeshStandardMaterial({
+                    color: color,
+                    // 材质像金属的程度. 非金属材料，如木材或石材，使用0.0，金属使用1.0，中间没有（通常）.
+                    // 默认 0.5. 0.0到1.0之间的值可用于生锈的金属外观
+                    metalness: 0.6,
+                    // 材料的粗糙程度. 0.0表示平滑的镜面反射，1.0表示完全漫反射. 默认 0.5
+                    roughness: 0.6
+                });
+                child.material = material;
+            }
+            else if (child.isMesh) {
+                child.castShadow = true;
+                child.material = materialOptimize(child.material, opts.glisten, opts.side);
+            }
+        };
+        const saveFile = (blob, filename) => {
+            const link = document.createElement('a');
+            link.style.display = 'none';
+            document.body.appendChild(link); // Firefox workaround, see #6594
+            link.href = URL.createObjectURL(blob);
+            link.download = filename;
+            link.click();
+            link.remove();
+        };
+        const saveString = (text, filename) => {
+            saveFile(new Blob([text], { type: 'text/plain' }), filename);
+        };
+        const saveArrayBuffer = (buffer, filename) => {
+            saveFile(new Blob([buffer], { type: 'application/octet-stream' }), filename);
+        };
+        // 导出 glb、gltf 文件
+        const exportGlb = (model, animations, name, isGlb = true) => {
+            if (!model)
+                return;
+            const gltfExporter = new GLTFExporter.GLTFExporter();
+            const options = {
+                // trs: false,
+                // onlyVisible: true,
+                // truncateDrawRange: true,
+                binary: isGlb,
+                // maxTextureSize: 1024 || 4096 || Infinity, // To prevent NaN value,
+                animations: animations // 动画
+            };
+            console.log(model);
+            gltfExporter.parse(model, result => {
+                if (result instanceof ArrayBuffer) {
+                    saveArrayBuffer(result, name + '.glb');
+                }
+                else {
+                    const output = JSON.stringify(result, null, 2);
+                    console.log({ output });
+                    saveString(output, name + '.gltf');
+                }
+            }, error => {
+                console.log('An error happened during parsing', error);
+            }, options);
+        };
+        // 获取动画
+        const getAnimations = (model) => {
+            const animations = [];
+            model.traverse((object) => {
+                animations.push(...object.animations);
+            });
+            const optimizedAnimations = [];
+            for (const animation of animations) {
+                optimizedAnimations.push(animation.clone().optimize());
+            }
+            return optimizedAnimations;
+        };
+        // 设置金属材质
+        const setMetalnessMaterial = (mat = { color: 0xffffff }, metalness, roughness) => {
+            return new THREE__namespace.MeshStandardMaterial(Object.assign(Object.assign({}, getMaterialAttr(mat)), { metalness: metalness, roughness: roughness // 粗糙度
+             }));
+        };
+        // 设置玻璃材质
+        const setGlassMaterial = (mat = {
+            color: 0xffffff
+        }, { metalness = 0, roughness = 0, envMapIntensity = 0, transmission = 0, ior = 0 }) => {
+            return new THREE__namespace.MeshPhysicalMaterial(Object.assign(Object.assign({}, getMaterialAttr(mat)), { metalness, //玻璃非金属	金属度设置0
+                roughness, //玻璃表面光滑
+                envMapIntensity, //环境贴图对Mesh表面影响程度
+                transmission, //透射度(透光率)
+                ior //折射率
+             }));
+        };
+        // 盒子模型辅助
+        const centerBoxHelper = (model, hex = 0xff0000) => {
+            // 创建 BoxHelper
+            var boxHelper = new THREE__namespace.BoxHelper(model, hex);
+            //更新
+            boxHelper.update();
+            // 获取模型的包围盒
+            const box = new THREE__namespace.Box3().setFromObject(model);
+            const center = box.getCenter(new THREE__namespace.Vector3());
+            return {
+                helper: boxHelper,
+                center
+            };
+        };
+        return {
+            materialReplace,
+            changeTransparent,
+            exportGlb,
+            getAnimations,
+            setMetalnessMaterial,
+            setGlassMaterial,
+            centerBoxHelper
+        };
+    };
+
+    // 移动动画 move-animate
+    const useMoveAnimate = () => {
+        // 曲线
+        let cruiseCurve;
+        const _options = {
+            // 动画索引
+            index: 0,
+            // 总长度
+            length: 0,
+            // 运行中
+            runing: false,
+            // 模型
+            model: void 0,
+            // 速度
+            speed: 1,
+            // 结束回调
+            endCallback: void 0,
+            // 运行中回调
+            rungingCall: void 0
+        };
+        const createMove = (model, moveTo, rungingCall, endCallback) => {
+            const pos = model.position;
+            // 求正切值
+            const angle = Math.atan2(-moveTo.z + pos.z, moveTo.x - pos.x);
+            model.rotation.y = Math.PI * 0.5 + angle;
+            // 长度
+            const distance = pos.distanceTo(moveTo);
+            let len = Math.floor(distance / _options.speed);
+            if (len < 2)
+                len = 2;
+            const points = [pos, moveTo];
+            cruiseCurve = new THREE__namespace.CatmullRomCurve3(points, false, 'catmullrom', 0);
+            cruiseCurve = new THREE__namespace.CatmullRomCurve3(getAllPoints(len), false, 'catmullrom', 0);
+            _options.model = model;
+            _options.index = 0;
+            _options.length = len;
+            _options.rungingCall = rungingCall;
+            _options.endCallback = endCallback;
+            _options.runing = true;
+        };
+        // 所有点位
+        const getAllPoints = (len) => cruiseCurve === null || cruiseCurve === void 0 ? void 0 : cruiseCurve.getPoints(len);
+        // 获取进度坐标
+        const getProgressPosition = (index) => {
+            let t = index / _options.length;
+            if (t > 1)
+                t = 1;
+            else if (t < 0)
+                t = 0;
+            return cruiseCurve.getPointAt(t);
+        };
+        // 停止 后退
+        const stop = (retreat = true) => {
+            _options.runing = false;
+            if (retreat) {
+                const index = _options.index - 1;
+                _options.model.position.copy(getProgressPosition(index));
+            }
+        };
+        // 动画
+        const moveAnimate = (factor = 1) => {
+            if (!_options.runing)
+                return;
+            _options.index += factor;
+            let t = _options.index / _options.length;
+            if (t > 1)
+                t = 1;
+            const pos = cruiseCurve.getPointAt(t);
+            _options.model.position.copy(pos);
+            if (t >= 1) {
+                _options.runing = false;
+                if (typeof _options.endCallback === 'function')
+                    _options.endCallback(pos);
+            }
+            else {
+                if (typeof _options.rungingCall === 'function')
+                    _options.rungingCall(pos, stop);
+            }
+        };
+        return {
+            createMove,
+            moveAnimate
+        };
+    };
+
+    const getOpts = () => ({
+        // 运行中
+        runing: false,
+        // 分段
+        segment: 2,
+        // 闭合
+        close: true,
+        // 曲线张力
+        tension: 0,
+        // 视角偏差
+        offset: 0,
+        // 点位
+        points: [],
+        // 系数
+        factor: 1,
+        // 移动速度
+        speed: 1,
+        // 索引
+        index: 0,
+        // 帧动画回调
+        animateBack: void 0
+    });
+    // 漫游 roam
+    const useRoam = () => {
+        // 曲线
+        let cruiseCurve;
+        let _options = getOpts();
+        const createRoam = (options = {}) => {
+            if (cruiseCurve)
+                return;
+            // 默认参数
+            _options = deepMerge(getOpts(), options);
+            const { points, tension, close } = _options;
+            const newPoints = [];
+            for (let i = 0; i < points.length; i++) {
+                const p = points[i];
+                newPoints.push(new THREE__namespace.Vector3(p[0], p[1], p[2]));
+            }
+            // CatmullRomCurve3( 点位、曲线闭合、曲线类型、类型catmullrom时张力默认 0.5)
+            // 曲线类型：centripetal、chordal和catmullrom
+            cruiseCurve = new THREE__namespace.CatmullRomCurve3(newPoints, close, 'catmullrom', tension !== null && tension !== void 0 ? tension : 0);
+            cruiseCurve = new THREE__namespace.CatmullRomCurve3(getAllPoints(), close, 'catmullrom', tension !== null && tension !== void 0 ? tension : 0);
+        };
+        const reset = (options) => {
+            cruiseCurve = void 0;
+            createRoam(options);
+        };
+        // 所有点位
+        const getAllPoints = () => cruiseCurve === null || cruiseCurve === void 0 ? void 0 : cruiseCurve.getPoints(getCruiseLen());
+        // 长度
+        const getCruiseLen = () => { var _a; return ((_a = _options.segment) !== null && _a !== void 0 ? _a : 2) * 1000; };
+        // 偏移坐标
+        const getOffsetPoint = (offset, pos) => {
+            return new THREE__namespace.Vector3(pos.x, pos.y + offset, pos.z);
+        };
+        // 更新参数
+        const updateRoam = (options = {}) => {
+            // 默认参数
+            _options = deepMerge(_options, options);
+        };
+        // 暂停
+        const pause = () => {
+            _options.runing = false;
+        };
+        // 播放
+        const play = () => {
+            _options.runing = true;
+        };
+        // 获取状态
+        const getStatus = () => _options.runing;
+        // 执行漫游
+        const executeRoam = (camera, controls) => {
+            if (!camera || !controls)
+                return;
+            if (!cruiseCurve)
+                return;
+            const { runing, offset, factor, speed, animateBack } = _options;
+            if (!runing)
+                return;
+            _options.index += factor * speed;
+            const looptime = getCruiseLen();
+            const t = (_options.index % looptime) / looptime;
+            const oft = 0.01;
+            let ts = t + oft;
+            if (ts > 1)
+                ts = ts - 1;
+            const pos = cruiseCurve.getPointAt(ts);
+            const _pos = getOffsetPoint(offset, cruiseCurve.getPointAt(t));
+            // 视角偏差
+            const at = getOffsetPoint(offset, pos);
+            controls.target = at;
+            camera._lookAt_ = at;
+            camera.lookAt(controls.target);
+            if (typeof animateBack === 'function')
+                animateBack(_pos, pos, cruiseCurve, t);
+        };
+        return {
+            createRoam,
+            updateRoam,
+            executeRoam,
+            pause,
+            play,
+            reset,
+            getStatus
+        };
+    };
+
+    // 事件 KeyboardState
+    const useKeyboardState = () => {
+        // 修饰按键
+        const MODIFIERS = ['shift', 'ctrl', 'alt', 'meta'];
+        // 按键别名 对应值
+        const ALIAS = {
+            left: 37,
+            up: 38,
+            right: 39,
+            down: 40,
+            space: 32,
+            pageup: 33,
+            pagedown: 34,
+            tab: 9
+        };
+        const _keyCodes = {};
+        const _modifiers = {};
+        // 插入回调
+        let _onKeydownCall;
+        let _onKeyupCall;
+        const _onKeyChange = (event, pressed) => {
+            var keyCode = event.keyCode;
+            _keyCodes[keyCode] = pressed;
+            // 更新修饰状态
+            _modifiers['shift'] = event.shiftKey;
+            _modifiers['ctrl'] = event.ctrlKey;
+            _modifiers['alt'] = event.altKey;
+            _modifiers['meta'] = event.metaKey;
+        };
+        const _onKeyDown = (event) => {
+            _onKeyChange(event, true);
+            if (typeof _onKeydownCall === 'function')
+                _onKeydownCall(event);
+        };
+        const _onKeyUp = (event) => {
+            _onKeyChange(event, false);
+            if (typeof _onKeyupCall === 'function')
+                _onKeyupCall(event);
+        };
+        // 事件插入
+        const insertEvent = (onKeydown, onKeyup) => {
+            _onKeydownCall = onKeydown;
+            _onKeyupCall = onKeyup;
+        };
+        // 绑定事件
+        document.addEventListener('keydown', _onKeyDown, false);
+        document.addEventListener('keyup', _onKeyUp, false);
+        // 检测按下的按键(可组合键 alt+W)
+        const detection = (keyDesc) => {
+            var keys = keyDesc.split('+');
+            for (var i = 0; i < keys.length; i++) {
+                var key = keys[i];
+                var pressed;
+                // 组合按键
+                if (MODIFIERS.indexOf(key) !== -1) {
+                    pressed = _modifiers[key];
+                }
+                // 方向
+                else if (Object.keys(ALIAS).indexOf(key) != -1) {
+                    // @ts-ignore
+                    pressed = _keyCodes[ALIAS[key]];
+                }
+                else {
+                    pressed = _keyCodes[key.toUpperCase().charCodeAt(0)];
+                }
+                if (!pressed)
+                    return false;
+            }
+            return true;
+        };
+        const keyboardPressed = (keys) => {
+            if (Array.isArray(keys)) {
+                return keys.findIndex(detection) > -1;
+            }
+            return detection(keys);
+        };
+        const destroyEvent = () => {
+            document.removeEventListener('keydown', _onKeyDown, false);
+            document.removeEventListener('keyup', _onKeyUp, false);
+        };
+        return {
+            keyboardPressed,
+            insertEvent,
+            destroyEvent
+        };
+    };
+
+    const getImgUrl = (code, jpg) => {
+        return new URL(`../assets/imgs/sky/${code}/${jpg}`, (typeof document === 'undefined' && typeof location === 'undefined' ? new (require('u' + 'rl').URL)('file:' + __filename).href : typeof document === 'undefined' ? location.href : (document.currentScript && document.currentScript.tagName.toUpperCase() === 'SCRIPT' && document.currentScript.src || new URL('three-scene.js', document.baseURI).href))).href;
+    };
+    // 背景
+    const useBackground = (code = '') => {
+        const skys = [
+            '216',
+            '217',
+            '218',
+            '219',
+            '220',
+            '221',
+            '222',
+            '223',
+            '224',
+            '225',
+            '226'
+        ];
+        const i = skys.findIndex(t => t == code);
+        const index = vue.ref(i < 0 ? 0 : i);
+        const change = (scene) => {
+            const code = skys[index.value];
+            if (!code)
+                return;
+            load(scene, code);
+            index.value++;
+            if (index.value >= skys.length)
+                index.value = 0;
+        };
+        // 获取背景组图
+        const getBgGroup = (code) => {
+            return ['posX.jpeg', 'negX.jpeg', 'posY.jpeg', 'negY.jpeg', 'posZ.jpeg', 'negZ.jpeg'].map(u => getImgUrl(code, u));
+        };
+        // 加载 -配合场景使用
+        const load = (scene = {}, code) => {
+            const bgUrl = getBgGroup(code);
+            if (typeof scene.setBgTexture === 'function') {
+                scene.setBgTexture(bgUrl);
+            }
+            else {
+                if (Array.isArray(bgUrl)) {
+                    const loader = new THREE__namespace.CubeTextureLoader();
+                    const env = loader.load(bgUrl);
+                    // 设置背景
+                    scene.background = env;
+                }
+                else {
+                    scene.background = new THREE__namespace.TextureLoader().load(bgUrl);
+                }
+            }
+        };
+        return {
+            skys,
+            index,
+            change,
+            changeBackground: change,
+            load,
+            getBgGroup,
+            backgroundLoad: load
+        };
+    };
+
+    // 模型加载 model-loader
+    const useModelLoader = (options = {}) => {
+        // 数据库
+        let gDB;
+        // 颜色
+        const color = {
+            normal: 0x88a1b5,
+            runing: 0x2e77f8,
+            error: 0xc20c00
+        };
+        // 默认参数
+        const _options = deepMerge({
+            // 资源地址
+            baseUrl: '',
+            // draco 解压文件目录
+            dracoPath: '/three/draco/gltf/',
+            // basis 解压文件目录
+            basisPath: '/three/basis/',
+            // 模型 KB 倍数
+            modelSizeKB: 1024 * 1024,
+            // 颜色
+            colors: {
+                // 正常
+                normal: {
+                    color: color.normal
+                },
+                // 运行
+                runing: {
+                    color: color.runing
+                },
+                // 故障
+                error: {
+                    color: color.error
+                }
+            },
+            // 加载缓存
+            loadCache: true,
+            // 改变颜色材质网格名称集合
+            colorMeshName: [],
+            indexDB: {
+                cache: true
+            }
+        }, options);
+        const progress = vue.reactive({
+            // 进度
+            percentage: 0,
+            // 进度条展示
+            show: false,
+            // 是否加载结束（用于加载全部）
+            isEnd: false,
+            // 加载列表
+            list: [],
+            // 加载文件总大小
+            total: 0,
+            // 已经加载大小
+            loaded: 0
+        });
+        // 模型类型映射
+        const MODEL_MAP = {
+            // base-基础底座,
+            base: 'base',
+            // device-场景设备,
+            device: 'device',
+            // font-字体,
+            font: 'font',
+            // sprite-精灵,
+            sprite: 'sprite',
+            // pipe-管路贴图
+            pipe: 'pipe',
+            // warning-警告标识,
+            warning: 'warning',
+            // remote-远程状态，
+            remote: 'remote',
+            // local-本地标识，
+            local: 'local',
+            // disabled-禁用标识
+            disabled: 'disabled',
+            // 聚光灯
+            spotlight: 'spotlight'
+        };
+        const modelMap = new Map();
+        const dracoLoader = new DRACOLoader_js.DRACOLoader();
+        dracoLoader.setDecoderPath(_options.baseUrl + _options.dracoPath);
+        const loader = new GLTFLoader_js.GLTFLoader();
+        loader.setDRACOLoader(dracoLoader);
+        const ktx2Loader = new KTX2Loader.KTX2Loader();
+        ktx2Loader.setTranscoderPath(_options.baseUrl + _options.basisPath);
+        loader.setKTX2Loader(ktx2Loader);
+        loader.setMeshoptDecoder(meshopt_decoder_module.MeshoptDecoder);
+        // 重置
+        const reset = (length) => {
+            if (length == 0) {
+                progress.isEnd = true;
+                progress.show = false;
+                return false;
+            }
+            progress.isEnd = false;
+            progress.percentage = 0;
+            progress.show = true;
+            return true;
+        };
+        // 计算加载大小
+        const calcLoadSize = (models) => {
+            for (let i = 0; i < models.length; i++) {
+                progress.total += (models[i].size || 0) * _options.modelSizeKB;
+            }
+        };
+        // 加载进度
+        const loadProgress = (res) => {
+            const loaded = res.loaded;
+            const total = progress.total;
+            let s = Number(((loaded + progress.loaded) / total) * 100);
+            if (s > 100)
+                s = 100;
+            progress.percentage = Number(s.toFixed(2));
+        };
+        // 模型归一化
+        const modelNormalization = (model, color, glb, animations) => {
+            if (!glb)
+                return;
+            const { baseUrl, colorMeshName } = _options;
+            const { mapUrl, key, mapMeshName, repeat = [1, 1] } = model;
+            // let texture: InstanceType<typeof THREE.TextureLoader>
+            let texture;
+            if (mapUrl && mapMeshName) {
+                texture = new THREE__namespace.TextureLoader().load(getUrl(mapUrl, baseUrl));
+                texture.wrapS = THREE__namespace.RepeatWrapping; // THREE.RepeatWrapping，纹理将简单地重复到无穷大。
+                texture.wrapT = THREE__namespace.RepeatWrapping;
+                texture.repeat.set(repeat[0], repeat[1]); // 纹理对象阵列
+            }
+            // 克隆
+            const newModel = modelDeepClone(glb);
+            newModel.traverse((el) => {
+                if (el.isMesh && texture && el.name.indexOf(mapMeshName) > -1) {
+                    el.material = new THREE__namespace.MeshLambertMaterial({
+                        side: THREE__namespace.DoubleSide,
+                        transparent: true,
+                        opacity: 0,
+                        map: texture.clone()
+                    });
+                }
+                else {
+                    // 默认颜色 动画颜色
+                    replaceMaterial(el, color, colorMeshName || []);
+                }
+            });
+            if (mapUrl && mapMeshName) {
+                newModel._mapMeshName_ = mapMeshName;
+            }
+            newModel.animations = animations;
+            if (key) {
+                modelMap.set(key, newModel);
+            }
+            return newModel;
+        };
+        // 打开数据库
+        const openDB = () => {
+            var _a, _b, _c;
+            // 创建数据库
+            return createDB(((_a = _options.indexDB) === null || _a === void 0 ? void 0 : _a.tbName) || DEFAULTCONFIG.indexdb.tbName, ((_b = _options.indexDB) === null || _b === void 0 ? void 0 : _b.dbName) || DEFAULTCONFIG.indexdb.dbName, ((_c = _options.indexDB) === null || _c === void 0 ? void 0 : _c.version) || DEFAULTCONFIG.indexdb.version).then(db => {
+                if (!!db) {
+                    // 开启缓存
+                    THREE__namespace.Cache.enabled = true;
+                    gDB = db;
+                }
+                return db;
+            });
+        };
+        // 获取缓存模型数据
+        const getCacheModel = (url, size = 0) => {
+            return new Promise((resolve) => __awaiter(void 0, void 0, void 0, function* () {
+                var _a;
+                // 加载缓存
+                if (!_options.indexDB.cache)
+                    resolve(null);
+                // three 缓存
+                const tCache = THREE__namespace.Cache.get(url);
+                if (!!tCache) {
+                    // 判断缓存的是否为 buffer 类型数据
+                    if (tCache instanceof ArrayBuffer) {
+                        loadProgress({ loaded: tCache.byteLength });
+                        loader.parse(tCache, '', result => {
+                            THREE__namespace.Cache.add(url, result);
+                            resolve(result);
+                        });
+                    }
+                    else {
+                        loadProgress({ loaded: size * _options.modelSizeKB });
+                        setTimeout(() => {
+                            resolve(tCache);
+                        }, 10);
+                    }
+                }
+                else {
+                    // 数据库查询
+                    const store = yield getDataByKey(gDB, ((_a = _options.indexDB) === null || _a === void 0 ? void 0 : _a.tbName) || DEFAULTCONFIG.indexdb.tbName, url);
+                    if (!!store && store.data) {
+                        const data = store.data;
+                        if (typeof data === 'string') {
+                            loadProgress({ loaded: data.length });
+                            THREE__namespace.Cache.add(store.path, data);
+                            setTimeout(() => {
+                                resolve(data);
+                            }, 10);
+                        }
+                        else {
+                            loadProgress({ loaded: data.byteLength });
+                            loader.parse(data, '', result => {
+                                THREE__namespace.Cache.add(store.path, result);
+                                resolve(result);
+                            });
+                        }
+                    }
+                    else {
+                        resolve(null);
+                    }
+                }
+            }));
+        };
+        // db 缓存
+        const dbStoreAdd = (url) => {
+            var _a;
+            // 加载缓存
+            if (!_options.indexDB.cache)
+                return;
+            const ch = THREE__namespace.Cache.get(url);
+            if (!ch)
+                return;
+            if (!!gDB) {
+                const gDBTableName = ((_a = _options.indexDB) === null || _a === void 0 ? void 0 : _a.tbName) || DEFAULTCONFIG.indexdb.tbName;
+                const db_tb = gDB.transaction(gDBTableName, 'readwrite').objectStore(gDBTableName);
+                db_tb.add({ path: url, data: ch });
+            }
+        };
+        // 加载模型
+        const loadModel = (model, onProgress) => {
+            const { key, url = '', size = 0 } = model;
+            const { baseUrl, colors } = _options;
+            return new Promise((resolve, reject) => __awaiter(void 0, void 0, void 0, function* () {
+                let color = colors.normal[key] || colors.normal.color;
+                color = getColorArr(color)[0];
+                const newUrl = getUrl(url, baseUrl);
+                // 缓存
+                const store = yield getCacheModel(newUrl, size);
+                if (store) {
+                    const obj = store.scene.children[0];
+                    const del = modelNormalization(model, color, obj, store.animations);
+                    resolve(del);
+                    return;
+                }
+                // 判断文件类型是否为 glb
+                let tmpArr = newUrl.split('.');
+                let type = (tmpArr.pop() || '').toLowerCase();
+                if (type !== 'glb') {
+                    throw new Error('模型类型错误,必须为 GLB 格式，当前格式：' + type);
+                }
+                loader.load(newUrl, glb => {
+                    const children = glb.scene.children;
+                    let object = new THREE__namespace.Group();
+                    if (children.length > 1) {
+                        object.add(...children);
+                    }
+                    else {
+                        object = children[children.length - 1];
+                    }
+                    const del = modelNormalization(model, color, object, glb.animations);
+                    dbStoreAdd(newUrl);
+                    resolve(del);
+                }, res => {
+                    loadProgress(res);
+                    if (typeof onProgress === 'function')
+                        onProgress(res);
+                }, reject);
+            }));
+        };
+        // 创建精灵
+        const createSprite = (item) => {
+            const { key, range = { x: 1, y: 1 }, mapUrl = '' } = item;
+            // 创建精灵
+            let texture = new THREE__namespace.TextureLoader().load(_options.baseUrl + mapUrl);
+            // 精灵材质
+            let material = new THREE__namespace.SpriteMaterial({
+                map: texture
+            });
+            let sprite = new THREE__namespace.Sprite(material);
+            let x = range.x, y = range.y;
+            sprite.scale.set(x, y, 1);
+            sprite.name = 'sprite';
+            modelMap.set(key, sprite);
+        };
+        // 加载字体
+        const loadFont = (model, onProgress) => {
+            const { url = '', size = 0 } = model;
+            const { baseUrl } = _options;
+            const newUrl = getUrl(url, baseUrl);
+            const loader = new FontLoader_js.FontLoader();
+            return new Promise((resolve, reject) => __awaiter(void 0, void 0, void 0, function* () {
+                const store = yield getCacheModel(newUrl, size);
+                if (store) {
+                    const font = loader.parse(JSON.parse(store));
+                    modelMap.set(MODEL_MAP.font, font);
+                    setTimeout(() => {
+                        resolve(font);
+                    }, 10);
+                    return;
+                }
+                loader.load(newUrl, font => {
+                    modelMap.set(MODEL_MAP.font, font);
+                    dbStoreAdd(newUrl);
+                    resolve(font);
+                }, res => {
+                    loadProgress(res);
+                    if (typeof onProgress === 'function')
+                        onProgress(res);
+                }, reject);
+            }));
+        };
+        // 创建聚光灯
+        const createSpotlight = (item) => {
+            const { key, color = 0xffffff, intensity = 8, distance = 10, angle = Math.PI * 0.2, penumbra = 0.2, decay = 0 } = item;
+            // 创建光源
+            // 点光源 (颜色、强度、距离、角度、半影衰减、衰减)
+            let spotLight = new THREE__namespace.SpotLight(color, intensity, distance, angle, penumbra, decay);
+            // 生产阴影
+            spotLight.castShadow = true;
+            spotLight.visible = false;
+            // let s = 800
+            // spotLight.shadow.camera.right = s
+            // spotLight.shadow.camera.left = -s
+            // spotLight.shadow.camera.top = s
+            // spotLight.shadow.camera.bottom = -s
+            modelMap.set(key, spotLight);
+        };
+        // 加载全部模型
+        const loadModels = (models, onSuccess, onProgress) => __awaiter(void 0, void 0, void 0, function* () {
+            yield openDB();
+            const max = models.length;
+            if (!reset(max))
+                return;
+            // 计算模型文件总大小
+            calcLoadSize(models);
+            let index = 0;
+            const _load = () => __awaiter(void 0, void 0, void 0, function* () {
+                const item = models[index];
+                const { type = MODEL_MAP.device, size = 0 } = item;
+                switch (type) {
+                    case MODEL_MAP.device:
+                    case MODEL_MAP.pipe:
+                        yield loadModel(item, onProgress);
+                        break;
+                    case MODEL_MAP.sprite:
+                        createSprite(item);
+                        break;
+                    case MODEL_MAP.font:
+                        yield loadFont(item, onProgress);
+                        break;
+                    case MODEL_MAP.warning:
+                        item.key = MODEL_MAP.warning;
+                        yield loadModel(item, onProgress);
+                        break;
+                    case MODEL_MAP.local:
+                        item.key = MODEL_MAP.local;
+                        yield loadModel(item, onProgress);
+                        break;
+                    case MODEL_MAP.disabled:
+                        item.key = MODEL_MAP.disabled;
+                        yield loadModel(item, onProgress);
+                        break;
+                    case MODEL_MAP.spotlight:
+                        createSpotlight(item);
+                        break;
+                }
+                index++;
+                progress.loaded += size * _options.modelSizeKB;
+                // 加载完成
+                if (index >= max) {
+                    progress.percentage = 100;
+                    progress.isEnd = true;
+                    onSuccess();
+                }
+                else {
+                    _load();
+                }
+            });
+            _load();
+        });
+        // 获取缓存模型
+        const getModel = (key) => modelMap.get(key);
+        // 设置模型虚化
+        const setModelVirtualization = (model, opts = {}) => {
+            // 默认参数
+            opts = deepMerge({
+                color: 0x00e0ff,
+                wireframe: true,
+                opacity: 0.5,
+                filter: [],
+                filterMatch: []
+            }, opts);
+            model.traverse((el) => {
+                var _a;
+                if (((_a = opts.filter) === null || _a === void 0 ? void 0 : _a.includes(el.name)) || matchFilter(el.name, opts.filterMatch)) {
+                    return;
+                }
+                if (el.isMesh) {
+                    if (!el.__material__) {
+                        el.__material__ = el.material;
+                    }
+                    el.material = new THREE__namespace.MeshBasicMaterial({
+                        color: opts.color,
+                        wireframe: opts.wireframe,
+                        transparent: true,
+                        opacity: opts.opacity
+                    });
+                }
+            });
+        };
+        // 匹配过滤
+        const matchFilter = (name = '', filters = []) => {
+            return filters.filter(match => name.indexOf(match) > -1).length > 0;
+        };
+        // 虚化模型 其他模型传入则虚化除目标之外的模型
+        const virtualization = (models = [], model, opts = {}) => {
+            const filter = opts.filter || [];
+            const filterMatch = opts.filterMatch || [];
+            if (models.length) {
+                for (let i = 0; i < models.length; i++) {
+                    const mod = models[i];
+                    if (model.uuid !== mod.uuid &&
+                        !filter.includes(mod.name) &&
+                        !matchFilter(mod.name, filterMatch)) {
+                        setModelVirtualization(mod, opts);
+                    }
+                }
+            }
+            else {
+                // 虚化材质
+                setModelVirtualization(model, opts);
+            }
+        };
+        // 关闭虚化
+        const closeVirtualization = (model) => {
+            if (Array.isArray(model)) {
+                for (let i = 0; i < model.length; i++) {
+                    model[i].traverse((el) => {
+                        if (el.isMesh && el.__material__) {
+                            el.material = el.__material__;
+                        }
+                    });
+                }
+            }
+            else {
+                model.traverse((el) => {
+                    if (el.isMesh && el.__material__) {
+                        el.material = el.__material__;
+                    }
+                });
+            }
+        };
+        return {
+            progress,
+            MODEL_MAP,
+            loadModel,
+            loadModels,
+            getModel,
+            virtualization,
+            closeVirtualization
+        };
+    };
+
+    var index = /*#__PURE__*/Object.freeze({
+        __proto__: null,
+        useConvertData: useConvertData,
+        useCountryLine: useCountryLine,
+        useMapBar: useMapBar,
+        useOutline: useOutline,
+        useMarkLight: useMarkLight,
+        useFence: useFence,
+        useCorrugatedPlate: useCorrugatedPlate,
+        useDiffusion: useDiffusion,
+        useFlywire: useFlywire,
+        useLensflare: useLensflare,
+        useFileLoader: useFileLoader,
+        useUpload: useUpload,
+        useCollide: useCollide,
+        useCoord: useCoord,
+        useRaycaster: useRaycaster,
+        useCruise: useCruise,
+        useCSS2D: useCSS2D,
+        CSS2DRenderer: CSS2DRenderer_js.CSS2DRenderer,
+        useCSS3D: useCSS3D,
+        CSS3DRenderer: CSS3DRenderer_js.CSS3DRenderer,
+        useFloor: useFloor,
+        useDialog: useDialog,
+        useGrid: useGrid,
+        useMaterial: useMaterial,
+        useMoveAnimate: useMoveAnimate,
+        useRoam: useRoam,
+        useKeyboardState: useKeyboardState,
+        useBackground: useBackground,
+        useModelLoader: useModelLoader
+    });
 
     var _Scene_instances, _Scene_resetCruiseOpts;
     const { createCruise, cruiseAnimate, updateCruise, bindEvent, removeEvent } = useCruise();
@@ -1169,10 +4326,9 @@
     // 静态属性
     Scene.total = 0;
 
-    const add = (a, b) => a + b;
-
+    exports.Hook = index;
     exports.Scene = Scene;
-    exports.add = add;
+    exports.Util = index$1;
 
     Object.defineProperty(exports, '__esModule', { value: true });
 

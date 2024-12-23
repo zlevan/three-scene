@@ -4,11 +4,11 @@ import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { KTX2Loader } from 'three/examples/jsm/loaders/KTX2Loader'
 import { MeshoptDecoder } from 'three/examples/jsm/libs/meshopt_decoder.module'
-import { deepMerge } from '../utils'
+import { deepMerge } from '../../utils'
 
-import type { Options } from '../types/upload'
+import type { Options } from '../../types/upload'
 
-type Params = import('../types/utils').DeepPartial<Options>
+type Params = import('../../types/utils').DeepPartial<Options>
 
 // 上传 upload
 export const useUpload = (options: Params) => {

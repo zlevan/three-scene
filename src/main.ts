@@ -1,3 +1,4 @@
 export { Scene } from './index'
 
-export const add = (a: number, b: number) => a + b
+export * as Util from './utils'
+export * as Hook from './hooks'

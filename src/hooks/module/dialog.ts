@@ -1,9 +1,9 @@
 import { reactive, toRef } from 'vue'
-import { deepMerge } from '../utils'
+import { deepMerge } from '../../utils'
 
-import type { Options } from '../types/dialog'
+import type { Options } from '../../types/dialog'
 
-type Params = import('../types/utils').DeepPartial<Options>
+type Params = import('../../types/utils').DeepPartial<Options>
 
 // 弹窗配置
 export const useDialog = (options: Params = {}) => {

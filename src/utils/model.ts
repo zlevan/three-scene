@@ -45,7 +45,7 @@ const cloneMaterial = (el: any) => {
 }
 
 // 深克隆 // 防止数据感染
-export const deepClone = (obj: any) => {
+export const modelDeepClone = (obj: any) => {
   let model = obj.clone()
   if (obj.isMesh || obj.isSprite) {
     cloneMaterial(obj)
@@ -352,7 +352,7 @@ export const createWarning = (
   const obj = getStatusOffset('WARNING', item, offset)
   let group = new THREE.Group()
   // 深克隆
-  let warningSigns = deepClone(model)
+  let warningSigns = modelDeepClone(model)
   warningSigns.scale.set(s, s, s)
 
   // 位置
@@ -421,7 +421,7 @@ export const createStatusMark = (
   if (!model) return
   const obj = getStatusOffset(isDisabled ? 'DISABLED' : 'STATUS', item, offset)
   // 深克隆
-  let status = deepClone(model)
+  let status = modelDeepClone(model)
 
   // 位置
   const pos = obj.position

@@ -2,12 +2,12 @@ import * as THREE from 'three'
 // @ts-ignore
 import { PathGeometry, PathPointList, PathTubeGeometry } from 'three-cruise-path'
 
-import { deepMerge, getUrl } from '../utils'
-import type { Cruise as Options } from '../types/index'
-type Params = import('../types/utils').DeepPartial<Options>
+import { deepMerge, getUrl } from '../../utils'
+import type { Cruise as Options } from '../../types/index'
+type Params = import('../../types/utils').DeepPartial<Options>
 
-import { getTextturesUrl } from '../utils/asssets'
-import type { XYZ } from '../types/model'
+import { getTextturesUrl } from '../../utils/asssets'
+import type { XYZ } from '../../types/model'
 
 const getOpts = () => ({
   visible: true,

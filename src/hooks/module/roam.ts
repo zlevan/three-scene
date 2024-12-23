@@ -1,9 +1,9 @@
 import * as THREE from 'three'
 
-import type { Options } from '../types/roam'
-import { deepMerge } from '../utils'
+import type { Options } from '../../types/roam'
+import { deepMerge } from '../../utils'
 
-type Params = import('../types/utils').DeepPartial<Options>
+type Params = import('../../types/utils').DeepPartial<Options>
 
 const getOpts = () => ({
   // 运行中

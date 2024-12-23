@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import { getTextturesUrl } from '../utils/asssets'
+import { getTextturesUrl } from '../../utils/asssets'
 
 // 电子围栏 fence
 export const useFence = () => {

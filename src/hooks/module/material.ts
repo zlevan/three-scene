@@ -1,8 +1,8 @@
 import * as THREE from 'three'
 import { GLTFExporter } from 'three/examples/jsm/exporters/GLTFExporter'
-import DefaultConfig from '../config'
+import DefaultConfig from '../../config'
 
-import type { ReplaceOpts } from '../types/material'
+import type { ReplaceOpts } from '../../types/material'
 
 // 材质 material
 export const useMaterial = () => {

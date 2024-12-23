@@ -6,7 +6,7 @@ import { KTX2Loader } from 'three/examples/jsm/loaders/KTX2Loader'
 import { MeshoptDecoder } from 'three/examples/jsm/libs/meshopt_decoder.module'
 
 import { deepMerge, getUrl } from '../utils'
-import * as UTILS from '../utils/model'
+import * as UTILS from '../utils'
 import type { ModelItem } from '../types/model'
 
 import { reactive } from 'vue'
@@ -164,7 +164,7 @@ export const useModelLoader = (options: import('../types/utils').DeepPartial<Opt
       texture.repeat.set(repeat[0], repeat[1]) // 纹理对象阵列
     }
     // 克隆
-    const newModel = UTILS.deepClone(glb)
+    const newModel = UTILS.modelDeepClone(glb)
     newModel.traverse((el: any) => {
       if (el.isMesh && texture && el.name.indexOf(mapMeshName) > -1) {
         el.material = new THREE.MeshLambertMaterial({

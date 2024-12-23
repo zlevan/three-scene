@@ -6,8 +6,7 @@ import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js'
 import { deepMerge, isDOM, getUrl } from './utils'
 import defOptions from './options'
 
-import { useCruise } from './hooks/cruise'
-import { useGrid } from './hooks/grid'
+import { useCruise, useGrid } from './hooks'
 
 import type { XYZ } from './types/model'
 

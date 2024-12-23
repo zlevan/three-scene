@@ -22,7 +22,8 @@
     ".": {
       "import": "./build/three-scene.module.js"
     },
-    "./build/*": "./build/*"
+    "./build/*": "./build/*",
+    "./src/*": "./src/*"
   },
   "files": [
     "build",
