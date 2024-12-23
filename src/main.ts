@@ -1,5 +1,3 @@
-import ThreeScene from './index'
-
-export default ThreeScene
+export { Scene } from './index'
 
 export const add = (a: number, b: number) => a + b

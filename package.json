@@ -1,8 +1,8 @@
 {
   "name": "three-scene",
-  "version": "0.0.33",
+  "version": "0.1.0",
   "description": "3D 场景",
-  "main": "build/three-scene.js",
+  "main": "build/three-scene.module.js",
   "module": "build/three-scene.module.js",
   "scripts": {
     "build": "rollup -c",
@@ -20,31 +20,18 @@
   ],
   "exports": {
     ".": {
-      "types": "./types/index.d.ts",
-      "import": "./index.ts",
-      "config": "./config.ts"
+      "import": "./build/three-scene.module.js"
     },
-    "./build/*": "./build/*",
-    "./assets/*": "./assets/*",
-    "./hooks/*": "./hooks/*",
-    "./plugin/*": "./plugin/*",
-    "./utils/*": "./utils/*",
-    "./types/*": "./types/*",
-    "./components/*": "./components/*"
+    "./build/*": "./build/*"
   },
   "files": [
-    "components",
-    "hooks",
-    "assets",
-    "types",
-    "utils",
-    "config.ts",
-    "options.ts",
-    "index.ts",
+    "build",
+    "src",
     "package.json",
     "MAP.md",
     "FLOOR.md",
     "README.md"
+    
   ],
   "author": "evan",
   "license": "ISC",

@@ -13,7 +13,7 @@ import type { XYZ } from './types/model'
 
 const { createCruise, cruiseAnimate, updateCruise, bindEvent, removeEvent } = useCruise()
 const { createFork } = useGrid()
-export default class ThreeScene {
+export class Scene {
   // 配置
   options: import('./types').Options
   // 容器
@@ -55,7 +55,7 @@ export default class ThreeScene {
     // 配置
     this.options = deepMerge(defaultOpts, options)
 
-    ThreeScene.total++
+    Scene.total++
 
     this.pointer = {
       tsp: 0,

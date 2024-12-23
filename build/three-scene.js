@@ -657,17 +657,17 @@
         };
     };
 
-    var _ThreeScene_instances, _ThreeScene_resetCruiseOpts;
+    var _Scene_instances, _Scene_resetCruiseOpts;
     const { createCruise, cruiseAnimate, updateCruise, bindEvent, removeEvent } = useCruise();
     const { createFork } = useGrid();
-    class ThreeScene {
+    class Scene {
         constructor(options = {}) {
-            _ThreeScene_instances.add(this);
+            _Scene_instances.add(this);
             // 默认配置
             const defaultOpts = defOptions;
             // 配置
             this.options = deepMerge(defaultOpts, options);
-            ThreeScene.total++;
+            Scene.total++;
             this.pointer = {
                 tsp: 0,
                 isClick: false
@@ -873,7 +873,7 @@
             if (!visible)
                 return;
             this.cruiseCamera = this.initCamera();
-            __classPrivateFieldGet(this, _ThreeScene_instances, "m", _ThreeScene_resetCruiseOpts).call(this);
+            __classPrivateFieldGet(this, _Scene_instances, "m", _Scene_resetCruiseOpts).call(this);
         }
         // 网格
         initGrid() {
@@ -1154,7 +1154,7 @@
             }
         }
     }
-    _ThreeScene_instances = new WeakSet(), _ThreeScene_resetCruiseOpts = function _ThreeScene_resetCruiseOpts() {
+    _Scene_instances = new WeakSet(), _Scene_resetCruiseOpts = function _Scene_resetCruiseOpts() {
         const cruise = this.options.cruise;
         cruise.enabled = false;
         cruise.runing = false;
@@ -1167,12 +1167,12 @@
         cruise.factor = 1;
     };
     // 静态属性
-    ThreeScene.total = 0;
+    Scene.total = 0;
 
     const add = (a, b) => a + b;
 
+    exports.Scene = Scene;
     exports.add = add;
-    exports["default"] = ThreeScene;
 
     Object.defineProperty(exports, '__esModule', { value: true });
 
