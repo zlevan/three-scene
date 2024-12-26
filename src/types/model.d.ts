@@ -130,7 +130,6 @@ export type ThreeModelItem = {
   uuid: string
   visible: boolean
   _position_?: XYZ
-  position: XYZ
   data?: ObjectItem
   extra?: Extra
   clear: Function

@@ -1,7 +1,13 @@
 export interface Options {
-  propertyName?: string
+  propertyName: string
   value: string
-  scale?: number
-  axle?: string
+  scale: number
+  angle: number
+  axle: 'x' | 'y' | 'z'
   isOpen?: boolean
+  leftMatch: string
+  rightMatch: string
+  duration: number
+  autoClose: boolean
+  delay: number
 }
