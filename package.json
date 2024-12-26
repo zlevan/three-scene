@@ -1,6 +1,6 @@
 {
   "name": "three-scene",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "3D 场景",
   "main": "build/three-scene.module.js",
   "module": "build/three-scene.module.js",
