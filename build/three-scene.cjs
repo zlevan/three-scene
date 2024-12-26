@@ -3341,21 +3341,9 @@ const useKeyboardState = () => {
 const getImgUrl = (code, jpg) => {
     return new URL(`../assets/imgs/sky/${code}/${jpg}`, (typeof document === 'undefined' ? new (require('u' + 'rl').URL)('file:' + __filename).href : (document.currentScript && document.currentScript.tagName.toUpperCase() === 'SCRIPT' && document.currentScript.src || new URL('three-scene.cjs', document.baseURI).href))).href;
 };
+const skys = ['216', '217', '218', '219', '220', '221', '222', '223', '224', '225', '226'];
 // 背景
-const useBackground = (code = '') => {
-    const skys = [
-        '216',
-        '217',
-        '218',
-        '219',
-        '220',
-        '221',
-        '222',
-        '223',
-        '224',
-        '225',
-        '226'
-    ];
+const useBackground = (code) => {
     const i = skys.findIndex(t => t == code);
     const index = vue.ref(i < 0 ? 0 : i);
     const change = (scene) => {
@@ -3372,7 +3360,7 @@ const useBackground = (code = '') => {
         return ['posX.jpeg', 'negX.jpeg', 'posY.jpeg', 'negY.jpeg', 'posZ.jpeg', 'negZ.jpeg'].map(u => getImgUrl(code, u));
     };
     // 加载 -配合场景使用
-    const load = (scene = {}, code) => {
+    const load = (scene, code) => {
         const bgUrl = getBgGroup(code);
         if (typeof scene.setBgTexture === 'function') {
             scene.setBgTexture(bgUrl);

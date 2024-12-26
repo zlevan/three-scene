@@ -5,21 +5,10 @@ const getImgUrl = (code: string, jpg: string) => {
   return new URL(`../assets/imgs/sky/${code}/${jpg}`, import.meta.url).href
 }
 
+const skys = ['216', '217', '218', '219', '220', '221', '222', '223', '224', '225', '226'] as const
+
 // 背景
-export const useBackground = (code: string = '') => {
-  const skys = [
-    '216',
-    '217',
-    '218',
-    '219',
-    '220',
-    '221',
-    '222',
-    '223',
-    '224',
-    '225',
-    '226'
-  ] as const
+export const useBackground = (code: (typeof skys)[number]) => {
   const i = skys.findIndex(t => t == code)
   const index = ref(i < 0 ? 0 : i)
   const change = (scene: any) => {
@@ -38,7 +27,7 @@ export const useBackground = (code: string = '') => {
   }
 
   // 加载 -配合场景使用
-  const load = (scene: any = {}, code: (typeof skys)[number]) => {
+  const load = (scene: any, code: (typeof skys)[number]) => {
     const bgUrl = getBgGroup(code)
     if (typeof scene.setBgTexture === 'function') {
       scene.setBgTexture(bgUrl)
