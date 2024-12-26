@@ -22,7 +22,7 @@ export const useBackground = (code: string = '') => {
   ] as const
   const i = skys.findIndex(t => t == code)
   const index = ref(i < 0 ? 0 : i)
-  const change = (scene: InstanceType<typeof THREE.Scene>) => {
+  const change = (scene: any) => {
     const code = skys[index.value]
     if (!code) return
     load(scene, code)

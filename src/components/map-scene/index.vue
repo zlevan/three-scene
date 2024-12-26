@@ -14,11 +14,9 @@ import { MapThreeScene } from './methods'
 
 import { numConverter } from '../../utils'
 
-import { useBackground } from '../../hooks/background'
-import { useConvertData } from '../../hooks/convert-data'
-import { useDialog } from '../../hooks/dialog'
+import { useBackground, useConvertData, useDialog } from '../../hooks/index'
 
-const { backgroundLoad } = useBackground()
+const { backgroundLoad, skys } = useBackground()
 const { transformGeoJSON } = useConvertData()
 const { show, dialog } = useDialog({
   style: {
@@ -139,7 +137,7 @@ let scene: InstanceType<typeof MapThreeScene>
 
 const initPage = () => {
   if (props.skyCode) {
-    backgroundLoad(scene, props.skyCode)
+    backgroundLoad(scene, props.skyCode as typeof skys[number])
   }
   // 波纹板
   if (props.corrugatedPlate) {

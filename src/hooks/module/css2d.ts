@@ -1,4 +1,5 @@
 import { CSS2DRenderer, CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer.js'
+import type { XYZ } from '../../types/model'
 
 // three css 2d 标签
 export const useCSS2D = () => {
@@ -31,7 +32,10 @@ export const useCSS2D = () => {
     dom.innerHTML = name
     dom.className = className
 
-    const label = new CSS2DObject(dom)
+    const label: InstanceType<typeof CSS2DObject> & {
+      data?: any
+      _position_?: XYZ
+    } = new CSS2DObject(dom)
     dom.style.pointerEvents = onClick ? 'auto' : 'none'
     dom.style.position = 'absolute'
     if (typeof onClick === 'function') {

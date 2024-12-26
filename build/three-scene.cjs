@@ -1,27 +1,53 @@
 
-import * as THREE from 'three';
-import * as TWEEN from 'three/examples/jsm/libs/tween.module.js';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
-import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
-import { Line2 } from 'three/examples/jsm/lines/Line2.js';
-import { LineMaterial } from 'three/examples/jsm/lines/LineMaterial.js';
-import { LineGeometry } from 'three/examples/jsm/lines/LineGeometry.js';
-import { CSS3DRenderer, CSS3DSprite, CSS3DObject } from 'three/examples/jsm/renderers/CSS3DRenderer.js';
-import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils.js';
-import { Lensflare, LensflareElement } from 'three/examples/jsm/objects/Lensflare.js';
-import { ref, reactive, toRef } from 'vue';
-import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader';
-import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import { KTX2Loader } from 'three/examples/jsm/loaders/KTX2Loader';
-import { MeshoptDecoder } from 'three/examples/jsm/libs/meshopt_decoder.module';
-import { PathPointList, PathTubeGeometry, PathGeometry } from 'three-cruise-path';
-import { CSS2DRenderer, CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer.js';
-import { GLTFExporter } from 'three/examples/jsm/exporters/GLTFExporter';
-import { GLTFLoader as GLTFLoader$1 } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import { DRACOLoader as DRACOLoader$1 } from 'three/examples/jsm/loaders/DRACOLoader.js';
-import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js';
+'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+var THREE = require('three');
+var TWEEN = require('three/examples/jsm/libs/tween.module.js');
+var OrbitControls = require('three/examples/jsm/controls/OrbitControls');
+var RGBELoader_js = require('three/examples/jsm/loaders/RGBELoader.js');
+var TextGeometry_js = require('three/examples/jsm/geometries/TextGeometry.js');
+var Line2_js = require('three/examples/jsm/lines/Line2.js');
+var LineMaterial_js = require('three/examples/jsm/lines/LineMaterial.js');
+var LineGeometry_js = require('three/examples/jsm/lines/LineGeometry.js');
+var CSS3DRenderer_js = require('three/examples/jsm/renderers/CSS3DRenderer.js');
+var BufferGeometryUtils = require('three/examples/jsm/utils/BufferGeometryUtils.js');
+var Lensflare_js = require('three/examples/jsm/objects/Lensflare.js');
+var vue = require('vue');
+var FBXLoader = require('three/examples/jsm/loaders/FBXLoader');
+var DRACOLoader = require('three/examples/jsm/loaders/DRACOLoader');
+var GLTFLoader = require('three/examples/jsm/loaders/GLTFLoader');
+var KTX2Loader = require('three/examples/jsm/loaders/KTX2Loader');
+var meshopt_decoder_module = require('three/examples/jsm/libs/meshopt_decoder.module');
+var threeCruisePath = require('three-cruise-path');
+var CSS2DRenderer_js = require('three/examples/jsm/renderers/CSS2DRenderer.js');
+var GLTFExporter = require('three/examples/jsm/exporters/GLTFExporter');
+var GLTFLoader_js = require('three/examples/jsm/loaders/GLTFLoader.js');
+var DRACOLoader_js = require('three/examples/jsm/loaders/DRACOLoader.js');
+var FontLoader_js = require('three/examples/jsm/loaders/FontLoader.js');
+
+function _interopNamespace(e) {
+    if (e && e.__esModule) return e;
+    var n = Object.create(null);
+    if (e) {
+        Object.keys(e).forEach(function (k) {
+            if (k !== 'default') {
+                var d = Object.getOwnPropertyDescriptor(e, k);
+                Object.defineProperty(n, k, d.get ? d : {
+                    enumerable: true,
+                    get: function () { return e[k]; }
+                });
+            }
+        });
+    }
+    n["default"] = e;
+    return Object.freeze(n);
+}
+
+var THREE__namespace = /*#__PURE__*/_interopNamespace(THREE);
+var TWEEN__namespace = /*#__PURE__*/_interopNamespace(TWEEN);
+var BufferGeometryUtils__namespace = /*#__PURE__*/_interopNamespace(BufferGeometryUtils);
 
 /******************************************************************************
 Copyright (c) Microsoft Corporation.
@@ -61,7 +87,7 @@ typeof SuppressedError === "function" ? SuppressedError : function (error, suppr
 
 // 获取贴图地址
 const getTextturesUrl = (jpg) => {
-    return new URL(`../assets/imgs/texttures/${jpg}`, import.meta.url).href;
+    return new URL(`../assets/imgs/texttures/${jpg}`, (typeof document === 'undefined' ? new (require('u' + 'rl').URL)('file:' + __filename).href : (document.currentScript && document.currentScript.tagName.toUpperCase() === 'SCRIPT' && document.currentScript.src || new URL('three-scene.cjs', document.baseURI).href))).href;
 };
 
 /**
@@ -490,14 +516,14 @@ const setMaterialColor = (e, color) => {
     });
 };
 // 相机入场动画
-const cameraInSceneAnimate = (camera, to, at = new THREE.Vector3()) => {
+const cameraInSceneAnimate = (camera, to, at = new THREE__namespace.Vector3()) => {
     camera.lookAt(at);
     // @ts-ignore
     camera._lookAt_ = at;
     return new Promise(resolve => {
-        new TWEEN.Tween(camera.position)
+        new TWEEN__namespace.Tween(camera.position)
             .to(to, 1000)
-            .easing(TWEEN.Easing.Quadratic.In)
+            .easing(TWEEN__namespace.Easing.Quadratic.In)
             .start()
             .onUpdate(() => {
             // 设置相机对焦位置
@@ -513,9 +539,9 @@ const cameraInSceneAnimate = (camera, to, at = new THREE.Vector3()) => {
 // 相机聚焦转场
 const cameraLookatAnimate = (camera, to, target) => {
     return new Promise(resolve => {
-        new TWEEN.Tween(target)
+        new TWEEN__namespace.Tween(target)
             .to(to, 1000)
-            .easing(TWEEN.Easing.Quadratic.In)
+            .easing(TWEEN__namespace.Easing.Quadratic.In)
             .start()
             .onUpdate(pos => {
             // 设置相机对焦位置
@@ -531,9 +557,9 @@ const cameraLookatAnimate = (camera, to, target) => {
 // 相机于控制联动动画
 const cameraLinkageControlsAnimate = (controls, camera, to, target) => {
     return new Promise(resolve => {
-        new TWEEN.Tween(camera.position)
+        new TWEEN__namespace.Tween(camera.position)
             .to(to, 1000)
-            .easing(TWEEN.Easing.Quadratic.In)
+            .easing(TWEEN__namespace.Easing.Quadratic.In)
             .start()
             .onUpdate(() => {
             // 设置相机对焦位置
@@ -542,9 +568,9 @@ const cameraLinkageControlsAnimate = (controls, camera, to, target) => {
             // @ts-ignore
             camera._lookAt_ = at;
         });
-        new TWEEN.Tween(controls.target)
+        new TWEEN__namespace.Tween(controls.target)
             .to(target, 1000)
-            .easing(TWEEN.Easing.Quadratic.In)
+            .easing(TWEEN__namespace.Easing.Quadratic.In)
             .start()
             .onComplete(() => {
             resolve(camera);
@@ -563,9 +589,9 @@ const createSpriteAnimate = (model, POS, range = 1, duration = 10) => {
         POS[2], // 5
         ...POS // 10
     ];
-    let posTrack = new THREE.KeyframeTrack('sprite.position', times, values);
-    let clip = new THREE.AnimationClip('sprite_up_down', duration, [posTrack]);
-    const mixer = new THREE.AnimationMixer(model);
+    let posTrack = new THREE__namespace.KeyframeTrack('sprite.position', times, values);
+    let clip = new THREE__namespace.AnimationClip('sprite_up_down', duration, [posTrack]);
+    const mixer = new THREE__namespace.AnimationMixer(model);
     const action = mixer.clipAction(clip);
     // 暂停
     // action.paused = true
@@ -637,7 +663,7 @@ const createText = (item, fontParser, color = 0xffffff, offset) => {
     const obj = getStatusOffset('TEXT', item, offset);
     let font = item.font || {};
     // 文字
-    let textGeo = new TextGeometry(item.name || '', {
+    let textGeo = new TextGeometry_js.TextGeometry(item.name || '', {
         font: fontParser,
         size: font.size || 10,
         depth: 0,
@@ -659,11 +685,11 @@ const createText = (item, fontParser, color = 0xffffff, offset) => {
     let offsetX = 0.5 * (textGeo.boundingBox.max.x - textGeo.boundingBox.min.x);
     // @ts-ignore
     let offsetZ = 0.5 * (textGeo.boundingBox.max.z - textGeo.boundingBox.min.z);
-    let material = new THREE.MeshPhongMaterial({
+    let material = new THREE__namespace.MeshPhongMaterial({
         color: font.color != void 0 ? font.color : color,
         flatShading: !true
     });
-    let mesh = new THREE.Mesh(textGeo, material);
+    let mesh = new THREE__namespace.Mesh(textGeo, material);
     mesh.castShadow = true;
     mesh.position.set((pos.x || 0) - offsetX, pos.y || 0, (pos.z || 0) - offsetZ);
     mesh.name = 'text';
@@ -676,7 +702,7 @@ const createWarning = (key, item, model, offset, radius = 100, s = 1) => {
     if (!model)
         return;
     const obj = getStatusOffset('WARNING', item, offset);
-    let group = new THREE.Group();
+    let group = new THREE__namespace.Group();
     // 深克隆
     let warningSigns = modelDeepClone(model);
     warningSigns.scale.set(s, s, s);
@@ -689,7 +715,7 @@ const createWarning = (key, item, model, offset, radius = 100, s = 1) => {
     group.add(warningSigns);
     // 创建光源
     // 点光源 (颜色、强度、距离、衰减) 衰减！！！不要默认值
-    let light = new THREE.PointLight(0xc20c00, 8, radius, 0);
+    let light = new THREE__namespace.PointLight(0xc20c00, 8, radius, 0);
     // const sphere = new THREE.SphereGeometry( 1, 16, 8 )
     // light.add( new THREE.Mesh( sphere, new THREE.MeshBasicMaterial( { color: 0xff0040 } ) ) )
     light.name = '灯光';
@@ -697,15 +723,15 @@ const createWarning = (key, item, model, offset, radius = 100, s = 1) => {
     group.add(light);
     group.name = key;
     // 警告标识动画
-    let mixer = new THREE.AnimationMixer(group);
+    let mixer = new THREE__namespace.AnimationMixer(group);
     // 创建颜色关键帧对象
     // 0 时刻对应颜色 1，0，0	 .25时刻对应颜色 1，1，1 .75...
-    let colorKF = new THREE.KeyframeTrack('红色.material.color', [0, 0.25, 0.75], [1, 0, 0, 1, 1, 0, 1, 0, 0]);
-    let lightKF = new THREE.KeyframeTrack('灯光.color', [0, 0.25, 0.75], [1, 0, 0, 1, 1, 0, 1, 0, 0]);
+    let colorKF = new THREE__namespace.KeyframeTrack('红色.material.color', [0, 0.25, 0.75], [1, 0, 0, 1, 1, 0, 1, 0, 0]);
+    let lightKF = new THREE__namespace.KeyframeTrack('灯光.color', [0, 0.25, 0.75], [1, 0, 0, 1, 1, 0, 1, 0, 0]);
     // 创建名为Sphere对象的关键帧数据	从0~20时间段，尺寸scale缩放3倍
-    let scaleTrack = new THREE.KeyframeTrack('警告标识.scale', [0, 0.5, 1], [1, 1, 1, 1.2, 1.2, 2, 1, 1, 1]);
+    let scaleTrack = new THREE__namespace.KeyframeTrack('警告标识.scale', [0, 0.5, 1], [1, 1, 1, 1.2, 1.2, 2, 1, 1, 1]);
     // 多个帧动画作为元素创建一个剪辑 clip 对象，命名‘warning_’，持续时间1
-    let clip = new THREE.AnimationClip(`warning_`, 1, [colorKF, lightKF, scaleTrack]);
+    let clip = new THREE__namespace.AnimationClip(`warning_`, 1, [colorKF, lightKF, scaleTrack]);
     let action = mixer.clipAction(clip);
     // 暂停
     action.paused = true;
@@ -1064,12 +1090,12 @@ const useCountryLine = () => {
             depthTest: false
         };
         materialOpt = deepMerge(materialOpt, materialOptions);
-        let material = new THREE.LineBasicMaterial(materialOpt);
+        let material = new THREE__namespace.LineBasicMaterial(materialOpt);
         if (lineType === 'Line2') {
-            material = new LineMaterial(materialOpt);
+            material = new LineMaterial_js.LineMaterial(materialOpt);
         }
         let features = data.features;
-        let lineGroup = new THREE.Group();
+        let lineGroup = new THREE__namespace.Group();
         for (let i = 0; i < features.length; i++) {
             const element = features[i];
             const coordinates = element.geometry.coordinates;
@@ -1087,7 +1113,7 @@ const useCountryLine = () => {
                 else {
                     coords.forEach((polygon) => {
                         polygon.forEach(item => {
-                            points.push(new THREE.Vector3(item[0], item[1], 0));
+                            points.push(new THREE__namespace.Vector3(item[0], item[1], 0));
                         });
                     });
                 }
@@ -1111,7 +1137,7 @@ const useCountryLine = () => {
                 coordinates[j].forEach((polygon) => {
                     polygon.forEach(item => {
                         if (isVector3) {
-                            points.push(new THREE.Vector3(item[0], y, -item[1]));
+                            points.push(new THREE__namespace.Vector3(item[0], y, -item[1]));
                         }
                         else {
                             points.push(item[0], y, -item[1]);
@@ -1127,17 +1153,17 @@ const useCountryLine = () => {
     const createLine = (points, material, lineType = 'LineLoop') => {
         let line;
         if (lineType === 'Line2') {
-            const geometry = new LineGeometry();
+            const geometry = new LineGeometry_js.LineGeometry();
             geometry.setPositions(points);
-            line = new Line2(geometry, material);
+            line = new Line2_js.Line2(geometry, material);
             line.name = 'countryLine2';
             // 计算线段距离
             line.computeLineDistances();
         }
         else {
-            const geometry = new THREE.BufferGeometry();
+            const geometry = new THREE__namespace.BufferGeometry();
             geometry.setFromPoints(points);
-            line = new THREE[lineType](geometry, material);
+            line = new THREE__namespace[lineType](geometry, material);
             line.name = 'countryLine';
         }
         return line;
@@ -1153,7 +1179,7 @@ const useCSS3D = () => {
     // 初始化 CSS3D 标签
     const initCSS3DRender = (options, container) => {
         const { width, height } = options;
-        const CSS3DRender = new CSS3DRenderer();
+        const CSS3DRender = new CSS3DRenderer_js.CSS3DRenderer();
         // 设置渲染器的尺寸
         CSS3DRender.setSize(width, height);
         // 容器 css 样式
@@ -1170,7 +1196,7 @@ const useCSS3D = () => {
         const dom = document.createElement('div');
         dom.innerHTML = name;
         dom.className = className;
-        const label = sprite ? new CSS3DSprite(dom) : new CSS3DObject(dom);
+        const label = sprite ? new CSS3DRenderer_js.CSS3DSprite(dom) : new CSS3DRenderer_js.CSS3DObject(dom);
         dom.style.pointerEvents = onClick ? 'auto' : 'none';
         dom.style.position = 'absolute';
         if (typeof onClick === 'function') {
@@ -1209,18 +1235,18 @@ const useMapBar = (options = {}) => {
         height *= factor;
         height = height * ((_a = opts.heightRatio) !== null && _a !== void 0 ? _a : factor);
         const [x, y, z] = opts.position || [0, 0, 0];
-        const group = new THREE.Group();
+        const group = new THREE__namespace.Group();
         // 创建柱状图几何体
-        const geo = new THREE.BoxGeometry(size, size, height);
+        const geo = new THREE__namespace.BoxGeometry(size, size, height);
         // 自定义着色器材料
-        const mat = new THREE.ShaderMaterial({
+        const mat = new THREE__namespace.ShaderMaterial({
             depthTest: false,
             // side: THREE.DoubleSide,
             transparent: true,
             vertexColors: false,
             uniforms: {
-                uColor1: { value: new THREE.Color(color1) },
-                uColor2: { value: new THREE.Color(color2) },
+                uColor1: { value: new THREE__namespace.Color(color1) },
+                uColor2: { value: new THREE__namespace.Color(color2) },
                 uOpacity: { value: 0.6 }
             },
             vertexShader: `
@@ -1242,7 +1268,7 @@ const useMapBar = (options = {}) => {
 			`
         });
         // 创建柱状图网格
-        const barMesh = new THREE.Mesh(geo, mat);
+        const barMesh = new THREE__namespace.Mesh(geo, mat);
         group.add(barMesh);
         group.name = '柱状图';
         group.position.set(x, y, z + height / 2);
@@ -1283,13 +1309,13 @@ const useOutline = (options = {}) => {
         _options = deepMerge(_options, options);
         const { size, factor, range, color } = _options;
         const positions = new Float32Array(points);
-        const opacityGeometry = new THREE.BufferGeometry();
+        const opacityGeometry = new THREE__namespace.BufferGeometry();
         // 设置顶点
-        opacityGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        opacityGeometry.setAttribute('position', new THREE__namespace.BufferAttribute(positions, 3));
         // 设置索引
         const vertexIndexs = new Float32Array(Math.floor(positions.length / 3)).map((_, i) => i);
-        opacityGeometry.setAttribute('aIndex', new THREE.BufferAttribute(vertexIndexs, 1));
-        const mat = new THREE.ShaderMaterial({
+        opacityGeometry.setAttribute('aIndex', new THREE__namespace.BufferAttribute(vertexIndexs, 1));
+        const mat = new THREE__namespace.ShaderMaterial({
             vertexShader: `
 				attribute float aOpacity;
 				uniform float uSize;
@@ -1343,11 +1369,11 @@ const useOutline = (options = {}) => {
                 uLength: { value: vertexIndexs.length },
                 uRange: { value: range },
                 uColor: {
-                    value: new THREE.Color(color)
+                    value: new THREE__namespace.Color(color)
                 }
             }
         });
-        const opacityPoints = new THREE.Points(opacityGeometry, mat);
+        const opacityPoints = new THREE__namespace.Points(opacityGeometry, mat);
         opacityPoints.name = '轮廓';
         opacityPoints.scale.setScalar(factor);
         return opacityPoints;
@@ -1382,19 +1408,19 @@ const useMarkLight = (options = {}) => {
         color: 0x00ffff
     }, options);
     // 纹理加载器
-    const textureLoader = new THREE.TextureLoader();
+    const textureLoader = new THREE__namespace.TextureLoader();
     // 创建底部光点
     const createBottomPoint = () => {
         // 标记点：几何体，材质，
-        const geometry = new THREE.PlaneGeometry(3, 3);
-        const material = new THREE.MeshBasicMaterial({
+        const geometry = new THREE__namespace.PlaneGeometry(3, 3);
+        const material = new THREE__namespace.MeshBasicMaterial({
             map: textureLoader.load(_options.pointTextureUrl),
             color: _options.color,
-            side: THREE.DoubleSide,
+            side: THREE__namespace.DoubleSide,
             transparent: true,
             depthWrite: false //禁止写入深度缓冲区数据
         });
-        let mesh = new THREE.Mesh(geometry, material);
+        let mesh = new THREE__namespace.Mesh(geometry, material);
         mesh.renderOrder = 1;
         mesh.name = '底部光点';
         // 缩放
@@ -1405,16 +1431,16 @@ const useMarkLight = (options = {}) => {
     // 创建光圈
     const createLightCircle = () => {
         // 标记点：几何体，材质，
-        const geometry = new THREE.PlaneGeometry(3, 3);
-        const material = new THREE.MeshBasicMaterial({
+        const geometry = new THREE__namespace.PlaneGeometry(3, 3);
+        const material = new THREE__namespace.MeshBasicMaterial({
             map: textureLoader.load(_options.circleTextureUrl),
             color: _options.color,
-            side: THREE.DoubleSide,
+            side: THREE__namespace.DoubleSide,
             opacity: 0,
             transparent: true,
             depthWrite: false //禁止写入深度缓冲区数据
         });
-        let mesh = new THREE.Mesh(geometry, material);
+        let mesh = new THREE__namespace.Mesh(geometry, material);
         mesh.renderOrder = 2;
         mesh.name = 'createLightHalo';
         // 缩放
@@ -1424,7 +1450,7 @@ const useMarkLight = (options = {}) => {
         const delay = random(0, 2000);
         // 动画：透明度缩放动画
         // @ts-ignore
-        mesh.tween1 = new TWEEN.Tween({ scale: scale, opacity: 0 })
+        mesh.tween1 = new TWEEN__namespace.Tween({ scale: scale, opacity: 0 })
             .to({ scale: scale * 1.5, opacity: 1 }, 1000)
             .delay(delay)
             .onUpdate(params => {
@@ -1433,7 +1459,7 @@ const useMarkLight = (options = {}) => {
             mesh.material.opacity = opacity;
         });
         // @ts-ignore
-        mesh.tween2 = new TWEEN.Tween({ scale: scale * 1.5, opacity: 1 })
+        mesh.tween2 = new TWEEN__namespace.Tween({ scale: scale * 1.5, opacity: 1 })
             .to({ scale: scale * 2, opacity: 0 }, 1000)
             .onUpdate(params => {
             let { scale, opacity } = params;
@@ -1453,23 +1479,23 @@ const useMarkLight = (options = {}) => {
     // 创建光柱
     const createMarkLight = (position = [0, 0, 0], height = 10, options = {}) => {
         _options = deepMerge(_options, options);
-        const group = new THREE.Group();
+        const group = new THREE__namespace.Group();
         // 柱体的geo,6.19=柱体图片高度/宽度的倍数
-        const geometry = new THREE.PlaneGeometry(height / 6.219, height);
+        const geometry = new THREE__namespace.PlaneGeometry(height / 6.219, height);
         // 柱体旋转-90度，垂直于Z轴
         geometry.rotateX(-Math.PI / 2);
         // 柱体的z轴移动高度一半对齐中心点
         geometry.translate(0, 0, height / 2);
         // 柱子材质
-        const material = new THREE.MeshBasicMaterial({
+        const material = new THREE__namespace.MeshBasicMaterial({
             map: textureLoader.load(_options.lightTextureUrl),
             color: _options.color,
             transparent: true,
             depthWrite: false,
-            side: THREE.DoubleSide
+            side: THREE__namespace.DoubleSide
         });
         // 光柱01
-        let light01 = new THREE.Mesh(geometry, material);
+        let light01 = new THREE__namespace.Mesh(geometry, material);
         light01.rotateX(Math.PI);
         light01.position.z = height;
         // 渲染顺序
@@ -1502,21 +1528,21 @@ const useFence = () => {
     const repeat = [1, 0.8];
     const offsetY = 0.2;
     // 贴图
-    const texture = new THREE.TextureLoader().load(getTextturesUrl('fenceMap0.png'), tx => {
-        tx.wrapT = THREE.RepeatWrapping;
+    const texture = new THREE__namespace.TextureLoader().load(getTextturesUrl('fenceMap0.png'), tx => {
+        tx.wrapT = THREE__namespace.RepeatWrapping;
         tx.repeat.x = repeat[0];
         tx.repeat.y = repeat[1];
         tx.offset.y = offsetY;
     });
-    const texture2 = new THREE.TextureLoader().load(getTextturesUrl('fenceMap1.png'), tx => {
-        tx.wrapT = THREE.RepeatWrapping;
+    const texture2 = new THREE__namespace.TextureLoader().load(getTextturesUrl('fenceMap1.png'), tx => {
+        tx.wrapT = THREE__namespace.RepeatWrapping;
         tx.repeat.x = repeat[0];
         tx.repeat.y = repeat[1];
         tx.offset.x = offsetY;
     });
-    const texture3 = new THREE.TextureLoader().load(getTextturesUrl('fenceMap2.png'), tx => {
-        tx.wrapS = THREE.RepeatWrapping;
-        tx.wrapT = THREE.RepeatWrapping;
+    const texture3 = new THREE__namespace.TextureLoader().load(getTextturesUrl('fenceMap2.png'), tx => {
+        tx.wrapS = THREE__namespace.RepeatWrapping;
+        tx.wrapT = THREE__namespace.RepeatWrapping;
     });
     // 创建平面
     const createPlane = (arr, indexArr, color) => {
@@ -1526,51 +1552,51 @@ const useFence = () => {
             const index = indexArr[i];
             data.push(...arr[index]);
         }
-        const geometry = new THREE.BufferGeometry();
+        const geometry = new THREE__namespace.BufferGeometry();
         // 设置几何图形顶点位置 3 个一组
         const vertices = new Float32Array(data);
-        geometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
+        geometry.setAttribute('position', new THREE__namespace.BufferAttribute(vertices, 3));
         const count = indexArr.length;
-        const normalAttribute = new THREE.BufferAttribute(new Float32Array(count * 3), 3);
+        const normalAttribute = new THREE__namespace.BufferAttribute(new Float32Array(count * 3), 3);
         geometry.setAttribute('normal', normalAttribute);
         for (let i = 0; i < count; i++) {
             normalAttribute.setXYZ(i, 0, 0, 0);
         }
         const uvs = [1, 1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1];
-        const uvsAttribute = new THREE.BufferAttribute(new Float32Array(uvs), 2);
+        const uvsAttribute = new THREE__namespace.BufferAttribute(new Float32Array(uvs), 2);
         geometry.setAttribute('uv', uvsAttribute);
-        const material = new THREE.MeshPhongMaterial({
+        const material = new THREE__namespace.MeshPhongMaterial({
             color: color,
             map: texture,
             transparent: true,
-            blending: THREE.AdditiveBlending,
-            side: THREE.DoubleSide
+            blending: THREE__namespace.AdditiveBlending,
+            side: THREE__namespace.DoubleSide
         });
-        const material2 = new THREE.MeshPhongMaterial({
+        const material2 = new THREE__namespace.MeshPhongMaterial({
             color: color,
             map: texture2,
             transparent: true,
-            blending: THREE.AdditiveBlending,
-            side: THREE.DoubleSide
+            blending: THREE__namespace.AdditiveBlending,
+            side: THREE__namespace.DoubleSide
         });
-        var material3 = new THREE.MeshPhongMaterial({
+        var material3 = new THREE__namespace.MeshPhongMaterial({
             color: color,
             map: texture3,
             opacity: 0.5,
             transparent: true,
-            side: THREE.DoubleSide
+            side: THREE__namespace.DoubleSide
         });
-        const mesh = new THREE.Mesh(geometry, material);
-        const group = new THREE.Group();
-        const mesh2 = new THREE.Mesh(geometry, material2);
-        const mesh3 = new THREE.Mesh(geometry, material3);
+        const mesh = new THREE__namespace.Mesh(geometry, material);
+        const group = new THREE__namespace.Group();
+        const mesh2 = new THREE__namespace.Mesh(geometry, material2);
+        const mesh3 = new THREE__namespace.Mesh(geometry, material3);
         group.add(mesh, mesh2, mesh3);
         // group.add(mesh2, mesh3)
         return group;
     };
     const createFence = (model, color = 0xa7ff83) => {
-        const group = new THREE.Group();
-        var boxHelper = new THREE.BoxHelper(model, color);
+        const group = new THREE__namespace.Group();
+        var boxHelper = new THREE__namespace.BoxHelper(model, color);
         boxHelper.update();
         const pos = boxHelper.geometry.getAttribute('position').array;
         const arr = [];
@@ -1636,18 +1662,18 @@ const useCorrugatedPlate = (options = {}) => {
         // 阵列多个立方体网格模型
         for (let i = -len; i <= len; i++) {
             for (let j = -len; j <= len; j++) {
-                const geo = new THREE.PlaneGeometry(size, size);
+                const geo = new THREE__namespace.PlaneGeometry(size, size);
                 const x = i * interval;
                 const z = j * interval;
                 // 矩阵
-                const matrix = new THREE.Matrix4();
-                const pos = new THREE.Vector3(x, -size, z);
+                const matrix = new THREE__namespace.Matrix4();
+                const pos = new THREE__namespace.Vector3(x, -size, z);
                 // 四元数
-                const quaternion = new THREE.Quaternion();
+                const quaternion = new THREE__namespace.Quaternion();
                 // 欧拉对象
-                const rotation = new THREE.Euler();
+                const rotation = new THREE__namespace.Euler();
                 // 缩放
-                const scale = new THREE.Vector3(1, 1, 1);
+                const scale = new THREE__namespace.Vector3(1, 1, 1);
                 quaternion.setFromEuler(rotation);
                 // 传入位置，角度，缩放 构建矩阵
                 matrix.compose(pos, quaternion, scale);
@@ -1664,12 +1690,12 @@ const useCorrugatedPlate = (options = {}) => {
         range *= factor;
         const geometrys = createGeometry();
         // 合并几何图形
-        const geometry = BufferGeometryUtils.mergeGeometries(geometrys);
-        const material = new THREE.ShaderMaterial({
+        const geometry = BufferGeometryUtils__namespace.mergeGeometries(geometrys);
+        const material = new THREE__namespace.ShaderMaterial({
             //	着色器代码 变量
             uniforms: {
-                uColor: { value: new THREE.Color(light) },
-                uTcolor: { value: new THREE.Color(color) },
+                uColor: { value: new THREE__namespace.Color(light) },
+                uTcolor: { value: new THREE__namespace.Color(color) },
                 uRadius: { value: 1.25 },
                 uLength: { value: range / 10 }, // 扫过区域(宽度)
                 uRange: { value: range } // 扫过最大范围
@@ -1713,9 +1739,9 @@ const useCorrugatedPlate = (options = {}) => {
             // 深度写入
             depthWrite: false,
             // depthTest: false,
-            side: THREE.DoubleSide
+            side: THREE__namespace.DoubleSide
         });
-        const mesh = new THREE.Mesh(geometry, material);
+        const mesh = new THREE__namespace.Mesh(geometry, material);
         mesh.name = '波纹板';
         return mesh;
     };
@@ -1740,7 +1766,7 @@ const useCorrugatedPlate = (options = {}) => {
 const useDiffusion = () => {
     let material;
     const createDiffusion = (width = 10, color = 0xff0ff0, circle = 5) => {
-        const geometry = new THREE.PlaneGeometry(width, width, 1, 1);
+        const geometry = new THREE__namespace.PlaneGeometry(width, width, 1, 1);
         const vertexShader = [
             'varying vec2 vUv;',
             'void main() {',
@@ -1797,9 +1823,9 @@ const useDiffusion = () => {
             '	gl_FragColor = vec4(uColor, uOpacity * opacity);',
             '}'
         ].join('');
-        material = new THREE.ShaderMaterial({
+        material = new THREE__namespace.ShaderMaterial({
             uniforms: {
-                uColor: { value: new THREE.Color(color) },
+                uColor: { value: new THREE__namespace.Color(color) },
                 uOpacity: { value: 1 }, // 透明度
                 uSpeed: { value: 0.1 }, // 速度
                 uSge: { value: circle }, // 数量（圈数）
@@ -1810,10 +1836,10 @@ const useDiffusion = () => {
             vertexShader: vertexShader,
             fragmentShader: fragmentShader,
             depthTest: false,
-            blending: THREE.AdditiveBlending,
-            side: THREE.DoubleSide
+            blending: THREE__namespace.AdditiveBlending,
+            side: THREE__namespace.DoubleSide
         });
-        const mesh = new THREE.Mesh(geometry, material);
+        const mesh = new THREE__namespace.Mesh(geometry, material);
         return mesh;
     };
     const updateDiffusion = (factor = 1) => {
@@ -1873,17 +1899,17 @@ const useFlywire = (options = {}) => {
         height = (depth + height) * factor;
         depth *= factor;
         // 坐标起点
-        const v0 = new THREE.Vector3(x1, depth, -z1);
+        const v0 = new THREE__namespace.Vector3(x1, depth, -z1);
         // 控制点1坐标
         // 起点基础上，增加区间范围的 1/4
-        const v1 = new THREE.Vector3(x1 + (x2 - x1) / 4, height, -(z1 + (z2 - z1) / 4));
+        const v1 = new THREE__namespace.Vector3(x1 + (x2 - x1) / 4, height, -(z1 + (z2 - z1) / 4));
         // 控制点2坐标
         // 起点基础上，增加区间范围的 3/4
-        const v2 = new THREE.Vector3(x1 + ((x2 - x1) * 3) / 4, height, -(z1 + ((z2 - z1) * 3) / 4));
+        const v2 = new THREE__namespace.Vector3(x1 + ((x2 - x1) * 3) / 4, height, -(z1 + ((z2 - z1) * 3) / 4));
         // 终点
-        const v3 = new THREE.Vector3(x2, depth, -z2);
+        const v3 = new THREE__namespace.Vector3(x2, depth, -z2);
         // 使用3次贝塞尔曲线
-        const lineCurve = new THREE.CubicBezierCurve3(v0, v1, v2, v3);
+        const lineCurve = new THREE__namespace.CubicBezierCurve3(v0, v1, v2, v3);
         // 获取曲线上的点
         return lineCurve.getPoints(divisions);
     };
@@ -1891,10 +1917,10 @@ const useFlywire = (options = {}) => {
     const createFly = (points) => {
         const indexList = new Float32Array(points.map((_, index) => index));
         // 根据点位创建几何体
-        const geo = new THREE.BufferGeometry().setFromPoints(points);
+        const geo = new THREE__namespace.BufferGeometry().setFromPoints(points);
         // 设置自定义索引标识
-        geo.setAttribute('aIndex', new THREE.BufferAttribute(indexList, 1));
-        return new THREE.Points(geo, flyMaterial);
+        geo.setAttribute('aIndex', new THREE__namespace.BufferAttribute(indexList, 1));
+        return new THREE__namespace.Points(geo, flyMaterial);
     };
     // 创建坐标点
     const createCroodPoint = (crood) => {
@@ -1903,8 +1929,8 @@ const useFlywire = (options = {}) => {
         const width = pointWidth * factor;
         depth *= factor;
         // 创建平面
-        const geo = new THREE.PlaneGeometry(width, width, 1, 1);
-        const point = new THREE.Mesh(geo, pointMaterial);
+        const geo = new THREE__namespace.PlaneGeometry(width, width, 1, 1);
+        const point = new THREE__namespace.Mesh(geo, pointMaterial);
         point.position.set(x, depth, -z);
         point.rotateX(-Math.PI * 0.5);
         return point;
@@ -1912,11 +1938,11 @@ const useFlywire = (options = {}) => {
     // 创建材质
     const createFlywireTexture = (options = {}) => {
         _options = deepMerge(_options, options);
-        flyMaterial = new THREE.ShaderMaterial({
+        flyMaterial = new THREE__namespace.ShaderMaterial({
             depthTest: false,
             uniforms: {
                 // 线条颜色
-                uColor: { value: new THREE.Color(_options.flyColor) },
+                uColor: { value: new THREE__namespace.Color(_options.flyColor) },
                 uIndex: { value: 0 },
                 uTotal: { value: _options.divisions },
                 // 流动宽度
@@ -1940,7 +1966,7 @@ const useFlywire = (options = {}) => {
                 '		gl_PointSize = vSize;',
                 '}'
             ].join(''),
-            side: THREE.DoubleSide,
+            side: THREE__namespace.DoubleSide,
             fragmentShader: [
                 'varying float vSize;',
                 'uniform vec3 uColor;',
@@ -1955,9 +1981,9 @@ const useFlywire = (options = {}) => {
             transparent: true,
             vertexColors: false
         });
-        pointMaterial = new THREE.ShaderMaterial({
+        pointMaterial = new THREE__namespace.ShaderMaterial({
             uniforms: {
-                uColor: { value: new THREE.Color(_options.pointColor) },
+                uColor: { value: new THREE__namespace.Color(_options.pointColor) },
                 uOpacity: { value: 1 }, // 透明度
                 uSpeed: { value: 0.1 }, // 速度
                 uSge: { value: 4 }, // 数量（圈数）
@@ -2022,11 +2048,11 @@ const useFlywire = (options = {}) => {
                 '	gl_FragColor = vec4(uColor, uOpacity * opacity);',
                 '}'
             ].join('\n'),
-            side: THREE.DoubleSide
+            side: THREE__namespace.DoubleSide
         });
     };
     const createFlywire = (coords) => {
-        const group = new THREE.Group();
+        const group = new THREE__namespace.Group();
         // 坐标
         const start = createCroodPoint(coords[0]);
         const end = createCroodPoint(coords[1]);
@@ -2035,9 +2061,9 @@ const useFlywire = (options = {}) => {
         // 平滑样条线
         // CatmullRomCurve3( 点位、曲线闭合、曲线类型、类型catmullrom时张力默认 0.5)
         // 曲线类型：centripetal、chordal和catmullrom
-        const curve = new THREE.CatmullRomCurve3(points, false, 'centripetal', 0.5);
+        const curve = new THREE__namespace.CatmullRomCurve3(points, false, 'centripetal', 0.5);
         // 管道
-        const tubeGeo = new THREE.TubeGeometry(
+        const tubeGeo = new THREE__namespace.TubeGeometry(
         // 3D 路径
         curve, 
         // 管道分段数
@@ -2048,13 +2074,13 @@ const useFlywire = (options = {}) => {
         _options.radialSegments, 
         // 管道闭合
         _options.closed);
-        const tubMat = new THREE.ShaderMaterial({
+        const tubMat = new THREE__namespace.ShaderMaterial({
             transparent: true,
             opacity: 1,
             depthTest: false,
             vertexColors: false,
             uniforms: {
-                uColor: { value: new THREE.Color(_options.color) },
+                uColor: { value: new THREE__namespace.Color(_options.color) },
                 uOpacity: { value: 0.6 }
             },
             vertexShader: [
@@ -2072,7 +2098,7 @@ const useFlywire = (options = {}) => {
                 '}'
             ].join('')
         });
-        const tubMesh = new THREE.Mesh(tubeGeo, tubMat);
+        const tubMesh = new THREE__namespace.Mesh(tubeGeo, tubMat);
         tubMesh.renderOrder = 10;
         // 飞线
         const fly = createFly(points);
@@ -2107,19 +2133,19 @@ const useLensflare = (options = {}) => {
         // 次光晕
         minorTextureUrl: getTextturesUrl('lensflare3.png')
     }, options);
-    const textureLoader = new THREE.TextureLoader();
+    const textureLoader = new THREE__namespace.TextureLoader();
     const textureFlare0 = textureLoader.load(_options.mainTextureUrl);
     const textureFlare3 = textureLoader.load(_options.minorTextureUrl);
     const addLensflare = (color, x, y, z) => {
-        const light = new THREE.PointLight(0xffffff, 1, 2000, 0);
+        const light = new THREE__namespace.PointLight(0xffffff, 1, 2000, 0);
         light.color.set(color);
         light.position.set(x, y, z);
-        const lensflare = new Lensflare();
-        lensflare.addElement(new LensflareElement(textureFlare0, 700, 0, light.color));
-        lensflare.addElement(new LensflareElement(textureFlare3, 60, 0.6));
-        lensflare.addElement(new LensflareElement(textureFlare3, 70, 0.7));
-        lensflare.addElement(new LensflareElement(textureFlare3, 120, 0.9));
-        lensflare.addElement(new LensflareElement(textureFlare3, 70, 1));
+        const lensflare = new Lensflare_js.Lensflare();
+        lensflare.addElement(new Lensflare_js.LensflareElement(textureFlare0, 700, 0, light.color));
+        lensflare.addElement(new Lensflare_js.LensflareElement(textureFlare3, 60, 0.6));
+        lensflare.addElement(new Lensflare_js.LensflareElement(textureFlare3, 70, 0.7));
+        lensflare.addElement(new Lensflare_js.LensflareElement(textureFlare3, 120, 0.9));
+        lensflare.addElement(new Lensflare_js.LensflareElement(textureFlare3, 70, 1));
         light.add(lensflare);
         return light;
     };
@@ -2131,10 +2157,10 @@ const useLensflare = (options = {}) => {
 // 加载文件
 const useFileLoader = () => {
     // 进度
-    const progress = ref(0);
+    const progress = vue.ref(0);
     // 加载
     const load = (url) => {
-        const loader = new THREE.FileLoader();
+        const loader = new THREE__namespace.FileLoader();
         return new Promise((resolve, reject) => {
             loader.load(url, data => {
                 let json = {};
@@ -2180,18 +2206,18 @@ const useUpload = (options) => {
         reader.addEventListener('load', (event) => __awaiter(void 0, void 0, void 0, function* () {
             const contents = event.target.result;
             if (['glb', 'gltf'].includes(type)) {
-                const loader = new GLTFLoader();
-                const dracoLoader = new DRACOLoader();
+                const loader = new GLTFLoader.GLTFLoader();
+                const dracoLoader = new DRACOLoader.DRACOLoader();
                 dracoLoader.setDecoderPath(`${baseUrl}${dracoPath}`);
                 loader.setDRACOLoader(dracoLoader);
-                const ktx2Loader = new KTX2Loader();
+                const ktx2Loader = new KTX2Loader.KTX2Loader();
                 ktx2Loader.setTranscoderPath(`${baseUrl}${basisPath}`);
                 loader.setKTX2Loader(ktx2Loader);
-                loader.setMeshoptDecoder(MeshoptDecoder);
+                loader.setMeshoptDecoder(meshopt_decoder_module.MeshoptDecoder);
                 loader.parse(contents, '', result => {
                     var _a, _b, _c;
                     const children = result.scene.children;
-                    let object = new THREE.Group();
+                    let object = new THREE__namespace.Group();
                     if (children.length > 1) {
                         object.add(...children);
                     }
@@ -2206,7 +2232,7 @@ const useUpload = (options) => {
                 });
             }
             else if (type == 'fbx') {
-                const loader = new FBXLoader();
+                const loader = new FBXLoader.FBXLoader();
                 const object = loader.parse(contents, '');
                 onSuccess(object);
             }
@@ -2221,15 +2247,15 @@ const useUpload = (options) => {
 // 碰撞 collide
 const useCollide = () => {
     // 检测射线
-    const raycaster = new THREE.Raycaster();
+    const raycaster = new THREE__namespace.Raycaster();
     // 向量
-    const up = new THREE.Vector3(0, 2, 0);
+    const up = new THREE__namespace.Vector3(0, 2, 0);
     // 检测碰撞（目标、坐标、检测的对象集合、是否检测子集）
     const checkCollide = (target, pos, objects, recursive = true, upVector = up) => {
         // 当前目标坐标,Y轴加一个固定向量，代表纵轴射线发射（检测碰撞的）位置
         const origin = pos.clone().add(upVector);
         // 获取目标朝向
-        const direction = new THREE.Vector3();
+        const direction = new THREE__namespace.Vector3();
         target.getWorldDirection(direction);
         direction.normalize();
         // 设置射线发射位置
@@ -2249,13 +2275,13 @@ const useCoord = () => {
     // 计算包围盒
     const getBoundingBox = (group) => {
         // 包围盒计算模型对象的大小和位置
-        var box3 = new THREE.Box3();
+        var box3 = new THREE__namespace.Box3();
         // 计算模型包围盒
         box3.expandByObject(group);
-        var size = new THREE.Vector3();
+        var size = new THREE__namespace.Vector3();
         // 计算包围盒尺寸
         box3.getSize(size);
-        var center = new THREE.Vector3();
+        var center = new THREE__namespace.Vector3();
         // 计算一个层级模型对应包围盒的几何体中心坐标
         box3.getCenter(center);
         return {
@@ -2271,8 +2297,8 @@ const useCoord = () => {
 
 // 光线投射 平面坐标于 3D 坐标转换
 const useRaycaster = () => {
-    const raycaster = new THREE.Raycaster();
-    const pointer = new THREE.Vector2();
+    const raycaster = new THREE__namespace.Raycaster();
+    const pointer = new THREE__namespace.Vector2();
     const style = {
         left: 0,
         top: 0
@@ -2364,38 +2390,38 @@ const useCruise = () => {
         const newPoints = [];
         for (let i = 0; i < points.length; i++) {
             const p = points[i];
-            newPoints.push(new THREE.Vector3(p[0], p[1], p[2]));
+            newPoints.push(new THREE__namespace.Vector3(p[0], p[1], p[2]));
         }
         // CatmullRomCurve3( 点位、曲线闭合、曲线类型、类型catmullrom时张力默认 0.5)
         // 曲线类型：centripetal、chordal和catmullrom
-        cruiseCurve = new THREE.CatmullRomCurve3(newPoints, close, 'catmullrom', tension !== null && tension !== void 0 ? tension : 0);
-        cruiseCurve = new THREE.CatmullRomCurve3(getAllPoints(), close, 'catmullrom', tension !== null && tension !== void 0 ? tension : 0);
-        const group = new THREE.Group();
-        texture = new THREE.TextureLoader().load(getUrl(mapUrl, baseUrl), tx => {
+        cruiseCurve = new THREE__namespace.CatmullRomCurve3(newPoints, close, 'catmullrom', tension !== null && tension !== void 0 ? tension : 0);
+        cruiseCurve = new THREE__namespace.CatmullRomCurve3(getAllPoints(), close, 'catmullrom', tension !== null && tension !== void 0 ? tension : 0);
+        const group = new THREE__namespace.Group();
+        texture = new THREE__namespace.TextureLoader().load(getUrl(mapUrl, baseUrl), tx => {
             // 贴图在水平方向上允许重复
-            tx.wrapS = THREE.RepeatWrapping;
+            tx.wrapS = THREE__namespace.RepeatWrapping;
             tx.repeat.x = repeat[0];
             tx.repeat.y = repeat[1];
             // 向异性
             tx.anisotropy = renderer.capabilities.getMaxAnisotropy();
         });
         // 材质
-        const mat = new THREE.MeshPhongMaterial({
+        const mat = new THREE__namespace.MeshPhongMaterial({
             color,
             map: texture,
             opacity: 0.9,
             transparent: true,
             // depthWrite: false,
             depthTest: !false,
-            side: THREE.FrontSide
+            side: THREE__namespace.FrontSide
             // blending: THREE.AdditiveBlending
         });
         // 向量
-        const up = new THREE.Vector3(0, 1, 0);
-        const pathPoints = new PathPointList();
+        const up = new THREE__namespace.Vector3(0, 1, 0);
+        const pathPoints = new threeCruisePath.PathPointList();
         // 点位集合、拐角半径、拐角分段、方向向量、闭合
         pathPoints.set(getAllPoints(), radius, radialSegments, up, false);
-        const geometry = tube ? new PathTubeGeometry() : new PathGeometry();
+        const geometry = tube ? new threeCruisePath.PathTubeGeometry() : new threeCruisePath.PathGeometry();
         geometry.update(pathPoints, tube
             ? {
                 radius, // 半径
@@ -2409,7 +2435,7 @@ const useCruise = () => {
                 progress: 1, // 进度
                 side: 'both' // left/right/both	左/右/两者
             }, false);
-        const mesh = new THREE.Mesh(geometry, mat);
+        const mesh = new THREE__namespace.Mesh(geometry, mat);
         group.add(mesh);
         group.name = 'cruise';
         if (helper) {
@@ -2420,38 +2446,38 @@ const useCruise = () => {
     };
     // 辅助
     const createHelper = (group, points) => {
-        eye = new THREE.Mesh(new THREE.SphereGeometry(2), new THREE.MeshBasicMaterial({
+        eye = new THREE__namespace.Mesh(new THREE__namespace.SphereGeometry(2), new THREE__namespace.MeshBasicMaterial({
             color: 0x000000,
             opacity: 0.8,
             depthTest: false,
             transparent: true
         }));
         group.add(eye);
-        const geo = new THREE.BufferGeometry().setFromPoints(points.concat(points[0]));
-        const material = new THREE.LineBasicMaterial({
+        const geo = new THREE__namespace.BufferGeometry().setFromPoints(points.concat(points[0]));
+        const material = new THREE__namespace.LineBasicMaterial({
             color: 0x0000ff,
             opacity: 1,
             depthTest: false,
             transparent: true
         });
-        const mesh = new THREE.Line(geo, material);
+        const mesh = new THREE__namespace.Line(geo, material);
         group.add(mesh);
-        const tubeGeometry = new THREE.TubeGeometry(cruiseCurve, 100, _options.width / 2, 3, true);
-        const tubeMat = new THREE.MeshLambertMaterial({
+        const tubeGeometry = new THREE__namespace.TubeGeometry(cruiseCurve, 100, _options.width / 2, 3, true);
+        const tubeMat = new THREE__namespace.MeshLambertMaterial({
             color: 0xff00ff,
             opacity: 0.1,
             depthTest: false,
             transparent: true
         });
-        const tubeMesh = new THREE.Mesh(tubeGeometry, tubeMat);
-        const wireframeMaterial = new THREE.MeshBasicMaterial({
+        const tubeMesh = new THREE__namespace.Mesh(tubeGeometry, tubeMat);
+        const wireframeMaterial = new THREE__namespace.MeshBasicMaterial({
             color: 0xff0ff0,
             opacity: 0.3,
             wireframe: true,
             depthTest: false,
             transparent: true
         });
-        const wireframe = new THREE.Mesh(tubeGeometry, wireframeMaterial);
+        const wireframe = new THREE__namespace.Mesh(tubeGeometry, wireframeMaterial);
         tubeMesh.add(wireframe);
         group.add(tubeMesh);
     };
@@ -2461,7 +2487,7 @@ const useCruise = () => {
     const getAllPoints = () => cruiseCurve === null || cruiseCurve === void 0 ? void 0 : cruiseCurve.getPoints(getCruiseLen());
     // 偏移坐标
     const getOffsetPoint = (offset, pos) => {
-        return new THREE.Vector3(pos.x, pos.y + offset, pos.z);
+        return new THREE__namespace.Vector3(pos.x, pos.y + offset, pos.z);
     };
     // 更新参数
     const updateCruise = (options) => {
@@ -2584,7 +2610,7 @@ const useCSS2D = () => {
     // 初始化 CSS2D 标签
     const initCSS2DRender = (options, container) => {
         const { width, height } = options;
-        const CSS2DRender = new CSS2DRenderer();
+        const CSS2DRender = new CSS2DRenderer_js.CSS2DRenderer();
         // 设置渲染器的尺寸
         CSS2DRender.setSize(width, height);
         // 容器 css 样式
@@ -2601,7 +2627,7 @@ const useCSS2D = () => {
         const dom = document.createElement('div');
         dom.innerHTML = name;
         dom.className = className;
-        const label = new CSS2DObject(dom);
+        const label = new CSS2DRenderer_js.CSS2DObject(dom);
         dom.style.pointerEvents = onClick ? 'auto' : 'none';
         dom.style.position = 'absolute';
         if (typeof onClick === 'function') {
@@ -2668,12 +2694,12 @@ const useFloor = (options = {}) => {
                 }
                 fllowModelAnimate(mode, items, cy, offset);
             }
-            new TWEEN.Tween(el.position)
+            new TWEEN__namespace.Tween(el.position)
                 .to({
                 y: mode === 'UD' ? ty : el.position.y,
                 z: mode === 'BA' ? tz : el.position.z
             }, 500)
-                .easing(TWEEN.Easing.Quadratic.Out)
+                .easing(TWEEN__namespace.Easing.Quadratic.Out)
                 .start();
         }
     };
@@ -2686,12 +2712,12 @@ const useFloor = (options = {}) => {
             const pos = el._position_;
             const ty = mode == 'UD' ? ((_a = pos.y) !== null && _a !== void 0 ? _a : 0) + cy : (_b = pos.y) !== null && _b !== void 0 ? _b : 0;
             const tz = mode == 'BA' ? ((_c = pos.z) !== null && _c !== void 0 ? _c : 0) + cz : (_d = pos.z) !== null && _d !== void 0 ? _d : 0;
-            new TWEEN.Tween(el.position)
+            new TWEEN__namespace.Tween(el.position)
                 .to({
                 y: ty,
                 z: tz
             }, 500)
-                .easing(TWEEN.Easing.Quadratic.Out)
+                .easing(TWEEN__namespace.Easing.Quadratic.Out)
                 .start();
         });
     };
@@ -2702,7 +2728,7 @@ const useFloor = (options = {}) => {
 
 // 弹窗配置
 const useDialog = (options = {}) => {
-    const dialog = reactive(deepMerge({
+    const dialog = vue.reactive(deepMerge({
         show: false,
         style: {
             left: '',
@@ -2716,7 +2742,7 @@ const useDialog = (options = {}) => {
             left: 0
         }
     }, options));
-    const show = toRef(dialog.show);
+    const show = vue.toRef(dialog.show);
     return {
         dialog,
         options: dialog,
@@ -2729,19 +2755,19 @@ const useGrid = () => {
     const createFork = (options = {}) => {
         const { width = 800, divisions = 80, forkSize = 1.4, forkColor = 0xa1a1a1 } = options;
         let step = width / divisions, start = -width / 2;
-        const group = new THREE.Group();
+        const group = new THREE__namespace.Group();
         for (let i = 0; i <= divisions; i++) {
             for (let j = 0; j <= divisions; j++) {
                 const x = start + i * step;
                 const z = start + j * step;
-                const geo = new THREE.PlaneGeometry(forkSize, forkSize / 5);
+                const geo = new THREE__namespace.PlaneGeometry(forkSize, forkSize / 5);
                 // 边框材质
-                const mat = new THREE.MeshLambertMaterial({
+                const mat = new THREE__namespace.MeshLambertMaterial({
                     color: forkColor,
                     transparent: true,
                     opacity: 0.9
                 });
-                const mesh = new THREE.Mesh(geo, mat);
+                const mesh = new THREE__namespace.Mesh(geo, mat);
                 mesh.rotateX(-Math.PI * 0.5);
                 mesh.position.set(x, 0, z);
                 const mesh2 = mesh.clone();
@@ -2813,9 +2839,9 @@ const useMaterial = () => {
                 mat.roughness = 0;
             }
             // child.material.emissiveMap = child.material.map
-            mat = new THREE.MeshStandardMaterial(Object.assign(Object.assign({}, getMaterialAttr(mat)), { 
+            mat = new THREE__namespace.MeshStandardMaterial(Object.assign(Object.assign({}, getMaterialAttr(mat)), { 
                 // depthTest: false, // 深度写入（解决重叠）
-                metalness: mat.metalness, roughness: mat.roughness, side: side ? THREE.DoubleSide : THREE.FrontSide // 材质渲染面
+                metalness: mat.metalness, roughness: mat.roughness, side: side ? THREE__namespace.DoubleSide : THREE__namespace.FrontSide // 材质渲染面
              }));
         }
         return mat;
@@ -2837,7 +2863,7 @@ const useMaterial = () => {
             child.shadow.camera.top = s;
             child.shadow.camera.bottom = -s;
             if (type === 'SpotLight') {
-                let helper = new THREE.SpotLightHelper(child, child.color);
+                let helper = new THREE__namespace.SpotLightHelper(child, child.color);
                 group.add(helper);
             }
             return;
@@ -2855,7 +2881,7 @@ const useMaterial = () => {
         }
         else if (animateMeshName.find((it) => name.indexOf(it) > -1)) {
             // 动画材质
-            let material = new THREE.MeshStandardMaterial({
+            let material = new THREE__namespace.MeshStandardMaterial({
                 color: color,
                 // 材质像金属的程度. 非金属材料，如木材或石材，使用0.0，金属使用1.0，中间没有（通常）.
                 // 默认 0.5. 0.0到1.0之间的值可用于生锈的金属外观
@@ -2889,7 +2915,7 @@ const useMaterial = () => {
     const exportGlb = (model, animations, name, isGlb = true) => {
         if (!model)
             return;
-        const gltfExporter = new GLTFExporter();
+        const gltfExporter = new GLTFExporter.GLTFExporter();
         const options = {
             // trs: false,
             // onlyVisible: true,
@@ -2924,14 +2950,14 @@ const useMaterial = () => {
     };
     // 设置金属材质
     const setMetalnessMaterial = (mat = { color: 0xffffff }, metalness, roughness) => {
-        return new THREE.MeshStandardMaterial(Object.assign(Object.assign({}, getMaterialAttr(mat)), { metalness: metalness, roughness: roughness // 粗糙度
+        return new THREE__namespace.MeshStandardMaterial(Object.assign(Object.assign({}, getMaterialAttr(mat)), { metalness: metalness, roughness: roughness // 粗糙度
          }));
     };
     // 设置玻璃材质
     const setGlassMaterial = (mat = {
         color: 0xffffff
     }, { metalness = 0, roughness = 0, envMapIntensity = 0, transmission = 0, ior = 0 }) => {
-        return new THREE.MeshPhysicalMaterial(Object.assign(Object.assign({}, getMaterialAttr(mat)), { metalness, //玻璃非金属	金属度设置0
+        return new THREE__namespace.MeshPhysicalMaterial(Object.assign(Object.assign({}, getMaterialAttr(mat)), { metalness, //玻璃非金属	金属度设置0
             roughness, //玻璃表面光滑
             envMapIntensity, //环境贴图对Mesh表面影响程度
             transmission, //透射度(透光率)
@@ -2941,12 +2967,12 @@ const useMaterial = () => {
     // 盒子模型辅助
     const centerBoxHelper = (model, hex = 0xff0000) => {
         // 创建 BoxHelper
-        var boxHelper = new THREE.BoxHelper(model, hex);
+        var boxHelper = new THREE__namespace.BoxHelper(model, hex);
         //更新
         boxHelper.update();
         // 获取模型的包围盒
-        const box = new THREE.Box3().setFromObject(model);
-        const center = box.getCenter(new THREE.Vector3());
+        const box = new THREE__namespace.Box3().setFromObject(model);
+        const center = box.getCenter(new THREE__namespace.Vector3());
         return {
             helper: boxHelper,
             center
@@ -2994,8 +3020,8 @@ const useMoveAnimate = () => {
         if (len < 2)
             len = 2;
         const points = [pos, moveTo];
-        cruiseCurve = new THREE.CatmullRomCurve3(points, false, 'catmullrom', 0);
-        cruiseCurve = new THREE.CatmullRomCurve3(getAllPoints(len), false, 'catmullrom', 0);
+        cruiseCurve = new THREE__namespace.CatmullRomCurve3(points, false, 'catmullrom', 0);
+        cruiseCurve = new THREE__namespace.CatmullRomCurve3(getAllPoints(len), false, 'catmullrom', 0);
         _options.model = model;
         _options.index = 0;
         _options.length = len;
@@ -3084,12 +3110,12 @@ const useRoam = () => {
         const newPoints = [];
         for (let i = 0; i < points.length; i++) {
             const p = points[i];
-            newPoints.push(new THREE.Vector3(p[0], p[1], p[2]));
+            newPoints.push(new THREE__namespace.Vector3(p[0], p[1], p[2]));
         }
         // CatmullRomCurve3( 点位、曲线闭合、曲线类型、类型catmullrom时张力默认 0.5)
         // 曲线类型：centripetal、chordal和catmullrom
-        cruiseCurve = new THREE.CatmullRomCurve3(newPoints, close, 'catmullrom', tension !== null && tension !== void 0 ? tension : 0);
-        cruiseCurve = new THREE.CatmullRomCurve3(getAllPoints(), close, 'catmullrom', tension !== null && tension !== void 0 ? tension : 0);
+        cruiseCurve = new THREE__namespace.CatmullRomCurve3(newPoints, close, 'catmullrom', tension !== null && tension !== void 0 ? tension : 0);
+        cruiseCurve = new THREE__namespace.CatmullRomCurve3(getAllPoints(), close, 'catmullrom', tension !== null && tension !== void 0 ? tension : 0);
     };
     const reset = (options) => {
         cruiseCurve = void 0;
@@ -3101,7 +3127,7 @@ const useRoam = () => {
     const getCruiseLen = () => { var _a; return ((_a = _options.segment) !== null && _a !== void 0 ? _a : 2) * 1000; };
     // 偏移坐标
     const getOffsetPoint = (offset, pos) => {
-        return new THREE.Vector3(pos.x, pos.y + offset, pos.z);
+        return new THREE__namespace.Vector3(pos.x, pos.y + offset, pos.z);
     };
     // 更新参数
     const updateRoam = (options) => {
@@ -3243,7 +3269,7 @@ const useKeyboardState = () => {
 };
 
 const getImgUrl = (code, jpg) => {
-    return new URL(`../assets/imgs/sky/${code}/${jpg}`, import.meta.url).href;
+    return new URL(`../assets/imgs/sky/${code}/${jpg}`, (typeof document === 'undefined' ? new (require('u' + 'rl').URL)('file:' + __filename).href : (document.currentScript && document.currentScript.tagName.toUpperCase() === 'SCRIPT' && document.currentScript.src || new URL('three-scene.cjs', document.baseURI).href))).href;
 };
 // 背景
 const useBackground = (code = '') => {
@@ -3261,7 +3287,7 @@ const useBackground = (code = '') => {
         '226'
     ];
     const i = skys.findIndex(t => t == code);
-    const index = ref(i < 0 ? 0 : i);
+    const index = vue.ref(i < 0 ? 0 : i);
     const change = (scene) => {
         const code = skys[index.value];
         if (!code)
@@ -3283,13 +3309,13 @@ const useBackground = (code = '') => {
         }
         else {
             if (Array.isArray(bgUrl)) {
-                const loader = new THREE.CubeTextureLoader();
+                const loader = new THREE__namespace.CubeTextureLoader();
                 const env = loader.load(bgUrl);
                 // 设置背景
                 scene.background = env;
             }
             else {
-                scene.background = new THREE.TextureLoader().load(bgUrl);
+                scene.background = new THREE__namespace.TextureLoader().load(bgUrl);
             }
         }
     };
@@ -3347,7 +3373,7 @@ const useModelLoader = (options = {}) => {
             cache: true
         }
     }, options);
-    const progress = reactive({
+    const progress = vue.reactive({
         // 进度
         percentage: 0,
         // 进度条展示
@@ -3385,14 +3411,14 @@ const useModelLoader = (options = {}) => {
         spotlight: 'spotlight'
     };
     const modelMap = new Map();
-    const dracoLoader = new DRACOLoader$1();
+    const dracoLoader = new DRACOLoader_js.DRACOLoader();
     dracoLoader.setDecoderPath(_options.baseUrl + _options.dracoPath);
-    const loader = new GLTFLoader$1();
+    const loader = new GLTFLoader_js.GLTFLoader();
     loader.setDRACOLoader(dracoLoader);
-    const ktx2Loader = new KTX2Loader();
+    const ktx2Loader = new KTX2Loader.KTX2Loader();
     ktx2Loader.setTranscoderPath(_options.baseUrl + _options.basisPath);
     loader.setKTX2Loader(ktx2Loader);
-    loader.setMeshoptDecoder(MeshoptDecoder);
+    loader.setMeshoptDecoder(meshopt_decoder_module.MeshoptDecoder);
     // 重置
     const reset = (length) => {
         if (length == 0) {
@@ -3429,17 +3455,17 @@ const useModelLoader = (options = {}) => {
         // let texture: InstanceType<typeof THREE.TextureLoader>
         let texture;
         if (mapUrl && mapMeshName) {
-            texture = new THREE.TextureLoader().load(getUrl(mapUrl, baseUrl));
-            texture.wrapS = THREE.RepeatWrapping; // THREE.RepeatWrapping，纹理将简单地重复到无穷大。
-            texture.wrapT = THREE.RepeatWrapping;
+            texture = new THREE__namespace.TextureLoader().load(getUrl(mapUrl, baseUrl));
+            texture.wrapS = THREE__namespace.RepeatWrapping; // THREE.RepeatWrapping，纹理将简单地重复到无穷大。
+            texture.wrapT = THREE__namespace.RepeatWrapping;
             texture.repeat.set(repeat[0], repeat[1]); // 纹理对象阵列
         }
         // 克隆
         const newModel = modelDeepClone(glb);
         newModel.traverse((el) => {
             if (el.isMesh && texture && el.name.indexOf(mapMeshName) > -1) {
-                el.material = new THREE.MeshLambertMaterial({
-                    side: THREE.DoubleSide,
+                el.material = new THREE__namespace.MeshLambertMaterial({
+                    side: THREE__namespace.DoubleSide,
                     transparent: true,
                     opacity: 0,
                     map: texture.clone()
@@ -3466,7 +3492,7 @@ const useModelLoader = (options = {}) => {
         return createDB(((_a = _options.indexDB) === null || _a === void 0 ? void 0 : _a.tbName) || DEFAULTCONFIG.indexdb.tbName, ((_b = _options.indexDB) === null || _b === void 0 ? void 0 : _b.dbName) || DEFAULTCONFIG.indexdb.dbName, ((_c = _options.indexDB) === null || _c === void 0 ? void 0 : _c.version) || DEFAULTCONFIG.indexdb.version).then(db => {
             if (!!db) {
                 // 开启缓存
-                THREE.Cache.enabled = true;
+                THREE__namespace.Cache.enabled = true;
                 gDB = db;
             }
             return db;
@@ -3480,13 +3506,13 @@ const useModelLoader = (options = {}) => {
             if (!_options.indexDB.cache)
                 resolve(null);
             // three 缓存
-            const tCache = THREE.Cache.get(url);
+            const tCache = THREE__namespace.Cache.get(url);
             if (!!tCache) {
                 // 判断缓存的是否为 buffer 类型数据
                 if (tCache instanceof ArrayBuffer) {
                     loadProgress({ loaded: tCache.byteLength });
                     loader.parse(tCache, '', result => {
-                        THREE.Cache.add(url, result);
+                        THREE__namespace.Cache.add(url, result);
                         resolve(result);
                     });
                 }
@@ -3504,7 +3530,7 @@ const useModelLoader = (options = {}) => {
                     const data = store.data;
                     if (typeof data === 'string') {
                         loadProgress({ loaded: data.length });
-                        THREE.Cache.add(store.path, data);
+                        THREE__namespace.Cache.add(store.path, data);
                         setTimeout(() => {
                             resolve(data);
                         }, 10);
@@ -3512,7 +3538,7 @@ const useModelLoader = (options = {}) => {
                     else {
                         loadProgress({ loaded: data.byteLength });
                         loader.parse(data, '', result => {
-                            THREE.Cache.add(store.path, result);
+                            THREE__namespace.Cache.add(store.path, result);
                             resolve(result);
                         });
                     }
@@ -3529,7 +3555,7 @@ const useModelLoader = (options = {}) => {
         // 加载缓存
         if (!_options.indexDB.cache)
             return;
-        const ch = THREE.Cache.get(url);
+        const ch = THREE__namespace.Cache.get(url);
         if (!ch)
             return;
         if (!!gDB) {
@@ -3562,7 +3588,7 @@ const useModelLoader = (options = {}) => {
             }
             loader.load(newUrl, glb => {
                 const children = glb.scene.children;
-                let object = new THREE.Group();
+                let object = new THREE__namespace.Group();
                 if (children.length > 1) {
                     object.add(...children);
                 }
@@ -3583,12 +3609,12 @@ const useModelLoader = (options = {}) => {
     const createSprite = (item) => {
         const { key, range = { x: 1, y: 1 }, mapUrl = '' } = item;
         // 创建精灵
-        let texture = new THREE.TextureLoader().load(_options.baseUrl + mapUrl);
+        let texture = new THREE__namespace.TextureLoader().load(_options.baseUrl + mapUrl);
         // 精灵材质
-        let material = new THREE.SpriteMaterial({
+        let material = new THREE__namespace.SpriteMaterial({
             map: texture
         });
-        let sprite = new THREE.Sprite(material);
+        let sprite = new THREE__namespace.Sprite(material);
         let x = range.x, y = range.y;
         sprite.scale.set(x, y, 1);
         sprite.name = 'sprite';
@@ -3599,7 +3625,7 @@ const useModelLoader = (options = {}) => {
         const { url = '', size = 0 } = model;
         const { baseUrl } = _options;
         const newUrl = getUrl(url, baseUrl);
-        const loader = new FontLoader();
+        const loader = new FontLoader_js.FontLoader();
         return new Promise((resolve, reject) => __awaiter(void 0, void 0, void 0, function* () {
             const store = yield getCacheModel(newUrl, size);
             if (store) {
@@ -3626,7 +3652,7 @@ const useModelLoader = (options = {}) => {
         const { key, color = 0xffffff, intensity = 8, distance = 10, angle = Math.PI * 0.2, penumbra = 0.2, decay = 0 } = item;
         // 创建光源
         // 点光源 (颜色、强度、距离、角度、半影衰减、衰减)
-        let spotLight = new THREE.SpotLight(color, intensity, distance, angle, penumbra, decay);
+        let spotLight = new THREE__namespace.SpotLight(color, intensity, distance, angle, penumbra, decay);
         // 生产阴影
         spotLight.castShadow = true;
         spotLight.visible = false;
@@ -3714,7 +3740,7 @@ const useModelLoader = (options = {}) => {
                 if (!el.__material__) {
                     el.__material__ = el.material;
                 }
-                el.material = new THREE.MeshBasicMaterial({
+                el.material = new THREE__namespace.MeshBasicMaterial({
                     color: opts.color,
                     wireframe: opts.wireframe,
                     transparent: true,
@@ -3795,9 +3821,9 @@ var index = /*#__PURE__*/Object.freeze({
     useRaycaster: useRaycaster,
     useCruise: useCruise,
     useCSS2D: useCSS2D,
-    CSS2DRenderer: CSS2DRenderer,
+    CSS2DRenderer: CSS2DRenderer_js.CSS2DRenderer,
     useCSS3D: useCSS3D,
-    CSS3DRenderer: CSS3DRenderer,
+    CSS3DRenderer: CSS3DRenderer_js.CSS3DRenderer,
     useFloor: useFloor,
     useDialog: useDialog,
     useGrid: useGrid,
@@ -3833,7 +3859,7 @@ class Scene {
         }
         this.options.width = this.container.offsetWidth;
         this.options.height = this.container.offsetHeight;
-        this.scene = new THREE.Scene();
+        this.scene = new THREE__namespace.Scene();
         this.renderer = this.initRenderer();
         this.baseCamera = this.initCamera();
         this.controls = this.initControls();
@@ -3879,7 +3905,7 @@ class Scene {
         if (this.options.controls.visible)
             (_a = this.controls) === null || _a === void 0 ? void 0 : _a.update();
         cruiseAnimate(this.cruiseCamera);
-        TWEEN.update();
+        TWEEN__namespace.update();
     }
     initModel() {
         // 业务代码
@@ -3889,7 +3915,7 @@ class Scene {
     initRenderer() {
         const { width, height, bgColor, bgUrl, env } = this.options;
         // 创建渲染对象
-        const renderer = new THREE.WebGLRenderer(this.options.render);
+        const renderer = new THREE__namespace.WebGLRenderer(this.options.render);
         // renderer.setClearAlpha( 0 )
         // 环境
         if (env) {
@@ -3904,7 +3930,7 @@ class Scene {
         }
         if (this.options.fog.visible) {
             const { color, near, far } = this.options.fog;
-            this.scene.fog = new THREE.Fog(color !== null && color !== void 0 ? color : this.scene.background, near, far);
+            this.scene.fog = new THREE__namespace.Fog(color !== null && color !== void 0 ? color : this.scene.background, near, far);
             // this.scene.fog = new THREE.FogExp2(0xefd1b5, 0.0005)
         }
         // 渲染顺序
@@ -3916,7 +3942,7 @@ class Scene {
         // THREE.PCFShadowMap 性能较差，但边缘更光滑
         // THREE.PCFSoftShadowMap 性能较差，但边缘更柔软
         // THREE.VSMShadowMap 更低的性能，更多的约束，可能会产生意想不到的结果
-        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        renderer.shadowMap.type = THREE__namespace.PCFSoftShadowMap;
         // 设置渲染尺寸
         renderer.setSize(width, height);
         // 设置canvas的分辨率
@@ -3930,7 +3956,7 @@ class Scene {
         const { ambientLight, directionalLight } = this.options;
         // 环境光
         if (ambientLight.visible) {
-            const ambLight = new THREE.AmbientLight(ambientLight.color, ambientLight.intensity);
+            const ambLight = new THREE__namespace.AmbientLight(ambientLight.color, ambientLight.intensity);
             this.addObject(ambLight);
         }
         // 平行光
@@ -3940,7 +3966,7 @@ class Scene {
             direLight.position.set(x, y, z);
             this.addObject(direLight);
             if (directionalLight.helper) {
-                const dirLightHelper = new THREE.DirectionalLightHelper(direLight, 1);
+                const dirLightHelper = new THREE__namespace.DirectionalLightHelper(direLight, 1);
                 this.addObject(dirLightHelper);
             }
             // const pointLight = new THREE.PointLight(0xffffff, 100000, 1000)
@@ -3953,7 +3979,7 @@ class Scene {
                 dirLight2.position.set(x, y, z);
                 this.addObject(dirLight2);
                 if (directionalLight.helper) {
-                    const dirLigh2tHelper = new THREE.DirectionalLightHelper(dirLight2, 1);
+                    const dirLigh2tHelper = new THREE__namespace.DirectionalLightHelper(dirLight2, 1);
                     this.addObject(dirLigh2tHelper);
                 }
             }
@@ -3963,7 +3989,7 @@ class Scene {
     createDirectionalLight(castShadow = true, s = 2000, size = 4096, near = 1, far = 20000) {
         const { color, intensity } = this.options.directionalLight;
         // 平行光
-        const dirLight = new THREE.DirectionalLight(color, intensity);
+        const dirLight = new THREE__namespace.DirectionalLight(color, intensity);
         // dirLight.position.set(0)
         if (castShadow) {
             dirLight.shadow.mapSize.setScalar(size);
@@ -3986,18 +4012,18 @@ class Scene {
     initCamera() {
         const { width, height, camera } = this.options;
         // 透视投影相机对象 参数（现场角度，窗口长宽比，开始渲染位置，结束渲染位置）
-        let cam = new THREE.PerspectiveCamera(36, width / height, camera.near, camera.far);
+        let cam = new THREE__namespace.PerspectiveCamera(36, width / height, camera.near, camera.far);
         if (camera.orthogonal) {
             let k = width / height, s = 260;
             // 创建相机对象 参数（左边界，右边界，上边界，下边界，开始渲染位置，结束渲染位置）
-            cam = new THREE.OrthographicCamera(-s * k, s * k, s, -s, camera.near, camera.far);
+            cam = new THREE__namespace.OrthographicCamera(-s * k, s * k, s, -s, camera.near, camera.far);
         }
         // 相机位置
         cam.position.set(...camera.position);
         // 未添加控制轨道则需要设置 lookat 否则渲染无效
         cam.lookAt(0, 0, 0);
         if (camera.helper) {
-            const helper = new THREE.CameraHelper(cam);
+            const helper = new THREE__namespace.CameraHelper(cam);
             this.addObject(helper);
         }
         return cam;
@@ -4008,7 +4034,7 @@ class Scene {
         if (!controls.visible)
             return;
         // 创建控件
-        const ctrl = new OrbitControls(this.camera, this.renderer.domElement);
+        const ctrl = new OrbitControls.OrbitControls(this.camera, this.renderer.domElement);
         Object.keys(controls).forEach(key => {
             // @ts-ignore
             ctrl[key] = controls[key];
@@ -4034,7 +4060,7 @@ class Scene {
             return;
         const { width, divisions, centerLineColor, gridColor, opacity, transparent, fork } = grid;
         // 网格宽度、等分数、中心线颜色、网格颜色
-        const gd = new THREE.GridHelper(width, divisions, centerLineColor, gridColor);
+        const gd = new THREE__namespace.GridHelper(width, divisions, centerLineColor, gridColor);
         gd.material.opacity = opacity;
         gd.material.transparent = transparent;
         this.grid = gd;
@@ -4053,18 +4079,18 @@ class Scene {
         if (!this.options.axes.visible)
             return;
         // 辅助坐标器
-        const axesHelper = new THREE.AxesHelper(this.options.axes.size);
+        const axesHelper = new THREE__namespace.AxesHelper(this.options.axes.size);
         this.addObject(axesHelper);
     }
     // 创建地面
     createGround(sizeX = 5000, sizeY, color = 0xb2dbdb) {
         sizeY = sizeY === void 0 ? sizeX : sizeY;
-        const geo = new THREE.PlaneGeometry(sizeX, sizeY);
-        const mat = new THREE.MeshPhongMaterial({
+        const geo = new THREE__namespace.PlaneGeometry(sizeX, sizeY);
+        const mat = new THREE__namespace.MeshPhongMaterial({
             color,
             shininess: 10 // 高亮阈值
         });
-        const mesh = new THREE.Mesh(geo, mat);
+        const mesh = new THREE__namespace.Mesh(geo, mat);
         mesh.name = 'ground';
         mesh.rotation.x = Math.PI * 1.5;
         // 接收阴影
@@ -4073,7 +4099,7 @@ class Scene {
     }
     // 创建时间
     createClock() {
-        this.clock = new THREE.Clock();
+        this.clock = new THREE__namespace.Clock();
     }
     // 设置巡航点位
     setCruisePoint(points) {
@@ -4124,8 +4150,8 @@ class Scene {
     }
     // 设置环境
     setEnvironment(env) {
-        new RGBELoader().load(getUrl(env, this.options.baseUrl), texture => {
-            texture.mapping = THREE.EquirectangularReflectionMapping;
+        new RGBELoader_js.RGBELoader().load(getUrl(env, this.options.baseUrl), texture => {
+            texture.mapping = THREE__namespace.EquirectangularReflectionMapping;
             // 将加载的材质texture设置给背景和环境
             this.scene.environment = texture;
         });
@@ -4133,18 +4159,18 @@ class Scene {
     // 设置背景图
     setBgTexture(bgUrl) {
         if (Array.isArray(bgUrl)) {
-            const loader = new THREE.CubeTextureLoader();
+            const loader = new THREE__namespace.CubeTextureLoader();
             const env = loader.load(getUrl(bgUrl, this.options.baseUrl));
             // 设置背景
             this.scene.background = env;
         }
         else {
-            this.scene.background = new THREE.TextureLoader().load(getUrl(bgUrl));
+            this.scene.background = new THREE__namespace.TextureLoader().load(getUrl(bgUrl));
         }
     }
     // 设置背景色
     setBgColor(color) {
-        this.scene.background = color ? new THREE.Color(color) : null;
+        this.scene.background = color ? new THREE__namespace.Color(color) : null;
     }
     // 绑定事件
     bindEvent() {
@@ -4277,7 +4303,7 @@ class Scene {
         removeEvent();
         this.stopAnimate();
         try {
-            THREE.Cache.clear();
+            THREE__namespace.Cache.clear();
             this.disposeObj(this.scene);
             this.scene.clear();
             this.renderer.dispose();
@@ -4321,4 +4347,6 @@ _Scene_instances = new WeakSet(), _Scene_resetCruiseOpts = function _Scene_reset
 // 静态属性
 Scene.total = 0;
 
-export { index as Hook, Scene, index$1 as Util };
+exports.Hook = index;
+exports.Scene = Scene;
+exports.Util = index$1;

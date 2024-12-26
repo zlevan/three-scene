@@ -19,7 +19,6 @@ export const useLensflare = (options: Params = {}) => {
     },
     options
   )
-  console.log(_options)
 
   const textureLoader = new THREE.TextureLoader()
   const textureFlare0 = textureLoader.load(_options.mainTextureUrl)

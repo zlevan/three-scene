@@ -450,7 +450,10 @@ export const useModelLoader = (options: import('../types/utils').DeepPartial<Opt
   }
 
   // 获取缓存模型
-  const getModel = (key: string) => modelMap.get(key)
+  const getModel = (key: string) => {
+    const model = modelMap.get(key)
+    return model
+  }
 
   // 设置模型虚化
   const setModelVirtualization = (

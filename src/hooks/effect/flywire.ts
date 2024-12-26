@@ -171,9 +171,11 @@ export const useFlywire = (options: Params = {}) => {
         'uniform vec3 uColor;',
         'uniform float uOpacity;',
         'uniform float uSpeed;',
+
         'uniform float uSge;',
         'uniform float time;',
         'float PI = 3.14159265;',
+
         'float drawCircle(float index, float range) {',
         '  float opacity = 1.0;',
         '  if (index >= 1.0 - range) {',
@@ -183,37 +185,42 @@ export const useFlywire = (options: Params = {}) => {
         '  }',
         '  return opacity;',
         '}',
+
         'float distanceTo(vec2 src, vec2 dst) {',
         '  float dx = src.x - dst.x;',
         '  float dy = src.y - dst.y;',
         '  float dv = dx * dx + dy * dy;',
         '  return sqrt(dv);',
         '}',
+
         'void main() {',
         '  float iTime = -time * uSpeed;',
         '  float opacity = 0.0;',
         '  float len = distanceTo(vec2(0.5, 0.5), vec2(vUv.x, vUv.y));',
+
         '  float size = 1.0 / uSge;',
         '  vec2 range = vec2(0.65, 0.75);',
         '  float index = mod(iTime + len, size);',
         // 中心圆
         '  vec2 cRadius = vec2(0.06, 0.12);',
+
         '  if (index < size && len <= 0.5) {',
         '    float i = sin(index / size * PI);',
-        '    // 处理边缘锯齿',
+
+        // 处理边缘锯齿,
         '    if (i >= range.x && i <= range.y){',
-        // 归一'
+        '      // 归一',
         '      float t = (i - range.x) / (range.y - range.x);',
-        // 边缘锯齿范围
+        '      // 边缘锯齿范围',
         '      float r = 0.3;',
         '      opacity = drawCircle(t, r);',
         '    }',
-        // 渐变
+        '    // 渐变',
         '    opacity *=  1.0 - len / 0.5;',
         '  };',
         '  gl_FragColor = vec4(uColor, uOpacity * opacity);',
         '}'
-      ].join(''),
+      ].join('\n'),
       side: THREE.DoubleSide
     })
   }

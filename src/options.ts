@@ -139,7 +139,9 @@ export default {
     // 自动巡航(可从动画函数执行机器人巡航)
     auto: false,
     // 帧动画回调
-    animateBack: void 0
+    animateBack: void 0,
+    // 一直显示路线（默认巡航中展示路线）
+    alway: false
   },
   // 网格
   grid: {

@@ -70,7 +70,7 @@ export const useRoam = () => {
   }
 
   // 更新参数
-  const updateRoam = (options: Params = {}) => {
+  const updateRoam = (options: Params) => {
     // 默认参数
     _options = deepMerge(_options, options)
   }

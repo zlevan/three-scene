@@ -1,3 +1,4 @@
+import type { Object3D } from 'three'
 export declare interface XYZ {
   x: number
   y: number
@@ -96,6 +97,8 @@ export declare interface ObjectItem {
   onDblclick?: Function
   // 点击事件
   onClick?: Function
+
+  [key: string]: any
 }
 
 export declare interface PipeItem {
@@ -124,16 +127,19 @@ export declare interface Extra {
   mixer: any
 }
 
-export declare interface ThreeModelItem {
+export type ThreeModelItem = {
   uuid: string
   visible: boolean
   _position_?: XYZ
   position: XYZ
   data?: ObjectItem
   extra?: Extra
+  name?: string | Symbol
   clear: Function
   element?: HTMLElement
-}
+  _isWarning_?: boolean
+  [key: string]: any
+} & Object3D
 
 export interface StylePosition {
   left: number

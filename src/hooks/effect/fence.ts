@@ -81,7 +81,10 @@ export const useFence = () => {
     return group
   }
 
-  const createFence = (model: InstanceType<typeof THREE.Object3D>, color = 0xa7ff83) => {
+  const createFence = (
+    model: InstanceType<typeof THREE.Object3D>,
+    color: number | string = 0xa7ff83
+  ) => {
     const group = new THREE.Group()
 
     var boxHelper = new THREE.BoxHelper(model, color)
@@ -102,7 +105,6 @@ export const useFence = () => {
     const m3 = createPlane(arr, [4, 0, 3, 3, 7, 4], color)
     const m4 = createPlane(arr, [1, 5, 6, 6, 2, 1], color)
     group.add(m1, m2, m3, m4)
-    console.log(group)
 
     return group
   }

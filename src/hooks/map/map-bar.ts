@@ -44,7 +44,9 @@ export const useMapBar = (options: Params = {}) => {
     height = height * (opts.heightRatio ?? factor)
     const [x, y, z] = opts.position || [0, 0, 0]
 
-    const group = new THREE.Group()
+    const group: InstanceType<typeof THREE.Group> & {
+      isBar?: boolean
+    } = new THREE.Group()
 
     // 创建柱状图几何体
     const geo = new THREE.BoxGeometry(size, size, height)

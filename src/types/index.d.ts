@@ -97,6 +97,7 @@ export declare interface Cruise {
   color: string | number
   radius: number
   radialSegments: number
+  alway: boolean
   animateBack:
     | ((position: any, lookAt: any, cruiseCurve: any, progress: number) => void)
     | undefined

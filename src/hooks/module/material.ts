@@ -72,7 +72,12 @@ export const useMaterial = () => {
   }
 
   // 材质替换  动画部分材质颜色
-  const materialReplace = (group: any, opts: ReplaceOpts, child: any, color = 0x127e12) => {
+  const materialReplace = (
+    group: any,
+    opts: ReplaceOpts,
+    child: any,
+    color: number | string = 0x127e12
+  ) => {
     const mesh = DefaultConfig.mesh
     const animateMeshName = mesh.animatehName
     const transparentMeshName = mesh.transparentName
@@ -153,7 +158,7 @@ export const useMaterial = () => {
       // maxTextureSize: 1024 || 4096 || Infinity, // To prevent NaN value,
       animations: animations // 动画
     }
-    console.log(model)
+
     gltfExporter.parse(
       model,
       result => {
@@ -161,7 +166,6 @@ export const useMaterial = () => {
           saveArrayBuffer(result, name + '.glb')
         } else {
           const output = JSON.stringify(result, null, 2)
-          console.log({ output })
           saveString(output, name + '.gltf')
         }
       },
@@ -219,7 +223,7 @@ export const useMaterial = () => {
   }
 
   // 盒子模型辅助
-  const centerBoxHelper = (model: any, hex = 0xff0000) => {
+  const centerBoxHelper = (model: any, hex: string | number = 0xff0000) => {
     // 创建 BoxHelper
     var boxHelper = new THREE.BoxHelper(model, hex)
     //更新

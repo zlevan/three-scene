@@ -54,7 +54,9 @@ const getOpts = () => ({
   // 分段
   radialSegments: 1,
   // 帧动画回调
-  animateBack: void 0
+  animateBack: void 0,
+  // 一直显示路线（默认巡航中展示路线）
+  alway: false
 })
 
 // 巡航
@@ -69,10 +71,7 @@ export const useCruise = () => {
 
   let _options: Options = getOpts()
 
-  const createCruise = (
-    options: Params = {},
-    renderer: InstanceType<typeof THREE.WebGLRenderer>
-  ) => {
+  const createCruise = (options: Params, renderer: InstanceType<typeof THREE.WebGLRenderer>) => {
     // 默认参数
     _options = deepMerge(getOpts(), options)
 
@@ -144,10 +143,9 @@ export const useCruise = () => {
             arrow: false, // 箭头
             progress: 1, // 进度
             side: 'both' // left/right/both  左/右/两者
-          }
-      // false
+          },
+      false
     )
-    console.log(geometry)
 
     const mesh = new THREE.Mesh(geometry, mat)
     group.add(mesh)
@@ -218,7 +216,7 @@ export const useCruise = () => {
   }
 
   // 更新参数
-  const updateCruise = (options: Params = {}) => {
+  const updateCruise = (options: Params) => {
     // 默认参数
     _options = deepMerge(_options, options)
   }

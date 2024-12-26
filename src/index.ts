@@ -365,7 +365,7 @@ export class Scene {
 
   // 创建巡航组
   createCruise() {
-    const { visible, points } = this.options.cruise
+    const { visible, points, alway } = this.options.cruise
     if (!visible) return
     if (this.cruiseGroup) {
       this.disposeObj(this.cruiseGroup)
@@ -374,20 +374,20 @@ export class Scene {
     if (!points || points.length == 0) return
     const group = createCruise(this.options.cruise, this.renderer)
     this.cruiseGroup = group
-    group.visible = false
+    group.visible = alway
     this.addObject(group)
   }
 
   // 巡航启动或关闭
   toggleCruise(close?: boolean) {
-    let { visible, runing, auto } = this.options.cruise
+    let { visible, runing, auto, alway } = this.options.cruise
     if (!visible) return
     runing = close != void 0 ? close : runing
 
     this.options.cruise.runing = !runing
     this.options.cruise.enabled = !runing
     this.controls && (this.controls.enabled = auto || runing)
-    this.cruiseGroup && (this.cruiseGroup.visible = !runing)
+    this.cruiseGroup && !alway && (this.cruiseGroup.visible = !runing)
     updateCruise(this.options.cruise)
   }
 
@@ -574,7 +574,7 @@ export class Scene {
     this.scene.remove(obj)
   }
 
-  // 销毁
+  // 销毁场景
   dispose() {
     removeEvent()
     this.stopAnimate()

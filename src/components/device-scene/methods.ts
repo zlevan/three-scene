@@ -1,8 +1,7 @@
 import * as THREE from 'three'
 
-import ThreeScene from '../../index'
-import { useRaycaster } from '../../hooks/raycaster'
-import { useCSS2D, CSS2DRenderer } from '../../hooks/css2d'
+import * as ThreeScene from '../../index'
+import { useRaycaster, useCSS2D, CSS2DRenderer } from '../../hooks/index'
 
 import type { XYZ, ObjectItem } from '../../types/model'
 import type { Config, ExtendOptions } from '.'
@@ -11,21 +10,19 @@ import DEFAULTCONFIG from '../../config'
 
 const { raycaster, pointer, update: raycasterUpdate } = useRaycaster()
 const { initCSS2DRender, createCSS2DDom } = useCSS2D()
-export class DeviceThreeScene extends ThreeScene {
+export class DeviceThreeScene extends ThreeScene.Scene {
   // 设备集合
-  deviceGroup: InstanceType<typeof THREE.Group>
+  deviceGroup?: InstanceType<typeof THREE.Group>
   // 点位集合
-  dotGroup: InstanceType<typeof THREE.Group>
+  dotGroup?: InstanceType<typeof THREE.Group>
   // 管路集合
   pipeGroup?: InstanceType<typeof THREE.Group>
   // CSS2D 渲染器
   css2DRender: InstanceType<typeof CSS2DRenderer>
   // 扩展参数
   extend: Partial<ExtendOptions>
-  // 时间
-  clock: InstanceType<typeof THREE.Clock>
   constructor(
-    options: ConstructorParameters<typeof ThreeScene>[0],
+    options: ConstructorParameters<typeof ThreeScene.Scene>[0],
     extend: Partial<ExtendOptions>
   ) {
     super(options)
@@ -34,7 +31,7 @@ export class DeviceThreeScene extends ThreeScene {
     this.css2DRender = initCSS2DRender(this.options, this.container)
     this.css2DRender.domElement.className = 'three-scene__dot-wrap'
 
-    this.clock = new THREE.Clock()
+    this.createClock()
 
     this.addDeviceGroup()
     this.addDotGroup()
@@ -61,7 +58,7 @@ export class DeviceThreeScene extends ThreeScene {
   }
 
   // 添加设备
-  addDevice(...obj) {
+  addDevice(...obj: any[]) {
     if (this.deviceGroup) {
       this.deviceGroup.add(...obj)
     }
@@ -84,7 +81,7 @@ export class DeviceThreeScene extends ThreeScene {
   }
 
   // 添加点位
-  addDot(item: ObjectItem, clickBack) {
+  addDot(item: ObjectItem, clickBack: (e: Event, label: any) => void) {
     const pos = item.position
     const { size, color } = item.font || {}
     const { x = 0, y = 0, z = 0 } = pos || {}
@@ -101,7 +98,7 @@ export class DeviceThreeScene extends ThreeScene {
     })
     label.name = item.name
     label.data = item
-    this.dotGroup.add(label)
+    this.dotGroup?.add(label)
     return label
   }
 
@@ -114,7 +111,7 @@ export class DeviceThreeScene extends ThreeScene {
   }
 
   // 添加管路
-  addPipe(...obj) {
+  addPipe(...obj: any[]) {
     if (this.pipeGroup) {
       this.pipeGroup.add(...obj)
     }
@@ -138,7 +135,7 @@ export class DeviceThreeScene extends ThreeScene {
       // 设置新的原点和方向向量更新射线, 用照相机的原点和点击的点构成一条直线
       raycaster.setFromCamera(pointer, this.camera)
       // 检查射线和物体之间的交叉点（包含或不包含后代）
-      const objects = [this.deviceGroup, this.pipeGroup]
+      const objects = [this.deviceGroup, this.pipeGroup] as any
       const interscts = raycaster.intersectObjects(objects)
       if (interscts.length) {
         const obj = interscts[0].object
@@ -178,7 +175,8 @@ export class DeviceThreeScene extends ThreeScene {
     const scale = this.options.scale
     raycasterUpdate(e, dom, scale)
     let isClick = e.type == 'pointerdown' || e.type == 'pointerup'
-    const objects = this.deviceGroup.children.filter(it => it.visible && it._isAnchor_)
+    const objects =
+      this.deviceGroup?.children.filter((it: any) => it.visible && it._isAnchor_) || []
 
     // 设置新的原点和方向向量更新射线, 用照相机的原点和点击的点构成一条直线
     raycaster.setFromCamera(pointer, this.camera)
@@ -198,8 +196,8 @@ export class DeviceThreeScene extends ThreeScene {
   }
 
   // 查找父级组合
-  findParentGroupGroup(object) {
-    const _find = obj => {
+  findParentGroupGroup(object: any) {
+    const _find = (obj: any) => {
       let parent = obj.parent
       if (!parent) {
         return
@@ -219,9 +217,9 @@ export class DeviceThreeScene extends ThreeScene {
     if (typeof this.extend.animateCall === 'function') this.extend.animateCall()
 
     // 设备动画
-    if (this.deviceGroup.children.length) {
-      let delta = this.clock.getDelta()
-      this.deviceGroup.children.forEach(el => {
+    if (this.deviceGroup && this.deviceGroup.children.length) {
+      let delta = this.clock?.getDelta()
+      this.deviceGroup.children.forEach((el: any) => {
         let data = el.data
         if (!data) return
         let extra = el.extra
@@ -239,16 +237,18 @@ export class DeviceThreeScene extends ThreeScene {
     }
 
     // 管路动画
-    if (this.pipeGroup.children.length) {
-      this.pipeGroup.children.forEach(el => {
+    if (this.pipeGroup && this.pipeGroup.children.length) {
+      this.pipeGroup.children.forEach((el: any) => {
         const pipe = el[DEFAULTCONFIG.meshKey.pipe]
         if (pipe) {
           const data = el.data
           const bind = data.bind || []
           // 运行中的设备
-          const runingDevices = this.deviceGroup.children
-            .filter(item => item.data && item.data.deviceCode && (item.data?.status ?? 0) > 0)
-            .map(it => it.data)
+          const runingDevices = (this.deviceGroup?.children || [])
+            .filter(
+              (item: any) => item.data && item.data.deviceCode && (item.data?.status ?? 0) > 0
+            )
+            .map((it: any) => it.data)
           // 绑定的运行设备
           const bingDevices = this.findFilterDevice(bind, runingDevices)
 
@@ -262,7 +262,7 @@ export class DeviceThreeScene extends ThreeScene {
             const isLeft = this.findFilterDevice(left, bingDevices).length > 0
             step = isLeft && isRight ? 0 : isRight ? -0.01 : 0.01
           }
-          pipe.forEach(ms => {
+          pipe.forEach((ms: any) => {
             if (run) {
               ms.material.map.offset.y -= step
             }
@@ -274,7 +274,7 @@ export class DeviceThreeScene extends ThreeScene {
   }
 
   // 查找满足条件运行设备
-  findFilterDevice = (filters, devices) => {
+  findFilterDevice = (filters: any[], devices: any[]) => {
     if (filters.length == 0 || devices.length == 0) return []
     let runDev: ObjectItem[] = []
     filters.forEach(item => {
@@ -307,6 +307,7 @@ export class DeviceThreeScene extends ThreeScene {
 
   // 获取动画目标点
   getAnimTargetPos(config: Partial<Config>, _to?: XYZ, _target?: XYZ) {
+    if (!this.controls) return
     const to = _to || config.to || { x: -104, y: 7, z: 58 }
     const target = _target || config.target || { x: 0, y: 0, z: 0 }
     // 中心点位
@@ -316,7 +317,7 @@ export class DeviceThreeScene extends ThreeScene {
 
   // 获取所有对象
   getAll() {
-    return this.deviceGroup.children.concat(this.dotGroup.children)
+    return this.deviceGroup?.children.concat(this.dotGroup?.children || []) || []
   }
 
   resize() {
@@ -330,11 +331,12 @@ export class DeviceThreeScene extends ThreeScene {
     this.disposeObj(this.dotGroup)
     this.disposeObj(this.pipeGroup)
 
-    this.clock = null
-    this.css2DRender = null
-    this.deviceGroup = null
-    this.dotGroup = null
-    this.pipeGroup = null
+    this.clock = void 0
+    // @ts-ignore
+    this.css2DRender = void 0
+    this.deviceGroup = void 0
+    this.dotGroup = void 0
+    this.pipeGroup = void 0
     this.extend = {}
     super.dispose()
   }

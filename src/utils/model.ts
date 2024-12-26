@@ -5,7 +5,7 @@ import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js'
 import { deepMerge } from '.'
 import CONFIG from '../config'
 import type { Color } from '../types/color'
-import type { XYZ, StylePosition, ObjectItem } from '../types/model'
+import type { XYZ, StylePosition, ObjectItem, ThreeModelItem } from '../types/model'
 
 // 获取位置、大小、缩放参数
 export const get_P_S_R_param = (model: any, item: ObjectItem, s: number = 1) => {
@@ -97,7 +97,7 @@ export const getColorArr = (color: Color) => {
 }
 
 // 设置材质颜色
-export const setMaterialColor = (e: any, color: number | string): void => {
+export const setMaterialColor = (e: ThreeModelItem, color: number | string): void => {
   e.traverse((el: any) => {
     if (el.isMesh) {
       el.castShadow = true
@@ -115,9 +115,9 @@ export const setMaterialColor = (e: any, color: number | string): void => {
 
 // 相机入场动画
 export const cameraInSceneAnimate = (
-  camera: InstanceType<typeof THREE.PerspectiveCamera>,
+  camera: InstanceType<typeof THREE.PerspectiveCamera> | any,
   to: XYZ,
-  at: InstanceType<typeof THREE.Vector3>
+  at: InstanceType<typeof THREE.Vector3> = new THREE.Vector3()
 ): Promise<InstanceType<typeof THREE.PerspectiveCamera>> => {
   camera.lookAt(at)
   // @ts-ignore
@@ -229,8 +229,8 @@ export const createSpriteAnimate = (
 // 获取 3 维平面位置
 export const getPlanePosition = (
   dom: HTMLElement,
-  object: any,
-  camera: InstanceType<typeof THREE.PerspectiveCamera>
+  object: ThreeModelItem,
+  camera: InstanceType<typeof THREE.PerspectiveCamera> | any
 ): StylePosition => {
   let halfw = dom.clientWidth / 2
   let halfh = dom.clientHeight / 2
@@ -350,7 +350,7 @@ export const createWarning = (
 ) => {
   if (!model) return
   const obj = getStatusOffset('WARNING', item, offset)
-  let group = new THREE.Group()
+  let group: ThreeModelItem = new THREE.Group()
   // 深克隆
   let warningSigns = modelDeepClone(model)
   warningSigns.scale.set(s, s, s)
@@ -402,7 +402,6 @@ export const createWarning = (
 
   // 隐藏
   group.visible = false
-  // @ts-ignore
   group._isWarning_ = true
   return {
     group,

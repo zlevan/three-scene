@@ -9,7 +9,7 @@ import type {
   AmbientLight,
   DirectionalLight
 } from '../../types/index'
-import type { XYZ, ModelItem, ObjectItem, PipeItem } from '../../types/model'
+import type { XYZ, ModelItem, ObjectItem, PipeItem, ThreeModelItem } from '../../types/model'
 import type { IndexDB } from '../../types/indexdb'
 import type { Colors, ColorObject } from '../../types/color'
 

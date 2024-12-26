@@ -302,12 +302,12 @@
         // 右键点击返回时间差
         rightClickBackDiffTime: 300,
         meshKey: {
-            body: Symbol('__BODY_'),
-            color: Symbol('__COLOR_'),
-            warning: Symbol('__WARNING_'),
-            local: Symbol('__LOCAL_'),
-            disabled: Symbol('__DISABLED_'),
-            pipe: Symbol('__PIPE__')
+            body: '__BODY_',
+            color: '__COLOR_',
+            warning: '__WARNING_',
+            local: '__LOCAL_',
+            disabled: '__DISABLED_',
+            pipe: '__PIPE__'
         },
         // 状态偏差值
         statusOffset: {
@@ -494,7 +494,7 @@
         });
     };
     // 相机入场动画
-    const cameraInSceneAnimate = (camera, to, at) => {
+    const cameraInSceneAnimate = (camera, to, at = new THREE__namespace.Vector3()) => {
         camera.lookAt(at);
         // @ts-ignore
         camera._lookAt_ = at;
@@ -717,7 +717,6 @@
         action.play();
         // 隐藏
         group.visible = false;
-        // @ts-ignore
         group._isWarning_ = true;
         return {
             group,
@@ -1014,7 +1013,9 @@
             // 自动巡航(可从动画函数执行机器人巡航)
             auto: false,
             // 帧动画回调
-            animateBack: void 0
+            animateBack: void 0,
+            // 一直显示路线（默认巡航中展示路线）
+            alway: false
         },
         // 网格
         grid: {
@@ -1589,7 +1590,6 @@
             const m3 = createPlane(arr, [4, 0, 3, 3, 7, 4], color);
             const m4 = createPlane(arr, [1, 5, 6, 6, 2, 1], color);
             group.add(m1, m2, m3, m4);
-            console.log(group);
             return group;
         };
         const fenceAnimate = (factor = 1) => {
@@ -2012,20 +2012,20 @@
                     '	vec2 cRadius = vec2(0.06, 0.12);',
                     '	if (index < size && len <= 0.5) {',
                     '		float i = sin(index / size * PI);',
-                    '		// 处理边缘锯齿',
+                    // 处理边缘锯齿,
                     '		if (i >= range.x && i <= range.y){',
-                    // 归一'
+                    '			// 归一',
                     '			float t = (i - range.x) / (range.y - range.x);',
-                    // 边缘锯齿范围
+                    '			// 边缘锯齿范围',
                     '			float r = 0.3;',
                     '			opacity = drawCircle(t, r);',
                     '		}',
-                    // 渐变
+                    '		// 渐变',
                     '		opacity *=	1.0 - len / 0.5;',
                     '	};',
                     '	gl_FragColor = vec4(uColor, uOpacity * opacity);',
                     '}'
-                ].join(''),
+                ].join('\n'),
                 side: THREE__namespace.DoubleSide
             });
         };
@@ -2111,7 +2111,6 @@
             // 次光晕
             minorTextureUrl: getTextturesUrl('lensflare3.png')
         }, options);
-        console.log(_options);
         const textureLoader = new THREE__namespace.TextureLoader();
         const textureFlare0 = textureLoader.load(_options.mainTextureUrl);
         const textureFlare3 = textureLoader.load(_options.minorTextureUrl);
@@ -2348,7 +2347,9 @@
         // 分段
         radialSegments: 1,
         // 帧动画回调
-        animateBack: void 0
+        animateBack: void 0,
+        // 一直显示路线（默认巡航中展示路线）
+        alway: false
     });
     // 巡航
     const useCruise = () => {
@@ -2360,7 +2361,7 @@
         // 辅助眼睛
         let eye;
         let _options = getOpts$1();
-        const createCruise = (options = {}, renderer) => {
+        const createCruise = (options, renderer) => {
             // 默认参数
             _options = deepMerge(getOpts$1(), options);
             const { points, tension, mapUrl, baseUrl, repeat, width, helper, close, tube, color, radius, radialSegments } = _options;
@@ -2411,10 +2412,7 @@
                     arrow: false, // 箭头
                     progress: 1, // 进度
                     side: 'both' // left/right/both	左/右/两者
-                }
-            // false
-            );
-            console.log(geometry);
+                }, false);
             const mesh = new THREE__namespace.Mesh(geometry, mat);
             group.add(mesh);
             group.name = 'cruise';
@@ -2470,7 +2468,7 @@
             return new THREE__namespace.Vector3(pos.x, pos.y + offset, pos.z);
         };
         // 更新参数
-        const updateCruise = (options = {}) => {
+        const updateCruise = (options) => {
             // 默认参数
             _options = deepMerge(_options, options);
         };
@@ -2904,14 +2902,12 @@
                 // maxTextureSize: 1024 || 4096 || Infinity, // To prevent NaN value,
                 animations: animations // 动画
             };
-            console.log(model);
             gltfExporter.parse(model, result => {
                 if (result instanceof ArrayBuffer) {
                     saveArrayBuffer(result, name + '.glb');
                 }
                 else {
                     const output = JSON.stringify(result, null, 2);
-                    console.log({ output });
                     saveString(output, name + '.gltf');
                 }
             }, error => {
@@ -3112,7 +3108,7 @@
             return new THREE__namespace.Vector3(pos.x, pos.y + offset, pos.z);
         };
         // 更新参数
-        const updateRoam = (options = {}) => {
+        const updateRoam = (options) => {
             // 默认参数
             _options = deepMerge(_options, options);
         };
@@ -3699,7 +3695,10 @@
             _load();
         });
         // 获取缓存模型
-        const getModel = (key) => modelMap.get(key);
+        const getModel = (key) => {
+            const model = modelMap.get(key);
+            return model;
+        };
         // 设置模型虚化
         const setModelVirtualization = (model, opts = {}) => {
             // 默认参数
@@ -4087,7 +4086,7 @@
         }
         // 创建巡航组
         createCruise() {
-            const { visible, points } = this.options.cruise;
+            const { visible, points, alway } = this.options.cruise;
             if (!visible)
                 return;
             if (this.cruiseGroup) {
@@ -4098,19 +4097,19 @@
                 return;
             const group = createCruise(this.options.cruise, this.renderer);
             this.cruiseGroup = group;
-            group.visible = false;
+            group.visible = alway;
             this.addObject(group);
         }
         // 巡航启动或关闭
         toggleCruise(close) {
-            let { visible, runing, auto } = this.options.cruise;
+            let { visible, runing, auto, alway } = this.options.cruise;
             if (!visible)
                 return;
             runing = close != void 0 ? close : runing;
             this.options.cruise.runing = !runing;
             this.options.cruise.enabled = !runing;
             this.controls && (this.controls.enabled = auto || runing);
-            this.cruiseGroup && (this.cruiseGroup.visible = !runing);
+            this.cruiseGroup && !alway && (this.cruiseGroup.visible = !runing);
             updateCruise(this.options.cruise);
         }
         // 开启或关闭巡航深度测试
@@ -4276,7 +4275,7 @@
             obj === null || obj === void 0 ? void 0 : obj.clear();
             this.scene.remove(obj);
         }
-        // 销毁
+        // 销毁场景
         dispose() {
             var _a;
             removeEvent();

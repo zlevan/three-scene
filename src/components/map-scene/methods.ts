@@ -1,18 +1,20 @@
 import * as THREE from 'three'
 import * as TWEEN from 'three/examples/jsm/libs/tween.module.js'
 
-import ThreeScene from '../../index'
+import * as ThreeScene from '../../index'
+import {
+  useRaycaster,
+  useCSS3D,
+  CSS3DRenderer,
+  useCorrugatedPlate,
+  useCoord,
+  useMarkLight,
+  useCountryLine,
+  useOutline,
+  useFlywire,
+  useMapBar
+} from '../../hooks/index'
 import { deepMerge, getUrl } from '../../utils'
-
-import { useCSS3D, CSS3DRenderer } from '../../hooks/css3d'
-import { useRaycaster } from '../../hooks/raycaster'
-import { useCorrugatedPlate } from '../../hooks/corrugated-plate'
-import { useCoord } from '../../hooks/coord'
-import { useMarkLight } from '../../hooks/mark-light'
-import { useCountryLine } from '../../hooks/country-line'
-import { useOutline } from '../../hooks/out-line'
-import { useFlywire } from '../../hooks/flywire'
-import { useMapBar } from '../../hooks/map-bar'
 
 import DEFAULTCONFIG from '../../config'
 import CONFIG from './config'
@@ -38,28 +40,28 @@ const centerPos = {
 //贴图材质加载
 const textureLoader = new THREE.TextureLoader()
 // 省份贴图
-let textureMap: InstanceType<typeof THREE.TextureLoader>
+let textureMap: any
 // 法线
-let normalTextureMap: InstanceType<typeof THREE.TextureLoader>
+let normalTextureMap: any
 // 边贴图
-let sideTextureMap: InstanceType<typeof THREE.TextureLoader>
+let sideTextureMap: any
 // 背景外圈
-let outCircleTexture: InstanceType<typeof THREE.TextureLoader>
+let outCircleTexture: any
 // 背景内圈
-let innerRingTexture: InstanceType<typeof THREE.TextureLoader>
+let innerRingTexture: any
 
-const getImgUrl = (jpg, path = '/texttures') => {
+const getImgUrl = (jpg: string, path = '/texttures') => {
   return new URL(`../../assets/imgs${path}/${jpg}`, import.meta.url).href
 }
 
 // 转换地址
-const transformUrl = (defaultUrl, url, baseUrl) => {
-  if (url) return getUrl(url, baseUrl)
+const transformUrl = (defaultUrl: string, url: string, baseUrl: string): string => {
+  if (url) return getUrl(url, baseUrl) as string
   return defaultUrl
 }
 
 // 创建地图材质
-const createMaptexture = (config, baseUrl) => {
+const createMaptexture = (config: any, baseUrl: string) => {
   textureMap = textureLoader.load(transformUrl(getImgUrl('gz-map.jpg'), config.map.map, baseUrl))
   normalTextureMap = textureLoader.load(
     transformUrl(getImgUrl('gz-map-fx.jpg'), config.map.normal, baseUrl)
@@ -86,7 +88,7 @@ const createMaptexture = (config, baseUrl) => {
 }
 
 // 创建地图块
-const createMapBlock = (_this, points) => {
+const createMapBlock = (_this: any, points: InstanceType<typeof THREE.Vector2>[]) => {
   // 绘制二维平面
   const shape = new THREE.Shape(points)
   const opts = {
@@ -138,7 +140,11 @@ const createMapBlock = (_this, points) => {
 const labelImg = getImgUrl('label.png', '')
 
 // 创建 css3d 省份名称
-const createCSS3Dlabel = (_this, properties, group) => {
+const createCSS3Dlabel = (
+  _this: InstanceType<typeof MapThreeScene>,
+  properties: any,
+  group: InstanceType<typeof THREE.Object3D>
+) => {
   // 判断省份数据中心点
   if (!properties.centroid && !properties.center) {
     return false
@@ -159,11 +165,15 @@ const createCSS3Dlabel = (_this, properties, group) => {
   group.add(label)
 }
 
-const random = (min, max) => {
+const random = (min: number, max: number) => {
   return Math.floor(Math.random() * (max - min + 1)) + min
 }
 // 创建省份光柱
-const createMarkLightPoint = (_this, properties, group) => {
+const createMarkLightPoint = (
+  _this: InstanceType<typeof MapThreeScene>,
+  properties: any,
+  group: InstanceType<typeof THREE.Object3D>
+) => {
   if (!properties.centroid && !properties.center) {
     return false
   }
@@ -184,7 +194,7 @@ const createMarkLightPoint = (_this, properties, group) => {
 }
 
 // 创建上下边框
-const createBorderLine = (_this, mapJson) => {
+const createBorderLine = (_this: InstanceType<typeof MapThreeScene>, mapJson: any) => {
   let lineTop = createCountryFlatLine(
     mapJson,
     {
@@ -211,7 +221,7 @@ const createBorderLine = (_this, mapJson) => {
 }
 
 // 外圈背景
-const createOutRing = (scene, width) => {
+const createOutRing = (scene: InstanceType<typeof THREE.Scene>, width: number) => {
   let plane = new THREE.PlaneGeometry(width, width)
   let material = new THREE.MeshBasicMaterial({
     map: outCircleTexture,
@@ -229,7 +239,7 @@ const createOutRing = (scene, width) => {
 }
 
 // 内圈背景
-const createInnerRing = (scene, width) => {
+const createInnerRing = (scene: InstanceType<typeof THREE.Scene>, width: number) => {
   let plane = new THREE.PlaneGeometry(width, width)
   let material = new THREE.MeshBasicMaterial({
     map: innerRingTexture,
@@ -247,9 +257,16 @@ const createInnerRing = (scene, width) => {
 }
 
 // 创建散点
-const createScatter = (_this, longitude: number, latitude: number) => {
+const createScatter = (
+  _this: InstanceType<typeof MapThreeScene>,
+  longitude: number,
+  latitude: number
+) => {
   const { scale, depth } = _this.config
-  const group = new THREE.Group()
+  const group: InstanceType<typeof THREE.Group> & {
+    data?: any
+    isScatter?: boolean
+  } = new THREE.Group()
   const size = 0.2 * scale
   // 圆盘
   const circle = new THREE.CircleGeometry(size, 32)
@@ -273,15 +290,13 @@ const createScatter = (_this, longitude: number, latitude: number) => {
   return group
 }
 
-export class MapThreeScene extends ThreeScene {
+export class MapThreeScene extends ThreeScene.Scene {
   // 配置
   config: import('./index').Config
   // 颜色
   color: import('./index').Color
   // 波纹板
   corrugatedPlate?: InstanceType<typeof THREE.Mesh>
-  // 时间
-  clock: InstanceType<typeof THREE.Clock>
   // 地图组
   mapGroup?: InstanceType<typeof THREE.Group>
   // 散点组
@@ -293,19 +308,19 @@ export class MapThreeScene extends ThreeScene {
   // 地图轮廓
   outline?: ReturnType<typeof createOutline>
   // hover 回调
-  #hoverBack?: (e, position: typeof style) => void
-  #clickBack?: (e) => void
+  #hoverBack?: (e: any, position: typeof style) => void
+  #clickBack?: (e: any) => void
   // 外圈背景
   outRingMesh?: InstanceType<typeof THREE.Mesh>
   // 内圈背景
   innerRingMesh?: InstanceType<typeof THREE.Mesh>
 
   constructor(
-    options: ConstructorParameters<typeof ThreeScene>[0],
+    options: ConstructorParameters<typeof ThreeScene.Scene>[0],
     config: Partial<import('./index').Config> = {},
     color: Partial<import('./index').Color> = {},
-    hoverBack?: (e, position: typeof style) => void,
-    clickBack?: (e) => void
+    hoverBack?: (e: any, position: typeof style) => void,
+    clickBack?: (e: any) => void
   ) {
     super(options)
     this.config = deepMerge(CONFIG, config)
@@ -313,7 +328,7 @@ export class MapThreeScene extends ThreeScene {
     this.#hoverBack = hoverBack
     this.#clickBack = clickBack
 
-    this.clock = new THREE.Clock()
+    this.createClock()
     this.css3DRender = initCSS3DRender(this.options, this.container)
 
     createMaptexture(this.config, this.options.baseUrl)
@@ -339,11 +354,11 @@ export class MapThreeScene extends ThreeScene {
   }
 
   // 初始化地图
-  initMap(geoJson) {
+  initMap(geoJson: any) {
     // 存在则销毁
     if (this.mapGroup) {
       this.disposeObj(this.mapGroup)
-      this.mapGroup = null
+      this.mapGroup = void 0
     }
     const mapGroup = new THREE.Group()
     mapGroup.name = '地图'
@@ -353,17 +368,20 @@ export class MapThreeScene extends ThreeScene {
     for (let i = 0; i < len; i++) {
       const item = data[i]
       // 定一个省份对象
-      const provinceObj = new THREE.Object3D()
+      const provinceObj: InstanceType<typeof THREE.Object3D> & {
+        isProvinceGroup?: boolean
+        data?: any
+      } = new THREE.Object3D()
       // 坐标
       const coordinates = item.geometry.coordinates
       // city 属性
       const properties = item.properties
       for (let j = 0; j < coordinates.length; j++) {
-        coordinates[j].forEach(polygon => {
+        coordinates[j].forEach((polygon: any[]) => {
           // 点位集合
           const points = polygon.map(el => new THREE.Vector2(el[0], el[1]))
           // 创建地图区块
-          const mesh = createMapBlock(this, points)
+          const mesh = createMapBlock(this, points) as any
           // 省份区块标记
           mesh.isProvinceBlock = true
           provinceObj.add(mesh)
@@ -399,6 +417,7 @@ export class MapThreeScene extends ThreeScene {
     // 计算包围盒
     const box = getBoundingBox(mapGroup)
 
+    if (!this.corrugatedPlate) return
     let {
       size,
       center: { x, y, z }
@@ -421,13 +440,13 @@ export class MapThreeScene extends ThreeScene {
   }
 
   // 轮廓
-  initMapOutLine(geoJson) {
+  initMapOutLine(geoJson: any) {
     // 存在则销毁
     if (this.outline) {
       this.disposeObj(this.outline)
-      this.outline = null
+      this.outline = void 0
     }
-    const points = getPoints(geoJson, this.config.depth, !true)
+    const points = getPoints(geoJson, this.config.depth, !true) as number[]
     const outline = createOutline(points, {
       factor: this.config.scale,
       color: this.color.outline
@@ -443,7 +462,7 @@ export class MapThreeScene extends ThreeScene {
     // 存在则销毁
     if (this.flywireGroup) {
       this.disposeObj(this.flywireGroup)
-      this.flywireGroup = null
+      this.flywireGroup = void 0
     }
 
     const { scale, depth } = this.config
@@ -473,7 +492,7 @@ export class MapThreeScene extends ThreeScene {
   }
 
   // 柱状
-  initMapBar(citys, labelRender) {
+  initMapBar(citys: any[], labelRender: Function) {
     if (!this.config.mapBar) return
     // 清除柱状
     if (!this.mapGroup) return
@@ -492,7 +511,7 @@ export class MapThreeScene extends ThreeScene {
     }
     for (let i = 0; i < citys.length; i++) {
       const { name = '', value = 0 } = citys[i]
-      const el = this.mapGroup.getObjectByName(name)
+      const el = this.mapGroup.getObjectByName(name) as any
       if (!el) {
         console.log(name, el)
       } else {
@@ -515,7 +534,7 @@ export class MapThreeScene extends ThreeScene {
 
   // 清除柱状图
   clearMapBar() {
-    this.mapGroup.traverse(el => {
+    this.mapGroup?.traverse((el: any) => {
       if (el.isBar) {
         this.disposeObj(el)
       }
@@ -528,7 +547,7 @@ export class MapThreeScene extends ThreeScene {
     // 存在则销毁
     if (this.scatterGroup) {
       this.disposeObj(this.scatterGroup)
-      this.scatterGroup = null
+      this.scatterGroup = void 0
     }
     const scatterGroup = new THREE.Group()
     scatterGroup.name = name
@@ -557,7 +576,7 @@ export class MapThreeScene extends ThreeScene {
   }
 
   // 鼠标移动
-  onPointerMove(e) {
+  onPointerMove(e: any) {
     const dom = this.container
     const scale = this.options.scale
     raycasterUpdate(e, dom, scale)
@@ -603,8 +622,8 @@ export class MapThreeScene extends ThreeScene {
   }
 
   // 查找父级组合
-  findParentGroupGroupUuid(object) {
-    const _find = obj => {
+  findParentGroupGroupUuid(object: any) {
+    const _find = (obj: any) => {
       let parent = obj.parent
       if (!parent) {
         return
@@ -618,13 +637,13 @@ export class MapThreeScene extends ThreeScene {
   }
 
   // 地图省份 hover
-  #hoverProvince(pObj?) {
+  #hoverProvince(pObj?: any) {
     if (typeof this.#hoverBack === 'function') this.#hoverBack(pObj, style)
   }
 
   // 设置地图面颜色
-  setMapBlockColor(puuid?) {
-    this.mapGroup.traverse(el => {
+  setMapBlockColor(puuid?: string) {
+    this.mapGroup?.traverse((el: any) => {
       if (el.isProvinceBlock) {
         el.material[0].color.set(el.parent.uuid === puuid ? this.color.mainHover : this.color.main)
         el.material[1].color.set(
@@ -637,7 +656,7 @@ export class MapThreeScene extends ThreeScene {
     })
   }
   // 点击元素
-  clickObject(e) {
+  clickObject(e: any) {
     const dom = this.container
     const scale = this.options.scale
     raycasterUpdate(e, dom, scale)
@@ -677,7 +696,7 @@ export class MapThreeScene extends ThreeScene {
       .onUpdate(() => {})
 
     // 控制器
-    this.controls.target = new THREE.Vector3(x, y, z - 5 * this.config.scale)
+    this.controls && (this.controls.target = new THREE.Vector3(x, y, z - 5 * this.config.scale))
 
     // 网格
     if (this.grid) {
@@ -688,7 +707,7 @@ export class MapThreeScene extends ThreeScene {
   }
 
   modelAnimate() {
-    let dalte = this.clock.getDelta()
+    let dalte = this.clock?.getDelta() as number
     // 波纹板
     if (this.corrugatedPlate) {
       corrugatedPlateUpdate(this.corrugatedPlate, dalte)
@@ -741,15 +760,16 @@ export class MapThreeScene extends ThreeScene {
     this.disposeObj(this.outRingMesh)
     this.disposeObj(this.innerRingMesh)
 
-    this.clock = null
-    this.css3DRender = null
-    this.corrugatedPlate = null
-    this.mapGroup = null
-    this.scatterGroup = null
-    this.flywireGroup = null
-    this.outline = null
-    this.outRingMesh = null
-    this.innerRingMesh = null
+    this.clock = void 0
+    // @ts-ignore
+    this.css3DRender = void 0
+    this.corrugatedPlate = void 0
+    this.mapGroup = void 0
+    this.scatterGroup = void 0
+    this.flywireGroup = void 0
+    this.outline = void 0
+    this.outRingMesh = void 0
+    this.innerRingMesh = void 0
     super.dispose()
   }
 }

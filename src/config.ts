@@ -70,12 +70,12 @@ export default {
   rightClickBackDiffTime: 300,
 
   meshKey: {
-    body: Symbol('__BODY_'),
-    color: Symbol('__COLOR_'),
-    warning: Symbol('__WARNING_'),
-    local: Symbol('__LOCAL_'),
-    disabled: Symbol('__DISABLED_'),
-    pipe: Symbol('__PIPE__')
+    body: '__BODY_',
+    color: '__COLOR_',
+    warning: '__WARNING_',
+    local: '__LOCAL_',
+    disabled: '__DISABLED_',
+    pipe: '__PIPE__'
   },
 
   // 状态偏差值

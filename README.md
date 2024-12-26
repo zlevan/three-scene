@@ -182,6 +182,8 @@ onMounted(() => {
 | color | Number/String | - | 0xffffff | 材质颜色 |
 | radius | Number | - | 1 | 半径 (管路模式未管路半径、平面模式为拐角半径) |
 | radialSegments | Number | - | 1 | 路径分段 |
+| alway | Boolean | - | false | 一直显示路线（默认巡航中展示路线） |
+
 
 
 

@@ -1,40 +1,46 @@
 <template>
-  <div :class="$style['device-scene']">
+  <div :class="$style['floor-scene']">
     <!-- 操作按钮 -->
-    <div class="scene-operation">
+    <div class="scene-operation" v-if="devEnv">
       <div class="btn" @click="() => updateObject(true)">随机更新</div>
       <div class="btn" v-if="cruise.visible" @click="() => scene?.toggleCruise()">定点巡航</div>
       <div class="btn" @click="() => scene?.getPosition()">场景坐标</div>
       <div class="btn" @click="() => changeBackground(scene)">切换背景</div>
       <div class="btn" @click="() => scene?.controlReset()">控制器重置</div>
-      <div class="btn" v-if="cruise.visible" @click="() => scene?.toggleCruiseDepthTest()">巡航深度</div>
+      <div class="btn" v-if="cruise.visible" @click="() => scene?.toggleCruiseDepthTest()">
+        巡航深度
+      </div>
     </div>
-
     <div :class="$style.container" ref="containerRef"></div>
 
     <t-loading v-model="progress.show" :progress="progress.percentage"></t-loading>
 
     <!-- 设备信息弹窗 -->
     <div :class="$style.dialog" v-if="dialog.show" :style="dialog.style">
-      <slot name="dialog" :data="dialog.data" :title="dialog.title" :position="dialog.position"></slot>
+      <slot
+        name="dialog"
+        :data="dialog.data"
+        :title="dialog.title"
+        :position="dialog.position"
+      ></slot>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import tLoading from '../loading/index.vue'
-import { ref, watch, toRaw, onMounted, withDefaults, nextTick } from 'vue'
+import { watch, ref, toRaw, withDefaults, onMounted, nextTick } from 'vue'
 import * as THREE from 'three'
+import * as TWEEN from 'three/examples/jsm/libs/tween.module.js'
 
-import { DeviceThreeScene } from './methods'
-
+import { FloorThreeScene } from './methods'
 import { colors } from './colors'
-import * as UTILS from '../../utils/model'
+import * as UTILS from '../../utils/index'
 import DEFAULTCONFIG from '../../config'
 
 import { deepMerge } from '../../utils'
 
-import type { ObjectItem, ThreeModelItem } from '../../types/model'
+import type { ObjectItem, ThreeModelItem, XYZ } from '../../types/model'
 
 const props = withDefaults(defineProps<import('./index').Props>(), {
   dracoUrl: '',
@@ -52,32 +58,17 @@ const props = withDefaults(defineProps<import('./index').Props>(), {
   colorMeshName: () => [],
   anchorType: () => [],
   mainBodyMeshName: () => ['主体'],
-  mainBodyExcludeType: () => ['FM'],
-  colorModelType: () => ['FM'],
   indexDB: () => ({
     cache: true
   })
 })
 
-// 加载完成、更新、选择 anchorType 类型的模块、双击模型、点击 DOT 类型点位, 点击弹窗点位
-const emits = defineEmits<{
-  init: [scene: InstanceType<typeof DeviceThreeScene>]
-  loaded: []
-  update: [list: ObjectItem[], isRandom?: boolean]
-  select: [item: ObjectItem]
-  dblclick: [item: ObjectItem]
-  'click-dot': [item: ObjectItem, e: PointerEvent]
-  'click-dialog-dot': [item: ObjectItem, pos: { left: number; top: number }]
-}>()
-
 const COLORS = deepMerge(colors, props.colors)
 
-import { useBackground } from '../../hooks/background'
-import { useModelLoader } from '../../hooks/model-loader'
-import { useDialog } from '../../hooks/dialog'
+import { useBackground, useModelLoader, useDialog } from '../../hooks/index'
 
-const { changeBackground, backgroundLoad } = useBackground()
-const { progress, MODEL_MAP, loadModel, loadModels, getModel } = useModelLoader({
+const { change: changeBackground, load: backgroundLoad, skys } = useBackground()
+const { progress, loadModel, loadModels, getModel } = useModelLoader({
   baseUrl: props.baseUrl,
   dracoPath: props.dracoPath,
   basisPath: props.basisPath,
@@ -87,9 +78,21 @@ const { progress, MODEL_MAP, loadModel, loadModels, getModel } = useModelLoader(
 })
 const { dialog } = useDialog()
 
+// 加载完成、更新、选择 anchorType 类型的模块、双击模型、点击 DOT 类型点位, 点击弹窗点位
+const emits = defineEmits<{
+  init: [scene: InstanceType<typeof FloorThreeScene>]
+  loaded: []
+  update: [list: ObjectItem[], isRandom?: boolean]
+  select: [item: ObjectItem]
+  dblclick: [item: ObjectItem]
+  'click-dot': [item: ObjectItem, e: PointerEvent]
+  'click-dialog-dot': [item: ObjectItem, pos: { left: number; top: number }]
+}>()
+
 const containerRef = ref()
 
-const options: ConstructorParameters<typeof DeviceThreeScene>[0] = {
+const devEnv = props.devEnv
+const options: ConstructorParameters<typeof FloorThreeScene>[0] = {
   baseUrl: props.baseUrl,
   bgUrl: props.bgUrl,
   env: props.env,
@@ -101,11 +104,10 @@ const options: ConstructorParameters<typeof DeviceThreeScene>[0] = {
   grid: props.grid,
   controls: props.controls,
   axes: props.axes,
-  ambientLight: props.ambientLight,
   directionalLight: props.directionalLight
 }
 
-let scene: InstanceType<typeof DeviceThreeScene>
+let scene: InstanceType<typeof FloorThreeScene>
 
 // 点位模式
 watch(
@@ -125,7 +127,7 @@ watch(
 watch(
   () => props.cruise.points,
   v => {
-    if (progress.isEnd) scene.setCruisePoint(v)
+    if (progress.isEnd) scene.setCruisePoint(v || [])
   }
 )
 
@@ -139,9 +141,9 @@ watch(
 
 // 点位隐现方式切换
 const toggleDotVisible = () => {
-  const list = scene.dotGroup.children
+  const list = scene.dotGroup?.children || []
   for (let i = 0; i < list.length; i++) {
-    const el = list[i]
+    const el = list[i] as ThreeModelItem
     if (!el.data) continue
     const data = el.data
     // 数据参数
@@ -153,46 +155,101 @@ const toggleDotVisible = () => {
   }
 }
 
-// 管路初始化
-const initPipe = () => {
-  if (!props.pipes || props.pipes.length == 0) return
+// 楼层动画
+const floorAnimate = (index?: number) => {
+  const floors = scene.getFloor()
 
-  const list = props.pipes
-  for (let i = 0; i < list.length; i++) {
-    const item = list[i]
-    const { type, map } = item
-    const obj = getModel(type)
-    if (!obj) continue
-    // 深克隆
-    let model = UTILS.deepClone(obj)
-    const mapMeshName = obj._mapMeshName_
-    const { position: POS, scale: SCA, rotation: ROT } = UTILS.get_P_S_R_param(model, item)
-    const [x, y, z] = POS
+  // 楼层列表为 0 则不执行
+  if (floors.length === 0) return
+  // 执行目标是否存在
+  const isExist = index !== void 0 && index > -1
+  // 楼层展开是否隐藏其他
+  if (props.config?.floorExpandHiddenOther) {
+    scene.hideOmitFloor(!isExist)
+  }
+  floors.forEach((el: ThreeModelItem, i) => {
+    // 换算间距
+    const pos = el._position_
+    let k = i - (!isExist ? i : index)
+    const margin = props.config?.floorExpandMargin || 200
+    const mode = props.config?.floorExpandMode || 'UD'
+    const cy = k * margin
+    const ty = (pos?.y ?? 0) + cy
+    const tz = index == i ? (pos?.z ?? 0) + margin : pos?.z ?? 0
 
-    const mesh = UTILS.findObjectsByHasProperty(model.children, [mapMeshName])
-    if (mesh.length) {
-      mesh.forEach(el => {
-        el.material.map = el.material.map.clone()
-        if (map) {
-          const repeat = el.material.map.repeat
-          // 纹理对象阵列
-          el.material.map.repeat.set(repeat.x * (map[0] ?? 1), repeat.y * (map[1] ?? 1))
-        }
-      })
-      model[DEFAULTCONFIG.meshKey.pipe] = mesh
+    // 判断模式
+    // UD 上下
+    // BA 前后
+    // 移动目标为模型坐标则不执行动画
+    if (mode === 'UD') {
+      if (el.position.y === ty) return
+    } else if (mode === 'BA') {
+      if (el.position.z === tz) return
     }
 
-    // 缩放
-    model.scale.set(...SCA)
-    // 摆放位置
-    model.position.set(x, y, z)
-    // 转换方位
-    model.rotation.set(...ROT)
+    // 标记跟随模型
+    if (el.data?.mark) {
+      const mark = el.data.mark
+      const items = scene.getFlowMark(mark)
+      fllowModelAnimate(mode, items, cy, index == i ? margin : 0)
+    }
+    new TWEEN.Tween(el.position)
+      .to(
+        {
+          y: mode === 'UD' ? ty : el.position.y,
+          z: mode === 'BA' ? tz : el.position.z
+        },
+        500
+      )
+      .easing(TWEEN.Easing.Quadratic.Out)
+      .start()
+  })
 
-    model._isPipe_ = true
-    model.data = item
-    scene.addPipe(model)
+  // 楼层展开是否改变视角
+  if (!props.config?.floorExpandChangeViewAngle) return
+  let to, target
+  if (isExist) {
+    const object: ThreeModelItem = floors[index] || {}
+    to = object.data?.to
+    if (!!to) {
+      target = object.data?.target || object._position_
+    }
   }
+  to = scene.getAnimTargetPos(props.config || {}, to, target)
+  if (!to || !scene.controls) return
+  // 判断位置是否未移动
+  if (!isCameraMove(to)) {
+    UTILS.cameraInSceneAnimate(scene.camera, to, scene.controls.target)
+  }
+}
+
+// 判断相机位置是否移动
+const isCameraMove = (to: XYZ) => {
+  const pos = scene.camera.position
+  // 坐标差距小于 1 则未移动
+  return Math.abs(pos.x - to.x) < 1 && Math.abs(pos.y - to.y) < 1 && Math.abs(pos.z - to.z) < 1
+}
+
+// 跟随模型动画
+const fllowModelAnimate = (mode: string, items: ThreeModelItem[], cy: number, cz: number) => {
+  if (items.length === 0) return
+
+  console.log(items)
+  items.forEach(el => {
+    const pos = el._position_
+    const ty = mode == 'UD' ? (pos?.y ?? 0) + cy : pos?.y ?? 0
+    const tz = mode == 'BA' ? (pos?.z ?? 0) + cz : pos?.z ?? 0
+    new TWEEN.Tween(el.position)
+      .to(
+        {
+          y: ty,
+          z: tz
+        },
+        500
+      )
+      .easing(TWEEN.Easing.Quadratic.Out)
+      .start()
+  })
 }
 
 // 加载基础
@@ -215,14 +272,14 @@ const loadBase = async (item: ObjectItem) => {
 const updateDotVisible = (target: ThreeModelItem) => {
   const item = target.data as ObjectItem
   if (typeof props.dotUpdateObjectCall === 'function') {
-    const res = props.dotUpdateObjectCall(item, scene.deviceGroup)
+    const res = props.dotUpdateObjectCall(item, scene.deviceGroup?.children || []) as any
     if (typeof res === 'object') {
       Object.keys(res).forEach(key => {
         item[key] = res[key]
       })
     }
   } else {
-    console.warn(Error('未传人点位更新对象回调方法 dotUpdateObjectCall'))
+    console.warn(new Error('未传人点位更新对象回调方法 dotUpdateObjectCall'))
   }
 
   target.visible = item.show || !props.dotShowStrict
@@ -240,46 +297,34 @@ const updateDotVisible = (target: ThreeModelItem) => {
 }
 
 // 创建 dot 点位
-const createDotObject = item => {
+const createDotObject = (item: ObjectItem) => {
   updateDotVisible(
     scene.addDot(item, e => {
-      emits('click-dot', toRaw(item), e)
+      emits('click-dot', toRaw(item), e as PointerEvent)
     })
   )
 }
 
-// 创建状态标识
-const createStatusMark = (model, item) => {
-  // 警告标识
-  const warnStatusModel = getModel(MODEL_MAP.warning)
-  if (!!warnStatusModel) {
-    const key = DEFAULTCONFIG.meshKey.warning
-    const {
-      group: wg,
-      action,
-      mixer
-    }: any = UTILS.createWarning(key, item, warnStatusModel, props.statusOffset?.WARNING)
-    model.add(wg)
-    model[key] = { action, mixer }
-  }
+// 弹窗展示数据
+const dialogShowData = () => {
+  const object = dialog.select[0]
+  const data = object.data
+  dialog.data = data as Partial<ObjectItem>
+  dialog.title = data?.name || ''
+  dialog.show = true
 
-  // 就地标识
-  const localStatusModel = getModel(MODEL_MAP.local)
-  if (!!localStatusModel) {
-    const key = DEFAULTCONFIG.meshKey.local
-    const localModel = UTILS.createStatusMark(item, localStatusModel, props.statusOffset?.STATUS)
-    model.add(localModel)
-    model[key] = localModel
-  }
+  const pos = updateDialogPosition(object)
+  emits('click-dialog-dot', data as ObjectItem, pos)
+}
 
-  // 禁用标识
-  const disabledStatusModel = getModel(MODEL_MAP.disabled)
-  if (!!disabledStatusModel) {
-    const key = DEFAULTCONFIG.meshKey.disabled
-    const disabledModel = UTILS.createStatusMark(item, disabledStatusModel, props.statusOffset?.DISABLED, true)
-    model.add(disabledModel)
-    model[key] = disabledModel
-  }
+// 更新 dialog 坐标
+const updateDialogPosition = (object: ThreeModelItem) => {
+  const dom = containerRef.value
+  const pos = UTILS.getPlanePosition(dom, object, scene.camera)
+  dialog.position = pos
+  dialog.style.left = pos.left + 'px'
+  dialog.style.top = pos.top + 'px'
+  return pos
 }
 
 // 循环加载对象
@@ -300,37 +345,27 @@ const loopLoadObject = async (item: ObjectItem) => {
     return
   }
 
+  const floorType = props.floorModelType || []
   const anchorType = props.anchorType || []
 
   // 深克隆
-  let model = UTILS.deepClone(obj)
+  let model = UTILS.modelDeepClone(obj)
   const { position: POS, scale: SCA, rotation: ROT } = UTILS.get_P_S_R_param(model, item)
   const [x, y, z] = POS
 
   // 缩放
   model.scale.set(...SCA)
 
+  // 摆放位置
+  model.position.set(x, y, z)
+  // 转换方位
+  model.rotation.set(...ROT)
+
   // 动画类型
   const animationModelType = props.animationModelType || []
   // 颜色网格
   const colorMeshName = props.colorMeshName || []
-  // 主体排除类型
-  const mainBodyExcludeType = props.mainBodyExcludeType || []
-  // 绘制文字类型
-  const textModelType = props.textModelType || []
 
-  const fontParser = getModel(MODEL_MAP.font)
-  // 是否需要绘制文字
-  if (textModelType.includes(type) && !!fontParser) {
-    const group = new THREE.Group()
-    group.add(model)
-    const text = UTILS.createText(item, fontParser, COLORS.normal.text, props.statusOffset?.TEXT)
-    group.add(text)
-    group.name = item.name
-    model = group
-  }
-
-  // 动画
   if (animationModelType.includes(type)) {
     if (model.type !== 'Group') {
       const group = new THREE.Group()
@@ -338,18 +373,17 @@ const loopLoadObject = async (item: ObjectItem) => {
       group.name = model.name
       model = group
     }
-
-    // 创建状态标识
-    createStatusMark(model, item)
-
     // 主体网格
-    if (props.mainBodyChangeColor && !mainBodyExcludeType.includes(type)) {
-      const mesh = UTILS.findObjectsByHasProperty(model.children, props.mainBodyMeshName)
+    if (props.mainBodyChangeColor) {
+      const children = model.children[0]?.children || []
+      const mesh = children.filter((it: ThreeModelItem) =>
+        (props.mainBodyMeshName || []).some(t => it.name.indexOf(t) > -1)
+      )
       const cobj = COLORS.normal
-      let color = cobj.main != void 0 ? cobj.main : cobj.color
+      let color = cobj.main || cobj.color
       let colrs = UTILS.getColorArr(color)
       if (colrs.length) {
-        mesh.forEach((e, i) => {
+        mesh.forEach((e: ThreeModelItem, i: number) => {
           UTILS.setMaterialColor(e, colrs[i % colrs.length])
         })
       }
@@ -376,7 +410,7 @@ const loopLoadObject = async (item: ObjectItem) => {
     model.extra = { action, mixer, meshs }
   } else {
     const meshs: any[] = []
-    model.traverse(el => {
+    model.traverse((el: ThreeModelItem) => {
       if (typeof el.name == 'string' && colorMeshName.some(t => el.name.indexOf(t) > -1)) {
         meshs.push(el)
       }
@@ -387,13 +421,20 @@ const loopLoadObject = async (item: ObjectItem) => {
     }
   }
 
-  // 摆放位置
-  model.position.set(x, y, z)
-  // 转换方位
-  model.rotation.set(...ROT)
-
   model._isDevice_ = true
   model.data = item
+
+  // 楼层
+  if (floorType.includes(type)) {
+    // 原始点位 备用
+    model._position_ = { x, y, z }
+    model._isFloor_ = true
+  }
+
+  // 记录备用坐标(更随标记)
+  if (item.followMark || item.mark) {
+    model._position_ = { x, y, z }
+  }
 
   // 锚点
   if (anchorType.includes(type)) {
@@ -453,22 +494,35 @@ const assemblyScenario = async () => {
   initDeviceConfigs()
   await initDevices()
 
-  // 管路初始化
-  initPipe()
-
   // 巡航
-  scene.setCruisePoint(props.cruise.points)
+  scene.setCruisePoint(props.cruise.points || [])
 
   if (typeof props.config?.load === 'function') {
     props.config?.load(scene)
   }
 
+  // 楼层索引存在则执行楼层动画
+  const floorIndex = props.config?.floorExpandIndex || -1
   const to = scene.getAnimTargetPos(props.config || {})
-  // 入场动画
-  UTILS.cameraInSceneAnimate(scene.camera, to, scene.controls.target).then(() => {
-    emits('loaded')
-    scene.controlSave()
-  })
+  const floors = scene.getFloor()
+  if (!to || !scene.controls) return
+  if (floorIndex > -1 && floors.length) {
+    floorAnimate(floorIndex)
+    // 楼层展开是否改变视角
+    if (!props.config?.floorExpandChangeViewAngle) {
+      // 入场动画
+      UTILS.cameraInSceneAnimate(scene.camera, to, scene.controls.target).then(() => {
+        emits('loaded')
+        scene.controlSave()
+      })
+    }
+  } else {
+    // 入场动画
+    UTILS.cameraInSceneAnimate(scene.camera, to, scene.controls.target).then(() => {
+      emits('loaded')
+      scene.controlSave()
+    })
+  }
 }
 
 // 加载
@@ -481,41 +535,19 @@ const load = () => {
 const initPage = () => {
   load()
   if (props.skyCode) {
-    backgroundLoad(scene, props.skyCode)
+    backgroundLoad(scene, props.skyCode as typeof skys[number])
   }
 }
 
-// 弹窗展示数据
-const dialogShowData = () => {
-  const object = dialog.select[0]
-  const data = object.data
-  dialog.data = data as Partial<ObjectItem>
-  dialog.title = data?.name || ''
-  dialog.show = true
-
-  const pos = updateDialogPosition(object)
-  emits('click-dialog-dot', data as ObjectItem, pos)
-}
-
-// 更新 dialog 坐标
-const updateDialogPosition = object => {
-  const dom = containerRef.value
-  const pos = UTILS.getPlanePosition(dom, object, scene.camera)
-  dialog.position = pos
-  dialog.style.left = pos.left + 'px'
-  dialog.style.top = pos.top + 'px'
-  return pos
-}
-
 // 更新
-const updateObject = isRandom => {
+const updateObject = (isRandom: boolean) => {
   const emitData: ObjectItem[] = []
 
   if (typeof props.updateObjectCall !== 'function') {
     console.warn(Error('未传入更新回调函数 updateObjectCall'))
   }
 
-  scene.getAll().forEach((el, _i) => {
+  scene.getAll().forEach((el: ThreeModelItem, _i) => {
     if (!el.data) return
 
     const data = el.data
@@ -529,7 +561,7 @@ const updateObject = isRandom => {
     }
 
     if (typeof props.updateObjectCall === 'function') {
-      const res = props.updateObjectCall(data, isRandom)
+      const res = props.updateObjectCall(data, isRandom) as any
       if (!res) return
       if (typeof res !== 'object') {
         console.warn(Error('更新回调函数返回对象不为 Object，当前类型：' + typeof res))
@@ -568,30 +600,19 @@ const updateObject = isRandom => {
 
 // 修改模型部件状态及颜色 (类型、模型、颜色对象、颜色、动画暂停状态、故障状态)
 const changeModleStatusColor = (opts: import('./index').ChangeMaterialOpts) => {
-  let { el, type, colorObj: cobj, color, paused, error } = opts
+  let { el, type, colorObj: cobj, color, paused } = opts
   let colors = UTILS.getColorArr(color)
   color = colors[0]
 
   const meshKey = DEFAULTCONFIG.meshKey
 
-  const colorModelType = props.colorModelType
+  const colorModelType = props.colorModelType || []
   if (colorModelType.includes(type) && color != void 0) {
     const meshs = el[meshKey.color] || []
-    meshs.forEach(e => {
+    meshs.forEach((e: ThreeModelItem) => {
       UTILS.setMaterialColor(e, color)
     })
     return
-  }
-
-  if (!(props.animationModelType || []).includes(type)) {
-    return
-  }
-  // 文字
-  if (props.textChangeColor) {
-    const color = cobj.text != void 0 ? cobj.text : cobj.color
-    const group = el.getObjectByProperty('_isText_', true)
-    let colors = UTILS.getColorArr(color)
-    UTILS.setMaterialColor(group, colors[0])
   }
 
   // 场景
@@ -603,7 +624,7 @@ const changeModleStatusColor = (opts: import('./index').ChangeMaterialOpts) => {
     !!extra.action && (extra.action.paused = paused)
     if (color != void 0) {
       const meshs = extra.meshs || []
-      meshs.forEach(e => {
+      meshs.forEach((e: ThreeModelItem) => {
         UTILS.setMaterialColor(e, color)
       })
     }
@@ -614,45 +635,26 @@ const changeModleStatusColor = (opts: import('./index').ChangeMaterialOpts) => {
     const color = cobj.main != void 0 ? cobj.main : cobj.color
     let colors = UTILS.getColorArr(color)
     if (colors.length) {
-      el[meshKey.body].forEach((e, i) => {
+      el[meshKey.body].forEach((e: ThreeModelItem, i: number) => {
         UTILS.setMaterialColor(e, colors[i % colors.length])
       })
     }
-  }
-
-  const warning = el[meshKey.warning]
-  // 警告状态
-  if (!!warning) {
-    // 警告组合
-    const warnGroup = el.children.find(it => it.name == meshKey.warning)
-    if (!!warnGroup) {
-      warnGroup.visible = error
-      // 暂停状态
-      warning.action.paused = !error
-    }
-  }
-
-  // 就地
-  if (!!el[meshKey.local]) {
-    el[meshKey.local].visible = opts.local
-  }
-
-  // 禁用
-  if (!!el[meshKey.disabled]) {
-    el[meshKey.disabled].visible = opts.disabled
   }
 }
 
 onMounted(() => {
   options.container = containerRef.value
-
-  scene = new DeviceThreeScene(options, {
-    onDblclick(object) {
+  scene = new FloorThreeScene(options, {
+    onDblclick: object => {
       const data = object.data
+      const index = scene.getFloor().findIndex(el => object.uuid === el.uuid)
       if (typeof data.onDblclick === 'function') {
-        data.onDblclick(toRaw(data), object)
+        data.onDblclick(toRaw(data), object, index)
       } else {
         emits('dblclick', toRaw(data))
+      }
+      if (index > -1) {
+        floorAnimate(index)
       }
     },
     onClickLeft(object) {
@@ -673,10 +675,12 @@ onMounted(() => {
         dialog.show = false
       }
     },
-    onClickRight(e) {
-      console.log(e)
+    onClickRight: _e => {
+      dialog.show = false
       if (typeof props.config?.back === 'function') {
         props.config.back(scene)
+      } else {
+        floorAnimate(-1)
       }
     },
     animateCall: () => {
@@ -689,14 +693,14 @@ onMounted(() => {
     }
   })
   scene.run()
-
   emits('init', scene)
   initPage()
 })
 
 defineExpose({
-  update: updateObject,
-  exportImage: () => scene?.exportImage()
+  floorAnimate,
+  exportImage: () => scene?.exportImage(),
+  update: updateObject
 })
 </script>
 

@@ -4,6 +4,8 @@ import {
   CSS3DSprite
 } from 'three/examples/jsm/renderers/CSS3DRenderer.js'
 
+import type { XYZ } from '../../types/model'
+
 // three 场景 cdd 3d 标签
 export const useCSS3D = () => {
   // 初始化 CSS3D 标签
@@ -36,7 +38,11 @@ export const useCSS3D = () => {
     dom.innerHTML = name
     dom.className = className
 
-    const label = sprite ? new CSS3DSprite(dom) : new CSS3DObject(dom)
+    const label: (InstanceType<typeof CSS3DSprite> | InstanceType<typeof CSS3DObject>) & {
+      data?: any
+      _position_?: XYZ
+      isLabel?: boolean
+    } = sprite ? new CSS3DSprite(dom) : new CSS3DObject(dom)
     dom.style.pointerEvents = onClick ? 'auto' : 'none'
     dom.style.position = 'absolute'
     if (typeof onClick === 'function') {

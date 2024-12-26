@@ -1,8 +1,7 @@
 import * as THREE from 'three'
 
-import ThreeScene from '../../index'
-import { useRaycaster } from '../../hooks/raycaster'
-import { useCSS2D, CSS2DRenderer } from '../../hooks/css2d'
+import * as ThreeScene from '../../index'
+import { useRaycaster, useCSS2D, CSS2DRenderer } from '../../hooks/index'
 
 import type { XYZ, ObjectItem } from '../../types/model'
 import type { Config, ExtendOptions } from '.'
@@ -12,17 +11,17 @@ import DEFAULTCONFIG from '../../config'
 const { raycaster, pointer, update: raycasterUpdate } = useRaycaster()
 const { initCSS2DRender, createCSS2DDom } = useCSS2D()
 
-export class FloorThreeScene extends ThreeScene {
+export class FloorThreeScene extends ThreeScene.Scene {
   // 设备集合
-  deviceGroup: InstanceType<typeof THREE.Group>
+  deviceGroup?: InstanceType<typeof THREE.Group>
   // 点位集合
-  dotGroup: InstanceType<typeof THREE.Group>
+  dotGroup?: InstanceType<typeof THREE.Group>
   // 扩展参数
   extend: Partial<ExtendOptions>
   // CSS2D 渲染器
   css2DRender: InstanceType<typeof CSS2DRenderer>
   constructor(
-    options: ConstructorParameters<typeof ThreeScene>[0],
+    options: ConstructorParameters<typeof ThreeScene.Scene>[0],
     extend: Partial<ExtendOptions>
   ) {
     super(options)
@@ -54,7 +53,7 @@ export class FloorThreeScene extends ThreeScene {
   }
 
   // 添加设备
-  addDevice(...obj) {
+  addDevice(...obj: any[]) {
     if (this.deviceGroup) {
       this.deviceGroup.add(...obj)
     }
@@ -77,7 +76,7 @@ export class FloorThreeScene extends ThreeScene {
   }
 
   // 添加点位
-  addDot(item: ObjectItem, clickBack) {
+  addDot(item: ObjectItem, clickBack: (e: Event, label: any) => void) {
     const pos = item.position
     const { size, color } = item.font || {}
     const { x = 0, y = 0, z = 0 } = pos || {}
@@ -96,7 +95,7 @@ export class FloorThreeScene extends ThreeScene {
     label.data = item
     // 原始点位 备用
     label._position_ = { x, y, z }
-    this.dotGroup.add(label)
+    this.dotGroup?.add(label)
     return label
   }
 
@@ -157,7 +156,8 @@ export class FloorThreeScene extends ThreeScene {
     const scale = this.options.scale
     raycasterUpdate(e, dom, scale)
     let isClick = e.type == 'pointerdown' || e.type == 'pointerup'
-    const objects = this.deviceGroup.children.filter(it => it.visible && it._isAnchor_)
+    const objects =
+      this.deviceGroup?.children.filter((it: any) => it.visible && it._isAnchor_) || []
 
     // 设置新的原点和方向向量更新射线, 用照相机的原点和点击的点构成一条直线
     raycaster.setFromCamera(pointer, this.camera)
@@ -178,8 +178,8 @@ export class FloorThreeScene extends ThreeScene {
   }
 
   // 查找父级组合
-  findParentGroupGroup(object) {
-    const _find = obj => {
+  findParentGroupGroup(object: any) {
+    const _find = (obj: any) => {
       let parent = obj.parent
       if (!parent) {
         return
@@ -194,28 +194,29 @@ export class FloorThreeScene extends ThreeScene {
 
   // 获取楼层集合
   getFloor() {
-    return this.deviceGroup.children.filter(it => it._isFloor_)
+    return this.deviceGroup?.children.filter((it: any) => it._isFloor_) || []
   }
 
   // 隐藏除楼层之外的对象
   hideOmitFloor(visible: boolean) {
-    this.deviceGroup.children.forEach(el => {
+    this.deviceGroup?.children.forEach((el: any) => {
       el.visible = el._isFloor_ || visible
     })
   }
 
   // 获取所有对象
   getAll() {
-    return this.deviceGroup.children.concat(this.dotGroup.children)
+    return this.deviceGroup?.children.concat(this.dotGroup?.children || []) || []
   }
 
   // 获取跟随目标集合
-  getFlowMark(mark) {
-    return this.getAll().filter(el => el.data?.followMark === mark)
+  getFlowMark(mark: string) {
+    return this.getAll().filter((el: any) => el.data?.followMark === mark)
   }
 
   // 获取动画目标点
   getAnimTargetPos(config: Partial<Config>, _to?: XYZ, _target?: XYZ) {
+    if (!this.controls) return
     const to = _to || config.to || { x: -104, y: 7, z: 58 }
     const target = _target || config.target || { x: 0, y: 0, z: 0 }
     // 中心点位
@@ -233,9 +234,10 @@ export class FloorThreeScene extends ThreeScene {
     this.disposeObj(this.deviceGroup)
     this.disposeObj(this.dotGroup)
 
-    this.css2DRender = null
-    this.deviceGroup = null
-    this.dotGroup = null
+    // @ts-ignore
+    this.css2DRender = void 0
+    this.deviceGroup = void 0
+    this.dotGroup = void 0
     this.extend = {}
     super.dispose()
   }
