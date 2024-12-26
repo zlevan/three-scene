@@ -1,4 +1,4 @@
-export declare interface Options {
+export interface Options {
   size: number
   color: string | number
   range: number

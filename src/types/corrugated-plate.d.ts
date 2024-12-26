@@ -1,4 +1,4 @@
-export declare interface Options {
+export interface Options {
   range: number
   interval: number
   size: number

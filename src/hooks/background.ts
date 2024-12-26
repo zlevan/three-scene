@@ -8,7 +8,7 @@ const getImgUrl = (code: string, jpg: string) => {
 const skys = ['216', '217', '218', '219', '220', '221', '222', '223', '224', '225', '226'] as const
 
 // 背景
-export const useBackground = (code: (typeof skys)[number]) => {
+export const useBackground = (code?: (typeof skys)[number]) => {
   const i = skys.findIndex(t => t == code)
   const index = ref(i < 0 ? 0 : i)
   const change = (scene: any) => {

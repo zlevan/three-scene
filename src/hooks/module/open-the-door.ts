@@ -3,7 +3,7 @@ import * as TWEEN from 'three/examples/jsm/libs/tween.module.js'
 
 import type { Options } from '../../types/open-the-door'
 import { deepMerge } from '../../utils'
-import { ThreeModelItem } from 'src/types/model'
+import { ThreeModelItem } from '../../types/model'
 
 type Params = import('../../types/utils').DeepPartial<Options>
 

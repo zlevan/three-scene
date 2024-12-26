@@ -1,4 +1,4 @@
-export declare interface IndexDB {
+export interface IndexDB {
   // indexdb
 
   // 加载缓存 默认: true

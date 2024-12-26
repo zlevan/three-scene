@@ -1,6 +1,6 @@
 import type { XYZ } from '../types/model'
 
-export declare interface Options {
+export interface Options {
   index: number
   length: number
   runing: boolean

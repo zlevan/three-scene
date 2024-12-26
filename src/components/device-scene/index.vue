@@ -83,9 +83,7 @@ const emits = defineEmits<{
 
 const COLORS = deepMerge(colors, props.colors)
 
-import { useBackground } from '../../hooks/background'
-import { useModelLoader } from '../../hooks/model-loader'
-import { useDialog } from '../../hooks/index'
+import { useBackground, useModelLoader, useDialog } from '../../hooks/index'
 
 const { changeBackground, backgroundLoad, skys } = useBackground()
 const { progress, MODEL_MAP, loadModel, loadModels, getModel } = useModelLoader({

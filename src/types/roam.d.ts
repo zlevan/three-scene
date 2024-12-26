@@ -1,4 +1,4 @@
-export declare interface Options {
+export interface Options {
   runing: boolean
   close: boolean
   segment: number

@@ -1,18 +1,18 @@
-export declare interface Fog {
+export interface Fog {
   visible: boolean
   color: string | number
   near: number
   far: number
 }
 
-export declare interface Render {
+export interface Render {
   antialias: boolean
   alpha: boolean
   logarithmicDepthBuffer: boolean
   preserveDrawingBuffer: boolean
 }
 
-export declare interface Controls {
+export interface Controls {
   visible: boolean
   autoRotate: boolean
   autoRotateSpeed: number
@@ -32,13 +32,13 @@ export declare interface Controls {
   screenSpacePanning: boolean
 }
 
-export declare interface AmbientLight {
+export interface AmbientLight {
   visible: boolean
   color: number | string
   intensity: number
 }
 
-export declare interface DirectionalLight {
+export interface DirectionalLight {
   helper: boolean
   visible: boolean
   position: number[]
@@ -48,7 +48,7 @@ export declare interface DirectionalLight {
   intensity: number
 }
 
-export declare interface Camera {
+export interface Camera {
   helper: boolean
   near: number
   far: number
@@ -56,7 +56,7 @@ export declare interface Camera {
   position: [number, number, number]
 }
 
-export declare interface Grid {
+export interface Grid {
   visible: boolean
   opacity: number
   transparent: boolean
@@ -69,12 +69,12 @@ export declare interface Grid {
   forkColor: number | string
 }
 
-export declare interface Axes {
+export interface Axes {
   visible: boolean
   size: number
 }
 
-export declare interface Cruise {
+export interface Cruise {
   visible: boolean
   enabled: boolean
   runing: boolean
@@ -103,7 +103,7 @@ export declare interface Cruise {
     | undefined
 }
 
-export declare interface Options {
+export interface Options {
   container: HTMLElement | string
   width: number
   height: number
@@ -124,4 +124,4 @@ export declare interface Options {
   axes: Axes
 }
 
-export declare type Params = import('./utils').DeepPartial<Options>
+export type Params = import('./utils').DeepPartial<Options>

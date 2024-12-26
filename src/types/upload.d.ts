@@ -1,4 +1,4 @@
-export declare interface Options {
+export interface Options {
   baseUrl: string
   dracoPath: string
   basisPath: string

@@ -98,6 +98,8 @@ export const useMaterial = () => {
       }
       return
     }
+
+    // 是否转换标准材质
     if (!opts.transformMaterial || !child.isMesh) return
 
     if (opts.opacitySkin && transparentMeshName.find(it => name.indexOf(it) > -1)) {

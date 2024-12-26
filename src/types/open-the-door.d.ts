@@ -1,4 +1,4 @@
-export declare interface Options {
+export interface Options {
   propertyName?: string
   value: string
   scale?: number

@@ -1,11 +1,12 @@
-import type { Object3D } from 'three'
-export declare interface XYZ {
+import * as THREE from 'three'
+
+export interface XYZ {
   x: number
   y: number
   z: number
 }
 
-export declare type ModelType =
+export type ModelType =
   | 'base'
   | 'device'
   | 'font'
@@ -17,7 +18,7 @@ export declare type ModelType =
   | 'disabled'
   | 'spotlight'
 
-export declare interface ModelItem {
+export interface ModelItem {
   // 模型 唯一 key（场景元素按照 对应 key 加载）
   key: string
   name: string
@@ -53,7 +54,7 @@ export declare interface ModelItem {
   penumbra?: number
 }
 
-export declare interface ObjectItem {
+export interface ObjectItem {
   name: string
   // 类型 初始化模型对应的 key
   type: string
@@ -97,11 +98,9 @@ export declare interface ObjectItem {
   onDblclick?: Function
   // 点击事件
   onClick?: Function
-
-  [key: string]: any
 }
 
-export declare interface PipeItem {
+export interface PipeItem {
   name: string
   // 类型 初始化模型对应的 key
   type: string
@@ -123,7 +122,7 @@ export declare interface PipeItem {
   right?: (string | string[] | string[][])[]
 }
 
-export declare interface Extra {
+export interface Extra {
   mixer: any
 }
 
@@ -134,12 +133,12 @@ export type ThreeModelItem = {
   position: XYZ
   data?: ObjectItem
   extra?: Extra
-  name?: string | Symbol
   clear: Function
   element?: HTMLElement
   _isWarning_?: boolean
+
   [key: string]: any
-} & Object3D
+} & THREE.Object3D
 
 export interface StylePosition {
   left: number

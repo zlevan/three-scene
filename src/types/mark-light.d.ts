@@ -1,4 +1,4 @@
-export declare interface Options {
+export interface Options {
   pointTextureUrl: string
   circleTextureUrl: string
   lightTextureUrl: string
