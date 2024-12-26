@@ -3394,7 +3394,7 @@
     };
 
     const getImgUrl = (code, jpg) => {
-        return new URL(`../assets/imgs/sky/${code}/${jpg}`, (typeof document === 'undefined' && typeof location === 'undefined' ? new (require('u' + 'rl').URL)('file:' + __filename).href : typeof document === 'undefined' ? location.href : (document.currentScript && document.currentScript.tagName.toUpperCase() === 'SCRIPT' && document.currentScript.src || new URL('three-scene.js', document.baseURI).href))).href;
+        return new URL(`../src/assets/imgs/sky/${code}/${jpg}`, (typeof document === 'undefined' && typeof location === 'undefined' ? new (require('u' + 'rl').URL)('file:' + __filename).href : typeof document === 'undefined' ? location.href : (document.currentScript && document.currentScript.tagName.toUpperCase() === 'SCRIPT' && document.currentScript.src || new URL('three-scene.js', document.baseURI).href))).href;
     };
     const skys = ['216', '217', '218', '219', '220', '221', '222', '223', '224', '225', '226'];
     // 背景
