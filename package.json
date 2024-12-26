@@ -28,6 +28,7 @@
   },
   "files": [
     "build",
+    "src/assets",
     "src/components",
     "package.json",
     "MAP.md",
