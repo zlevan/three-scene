@@ -249,11 +249,11 @@ export const getPlanePosition = (
 
 // 查找模型对象中包含指定属性的集合
 export const findObjectsByHasProperty = (
-  children: any[],
+  children: ThreeModelItem[],
   values: string[],
   property: string = 'name'
 ) => {
-  let list: any[] = []
+  let list: ThreeModelItem[] = []
   if (!children || !children.length) return []
   function find(data: any[]) {
     data.forEach(el => {

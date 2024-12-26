@@ -122,6 +122,7 @@ export const useMaterial = () => {
       child.material = material
     } else if (child.isMesh) {
       child.castShadow = true
+      child.receiveShadow = true
 
       child.material = materialOptimize(child.material, opts.glisten, opts.side)
     }
