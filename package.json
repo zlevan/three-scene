@@ -24,12 +24,14 @@
     },
     "./build/*": "./build/*",
     "./hooks": "./src/hooks/index.ts",
-    "./src/*": "./src/*"
+    "./components/*": "./src/components/*",
+    "./types/*": "./src/types/*"
   },
   "files": [
     "build",
     "src/assets",
     "src/components",
+    "src/types",
     "package.json",
     "MAP.md",
     "FLOOR.md",
