@@ -117,6 +117,58 @@ export const useOpenTheDoor = () => {
     })
   }
 
+  // 单旋转开门
+  const oddRotate = (scene: THREE.Scene, options: Params) => {
+    const { propertyName, value, angle, axle, isOpen, duration, autoClose, delay } = deepMerge(
+      _options,
+      options
+    ) as Options
+
+    // 查找双开门分组
+    const dobj = scene.getObjectByProperty(propertyName, value) as ThreeModelItem
+    if (!dobj) {
+      console.warn('未找到目标！')
+      return Promise.reject()
+    }
+
+    if (autoClose) {
+      // 清除定时器
+      clearTimeout(dobj.__timer__)
+    }
+
+    const rotate = dobj.rotation
+
+    if (dobj.__open__ == void 0) {
+      dobj.__rotation__ = new THREE.Euler().copy(rotate)
+    }
+    // 设置当前开门状态
+    dobj.__open__ = isOpen !== void 0 ? isOpen : !dobj.__open__
+
+    return new Promise(resolve => {
+      const rMove = dobj.__rotation__[axle] + (dobj.__open__ ? -angle : 0)
+      // 坐标不变则直接返回
+      if (rotate[axle] === rMove) return resolve(dobj)
+      new TWEEN.Tween(dobj.rotation)
+        .to(
+          {
+            [axle]: rMove
+          },
+          duration
+        )
+        .delay(0)
+        .start()
+
+      if (autoClose) {
+        // 延迟 自动关闭
+        if (dobj.__open__) {
+          dobj.__timer__ = setTimeout(() => {
+            oddRotate(scene, options)
+          }, delay + duration)
+        }
+      }
+    })
+  }
+
   // 双旋转开门
   const dubleRotate = (scene: THREE.Scene, options: Params) => {
     const {
@@ -199,6 +251,7 @@ export const useOpenTheDoor = () => {
 
   return {
     dubleHorizontal,
+    oddRotate,
     dubleRotate
   }
 }

@@ -211,11 +211,11 @@ export const useFlywire = (options: Params = {}) => {
         '    if (i >= range.x && i <= range.y){',
         '      // 归一',
         '      float t = (i - range.x) / (range.y - range.x);',
-        '      // 边缘锯齿范围',
+        // 边缘锯齿范围
         '      float r = 0.3;',
         '      opacity = drawCircle(t, r);',
         '    }',
-        '    // 渐变',
+        // 渐变
         '    opacity *=  1.0 - len / 0.5;',
         '  };',
         '  gl_FragColor = vec4(uColor, uOpacity * opacity);',

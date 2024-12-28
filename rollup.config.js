@@ -4,6 +4,9 @@ import resolve from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import typescript from 'rollup-plugin-typescript2'
 import vue from 'rollup-plugin-vue'
+import replace from '@rollup/plugin-replace'
+import cleanup from 'rollup-plugin-cleanup'
+
 
 const babelrc = {
   presets: [
@@ -40,6 +43,7 @@ function header() {
   }
 }
 
+// 全局变量
 const globals = {
   vue: 'Vue'
 }
@@ -68,41 +72,66 @@ export default {
           module: 'ESNext'
         }
       }
+    }),
+    cleanup(),
+    replace({
+      // 正则匹配注释，并将其替换为空字符串
+      '/获取贴图地址/g': '',
+      '/\*[\s\S]*?\*/': '',
+      '/^\s*//.*\n/gm': ''
+      // 可以根据需要添加更多的正则匹配规则
     })
+
   ],
 
   output: [
     {
       format: 'cjs',
       file: 'build/three-scene.cjs',
+      plugins: [terser()], // 压缩UMD版本
       name: 'THREE',
       extend: true
     },
     {
       format: 'esm',
       file: 'build/three-scene.module.js',
-      name: 'THREE',
-      extend: true
-    },
-    {
-      format: 'esm',
-      file: 'build/three-scene.module.min.js',
       plugins: [terser()], // 压缩UMD版本
       name: 'THREE',
       extend: true
     },
-    {
-      format: 'umd',
-      file: 'build/three-scene.js',
-      name: 'THREE',
-      extend: true
-    },
-    {
-      format: 'umd',
-      file: 'build/three-scene.min.js',
-      plugins: [terser()], // 压缩UMD版本
-      name: 'THREE',
-      extend: true
-    }
+    // {
+    //   format: 'esm',
+    //   file: 'build/three-scene.module.min.js',
+    //   plugins: [terser({
+
+    //     compress: {
+    //       // 去除注释
+    //       // comments: true,
+    //       // 去除无效代码
+    //       dead_code: true,
+    //       // 默认为 true，去除console、alert等
+    //       pure_funcs: ['console.log']
+    //     },
+    //     mangle: {
+    //       // 是否保留变量名
+    //       keep_fnames: false
+    //     }
+    //   })],
+    //   name: 'THREE',
+    //   extend: true
+    // },
+    // {
+    //   format: 'umd',
+    //   file: 'build/three-scene.js',
+    //   name: 'THREE',
+    //   extend: true
+    // },
+    // {
+    //   format: 'umd',
+    //   file: 'build/three-scene.min.js',
+    //   plugins: [terser()], // 压缩UMD版本
+    //   name: 'THREE',
+    //   extend: true
+    // }
   ]
 }

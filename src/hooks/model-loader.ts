@@ -7,7 +7,7 @@ import { MeshoptDecoder } from 'three/examples/jsm/libs/meshopt_decoder.module'
 
 import { deepMerge, getUrl } from '../utils'
 import * as UTILS from '../utils'
-import type { ModelItem } from '../types/model'
+import type { ModelItem, ThreeModelItem } from '../types/model'
 
 import { reactive } from 'vue'
 
@@ -387,11 +387,6 @@ export const useModelLoader = (options: import('../types/utils').DeepPartial<Opt
     // 生产阴影
     spotLight.castShadow = true
     spotLight.visible = false
-    // let s = 800
-    // spotLight.shadow.camera.right = s
-    // spotLight.shadow.camera.left = -s
-    // spotLight.shadow.camera.top = s
-    // spotLight.shadow.camera.bottom = -s
     modelMap.set(key, spotLight)
   }
 
@@ -496,8 +491,8 @@ export const useModelLoader = (options: import('../types/utils').DeepPartial<Opt
 
   // 虚化模型 其他模型传入则虚化除目标之外的模型
   const virtualization = (
-    models: any[] = [],
-    model: any,
+    models: ThreeModelItem[] = [],
+    model: ThreeModelItem,
     opts: import('../types/utils').DeepPartial<VtOptions> = {}
   ) => {
     const filter = opts.filter || []
