@@ -459,6 +459,8 @@ export const useModelLoader = (options: import('../types/utils').DeepPartial<Opt
     opts = deepMerge(
       {
         color: 0x00e0ff,
+        // 隐藏模式
+        hidden: false,
         wireframe: true,
         opacity: 0.5,
         filter: [],
@@ -471,6 +473,10 @@ export const useModelLoader = (options: import('../types/utils').DeepPartial<Opt
         return
       }
       if (el.isMesh) {
+        if (opts.hidden) {
+          el.visible = false
+          return
+        }
         if (!el.__material__) {
           el.__material__ = el.material
         }
@@ -519,6 +525,7 @@ export const useModelLoader = (options: import('../types/utils').DeepPartial<Opt
     if (Array.isArray(model)) {
       for (let i = 0; i < model.length; i++) {
         model[i].traverse((el: any) => {
+          el.visible = true
           if (el.isMesh && el.__material__) {
             el.material = el.__material__
           }
@@ -526,6 +533,7 @@ export const useModelLoader = (options: import('../types/utils').DeepPartial<Opt
       }
     } else {
       model.traverse((el: any) => {
+        el.visible = true
         if (el.isMesh && el.__material__) {
           el.material = el.__material__
         }

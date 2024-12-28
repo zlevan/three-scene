@@ -29,6 +29,7 @@ export interface Options {
 export interface VtOptions {
   color: string | string
   opacity: number
+  hidden: boolean
   wireframe: boolean
   filter: string[]
   filterMatch: string[]

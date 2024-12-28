@@ -1,24 +1,28 @@
 import * as THREE from 'three'
-import { getTextturesUrl } from '../../utils/asssets'
+// import { getTextturesUrl } from '../../utils/asssets'
+
+const fenceMap0 = new URL(`../src/assets/imgs/texttures/fenceMap0.png`, import.meta.url).href
+const fenceMap1 = new URL(`../src/assets/imgs/texttures/fenceMap1.png`, import.meta.url).href
+const fenceMap2 = new URL(`../src/assets/imgs/texttures/fenceMap2.png`, import.meta.url).href
 
 // 电子围栏 fence
 export const useFence = () => {
   const repeat = [1, 0.8]
   const offsetY = 0.2
   // 贴图
-  const texture = new THREE.TextureLoader().load(getTextturesUrl('fenceMap0.png'), tx => {
+  const texture = new THREE.TextureLoader().load(fenceMap0, tx => {
     tx.wrapT = THREE.RepeatWrapping
     tx.repeat.x = repeat[0]
     tx.repeat.y = repeat[1]
     tx.offset.y = offsetY
   })
-  const texture2 = new THREE.TextureLoader().load(getTextturesUrl('fenceMap1.png'), tx => {
+  const texture2 = new THREE.TextureLoader().load(fenceMap1, tx => {
     tx.wrapT = THREE.RepeatWrapping
     tx.repeat.x = repeat[0]
     tx.repeat.y = repeat[1]
     tx.offset.x = offsetY
   })
-  const texture3 = new THREE.TextureLoader().load(getTextturesUrl('fenceMap2.png'), tx => {
+  const texture3 = new THREE.TextureLoader().load(fenceMap2, tx => {
     tx.wrapS = THREE.RepeatWrapping
     tx.wrapT = THREE.RepeatWrapping
   })
