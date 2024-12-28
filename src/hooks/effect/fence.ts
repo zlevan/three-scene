@@ -1,9 +1,12 @@
 import * as THREE from 'three'
 // import { getTextturesUrl } from '../../utils/asssets'
 
-const fenceMap0 = new URL(`../src/assets/imgs/texttures/fenceMap0.png`, import.meta.url).href
-const fenceMap1 = new URL(`../src/assets/imgs/texttures/fenceMap1.png`, import.meta.url).href
-const fenceMap2 = new URL(`../src/assets/imgs/texttures/fenceMap2.png`, import.meta.url).href
+const fenceMap0 = new URL(`three-scene/src/assets/imgs/texttures/fenceMap0.png`, import.meta.url)
+  .href
+const fenceMap1 = new URL(`three-scene/src/assets/imgs/texttures/fenceMap1.png`, import.meta.url)
+  .href
+const fenceMap2 = new URL(`three-scene/src/assets/imgs/texttures/fenceMap2.png`, import.meta.url)
+  .href
 
 // 电子围栏 fence
 export const useFence = () => {
