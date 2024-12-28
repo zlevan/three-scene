@@ -9,11 +9,11 @@
 </template>
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue'
-import { ThreeScene } from 'three-scene'
+import { Scene } from 'three-scene'
 
 const containerRef = ref()
 
-const options: ConstructorParameters<typeof ThreeScene>[0] = {
+const options: ConstructorParameters<typeof Scene>[0] = {
   camera: {
     position: [0, 3, 5]
   },
@@ -25,11 +25,11 @@ const options: ConstructorParameters<typeof ThreeScene>[0] = {
   }
 }
 
-let scene: InstanceType<typeof ThreeScene>
+let scene: InstanceType<typeof Scene>
 
 onMounted(() => {
   options.container = containerRef.value
-  scene = new ThreeScene(options)
+  scene = new Scene(options)
   scene.run()
 })
 </script>
