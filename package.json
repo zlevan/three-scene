@@ -23,14 +23,12 @@
       "import": "./build/three-scene.module.js"
     },
     "./build/*": "./build/*",
-    "./components/*": "./src/components/*",
     "./types/*": "./src/types/*",
     "./assets/*": "./src/assets/*"
   },
   "files": [
     "build",
     "src/assets",
-    "src/components",
     "src/types",
     "package.json",
     "MAP.md",
@@ -58,7 +56,6 @@
     "rollup-plugin-typescript2": "^0.36.0",
     "rollup-plugin-vue": "^6.0.0",
     "tslib": "^2.8.1",
-    "typescript": "^5.7.2",
-    "vue": "^3.5.13"
+    "typescript": "^5.7.2"
   }
 }
