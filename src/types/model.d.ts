@@ -127,7 +127,6 @@ export interface Extra {
 }
 
 export type ThreeModelItem = {
-  uuid: string
   visible: boolean
   _position_?: XYZ
   data?: ObjectItem

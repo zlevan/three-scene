@@ -15,7 +15,7 @@
     
     "baseUrl": "./",// 解析非相对模块的基础地址，默认是当前目录
     "paths": {
-      // "three": [ "node_modules/three/build/three.module.js" ],
+      // "three-scene": [ "build/three-scene.module.js" ],
     },
   },
   "include": [

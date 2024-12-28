@@ -95,12 +95,19 @@ export const useMaterial = () => {
       if (type === 'SpotLight') {
         let helper = new THREE.SpotLightHelper(child, child.color)
         group.add(helper)
+      } else if (type === 'PointLight') {
+        let helper = new THREE.PointLightHelper(child, child.color)
+        group.add(helper)
       }
       return
     }
 
     // 是否转换标准材质
-    if (!opts.transformMaterial || !child.isMesh) return
+    if (!opts.transformMaterial || !child.isMesh) {
+      child.castShadow = true
+      child.receiveShadow = true
+      return
+    }
 
     if (opts.opacitySkin && transparentMeshName.find(it => name.indexOf(it) > -1)) {
       changeTransparent(child, opts.opacity)
