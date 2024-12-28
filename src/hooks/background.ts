@@ -2,7 +2,7 @@ import { ref } from 'vue'
 import * as THREE from 'three'
 
 const getImgUrl = (code: string, jpg: string) => {
-  return new URL(`../src/assets/imgs/sky/${code}/${jpg}`, import.meta.url).href
+  return new URL(`three-scene/src/assets/imgs/sky/${code}/${jpg}`, import.meta.url).href
 }
 
 const skys = ['216', '217', '218', '219', '220', '221', '222', '223', '224', '225', '226'] as const
