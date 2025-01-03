@@ -5,7 +5,7 @@
 
 ```vue
 <template>
-  <div class="container" ref="containerRef"></div>
+  <div :class="$style.container" ref="containerRef"></div>
 </template>
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue'
