@@ -110,7 +110,7 @@ export const useRoam = () => {
     // 视角偏差
     const at = getOffsetPoint(offset, pos)
 
-    controls.target = at
+    controls.target.copy(at)
     camera._lookAt_ = at
     camera.lookAt(controls.target)
 
