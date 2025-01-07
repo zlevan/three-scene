@@ -129,11 +129,15 @@ export class Scene {
   }
   modelAnimate() {}
 
+  createRender() {
+    return new THREE.WebGLRenderer(this.options.render)
+  }
+
   // 渲染器
   initRenderer() {
     const { width, height, bgColor, bgUrl, env } = this.options
     // 创建渲染对象
-    const renderer = new THREE.WebGLRenderer(this.options.render)
+    const renderer = this.createRender()
     // renderer.setClearAlpha( 0 )
 
     // 环境
@@ -307,9 +311,6 @@ export class Scene {
     // 交叉
     if (fork) {
       const group = createFork(grid)
-      group.name = '辅助交叉点'
-      // @ts-ignore
-      group._isGridFork_ = true
       this.addObject(group)
     }
   }
@@ -583,15 +584,16 @@ export class Scene {
       this.disposeObj(this.scene)
       this.scene.clear()
       this.renderer.dispose()
-      this.renderer.forceContextLoss()
-      // this.renderer.content = null
+      if (typeof this.renderer.forceContextLoss === 'function') {
+        this.renderer.forceContextLoss()
+      }
 
       let gl = this.renderer.domElement.getContext('webgl')
       gl && gl.getExtension('WEBGL_lose_context')?.loseContext()
 
       this.disposeObj(this.cruiseGroup)
-      this.disposeObj(this.grid)
       if (this.controls) this.controls.dispose()
+      // this.disposeObj(this.grid)
 
       // @ts-ignore
       this.scene = void 0

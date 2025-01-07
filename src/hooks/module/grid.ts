@@ -11,7 +11,9 @@ export const useGrid = () => {
     const { width = 800, divisions = 80, forkSize = 1.4, forkColor = 0xa1a1a1 } = options
     let step = width / divisions,
       start = -width / 2
-    const group = new THREE.Group()
+    const group: InstanceType<typeof THREE.Group> & {
+      _isGridFork_?: boolean
+    } = new THREE.Group()
     for (let i = 0; i <= divisions; i++) {
       for (let j = 0; j <= divisions; j++) {
         const x = start + i * step
@@ -31,6 +33,8 @@ export const useGrid = () => {
         group.add(mesh, mesh2)
       }
     }
+    group.name = '辅助交叉点'
+    group._isGridFork_ = true
     return group
   }
 
