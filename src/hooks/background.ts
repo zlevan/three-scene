@@ -5,7 +5,21 @@ const getImgUrl = (code: string, jpg: string) => {
   return new URL(`../src/assets/imgs/sky/${code}/${jpg}`, import.meta.url).href
 }
 
-const skys = ['216', '217', '218', '219', '220', '221', '222', '223', '224', '225', '226'] as const
+const skys = [
+  '216',
+  '217',
+  '218',
+  '219',
+  '220',
+  '221',
+  '222',
+  '223',
+  '224',
+  '225',
+  '226',
+  '227',
+  '228'
+] as const
 
 // 背景
 export const useBackground = (code?: (typeof skys)[number]) => {
@@ -20,15 +34,15 @@ export const useBackground = (code?: (typeof skys)[number]) => {
   }
 
   // 获取背景组图
-  const getBgGroup = (code: (typeof skys)[number]) => {
-    return ['posX.jpeg', 'negX.jpeg', 'posY.jpeg', 'negY.jpeg', 'posZ.jpeg', 'negZ.jpeg'].map(u =>
-      getImgUrl(code, u)
+  const getBgGroup = (code: (typeof skys)[number], suffix = 'jpeg') => {
+    return ['posX', 'negX', 'posY', 'negY', 'posZ', 'negZ'].map(u =>
+      getImgUrl(code, u + '.' + suffix)
     )
   }
 
   // 加载 -配合场景使用
-  const load = (scene: any, code: (typeof skys)[number]) => {
-    const bgUrl = getBgGroup(code)
+  const load = (scene: any, code: (typeof skys)[number], suffix?: string) => {
+    const bgUrl = getBgGroup(code, suffix)
     if (typeof scene.setBgTexture === 'function') {
       scene.setBgTexture(bgUrl)
     } else {

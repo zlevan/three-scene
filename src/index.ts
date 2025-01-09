@@ -408,8 +408,8 @@ export class Scene {
   }
 
   // 设置环境
-  setEnvironment(env: string) {
-    new RGBELoader().load(getUrl(env, this.options.baseUrl) as string, texture => {
+  setEnvironment(hdrUrl: string) {
+    new RGBELoader().load(getUrl(hdrUrl, this.options.baseUrl) as string, texture => {
       texture.mapping = THREE.EquirectangularReflectionMapping
       // 将加载的材质texture设置给背景和环境
       this.scene.environment = texture
