@@ -38,8 +38,8 @@
   "author": "evan",
   "license": "ISC",
   "dependencies": {
-    "three": "^0.171.0",
-    "three-cruise-path": "^1.0.6"
+    "three": ">=0.171.0",
+    "three-cruise-path": ">=1.0.6"
   },
   "devDependencies": {
     "@babel/core": "^7.15.0",
