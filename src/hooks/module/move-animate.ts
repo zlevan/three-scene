@@ -1,6 +1,6 @@
 import * as THREE from 'three'
-import type { Options } from '../../types/move-animate'
-import type { XYZ } from '../../types/model'
+import type { Options } from '../../../types/move-animate'
+import type { XYZ } from '../../../types/model'
 
 // 移动动画 move-animate
 export const useMoveAnimate = () => {

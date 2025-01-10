@@ -1,5 +1,5 @@
 import { CSS2DRenderer, CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer.js'
-import type { XYZ } from '../../types/model'
+import type { XYZ } from '../../../types/model'
 
 // three css 2d 标签
 export const useCSS2D = () => {

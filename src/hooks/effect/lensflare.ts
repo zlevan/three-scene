@@ -3,9 +3,9 @@ import { Lensflare, LensflareElement } from 'three/examples/jsm/objects/Lensflar
 import { deepMerge } from '../../utils'
 import { getTextturesUrl } from '../../utils/asssets'
 
-import type { Options } from '../../types/lensflare'
+import type { Options } from '../../../types/lensflare'
 
-type Params = import('../../types/utils').DeepPartial<Options>
+type Params = import('../../../types/utils').DeepPartial<Options>
 
 // 太阳光晕 lensflare
 export const useLensflare = (options: Params = {}) => {

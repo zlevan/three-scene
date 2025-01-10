@@ -1,8 +1,8 @@
 import * as THREE from 'three'
 import { deepMerge } from '../../utils'
 
-import type { Options } from '../../types/flywire'
-type Params = import('../../types/utils').DeepPartial<Options>
+import type { Options } from '../../../types/flywire'
+type Params = import('../../../types/utils').DeepPartial<Options>
 
 // 飞线
 export const useFlywire = (options: Params = {}) => {
@@ -48,7 +48,7 @@ export const useFlywire = (options: Params = {}) => {
   let pointMaterial: InstanceType<typeof THREE.ShaderMaterial>
 
   // 根据起点和终点获取曲线做标点
-  const getCurvePoint = (coords: import('../../types/utils').getType<Options, 'coords'>) => {
+  const getCurvePoint = (coords: import('../../../types/utils').getType<Options, 'coords'>) => {
     const [x1, z1] = coords[0]
     const [x2, z2] = coords[1]
     let { depth, height, factor, divisions } = _options
@@ -225,7 +225,7 @@ export const useFlywire = (options: Params = {}) => {
     })
   }
 
-  const createFlywire = (coords: import('../../types/utils').getType<Options, 'coords'>) => {
+  const createFlywire = (coords: import('../../../types/utils').getType<Options, 'coords'>) => {
     const group = new THREE.Group()
 
     // 坐标

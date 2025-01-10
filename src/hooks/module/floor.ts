@@ -1,9 +1,9 @@
 import * as TWEEN from 'three/examples/jsm/libs/tween.module.js'
 
 import { deepMerge } from '../../utils'
-import type { Options } from '../../types/floor'
+import type { Options } from '../../../types/floor'
 
-type Params = import('../../types/utils').DeepPartial<Options>
+type Params = import('../../../types/utils').DeepPartial<Options>
 
 // 楼层 floor
 export const useFloor = (options: Params = {}) => {

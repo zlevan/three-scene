@@ -1,11 +1,11 @@
 import * as THREE from 'three'
 import * as TWEEN from 'three/examples/jsm/libs/tween.module.js'
 
-import type { Options } from '../../types/open-the-door'
+import type { Options } from '../../../types/open-the-door'
 import { deepMerge } from '../../utils'
-import { ThreeModelItem } from '../../types/model'
+import { ThreeModelItem } from '../../../types/model'
 
-type Params = import('../../types/utils').DeepPartial<Options>
+type Params = import('../../../types/utils').DeepPartial<Options>
 
 // 开门 open-the-door
 export const useOpenTheDoor = () => {

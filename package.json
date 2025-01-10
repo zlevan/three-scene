@@ -4,6 +4,7 @@
   "description": "3D 场景",
   "main": "build/three-scene.module.js",
   "module": "build/three-scene.module.js",
+  "types": "types/main.d.ts",
   "scripts": {
     "build": "rollup -c",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -28,8 +29,8 @@
   },
   "files": [
     "build",
+    "types",
     "src/assets",
-    "src/types",
     "package.json",
     "MAP.md",
     "FLOOR.md",
@@ -48,7 +49,7 @@
     "@rollup/plugin-commonjs": "^28.0.2",
     "@rollup/plugin-node-resolve": "^16.0.0",
     "@rollup/plugin-replace": "^6.0.2",
-    "@types/three": "^0.171.0",
+    "@types/three": "^0.172.0",
     "eslint": "^7.32.0",
     "rollup": "^2.79.2",
     "rollup-plugin-cleanup": "^3.2.1",

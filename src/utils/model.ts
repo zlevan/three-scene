@@ -4,8 +4,8 @@ import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js'
 
 import { deepMerge } from '.'
 import CONFIG from '../config'
-import type { Color } from '../types/color'
-import type { XYZ, StylePosition, ObjectItem, ThreeModelItem } from '../types/model'
+import type { Color } from '../../types/color'
+import type { XYZ, StylePosition, ObjectItem, ThreeModelItem } from '../../types/model'
 
 // 获取位置、大小、缩放参数
 export const get_P_S_R_param = (model: any, item: ObjectItem, s: number = 1) => {

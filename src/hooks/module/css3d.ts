@@ -4,7 +4,7 @@ import {
   CSS3DSprite
 } from 'three/examples/jsm/renderers/CSS3DRenderer.js'
 
-import type { XYZ } from '../../types/model'
+import type { XYZ } from '../../../types/model'
 
 // three 场景 cdd 3d 标签
 export const useCSS3D = () => {

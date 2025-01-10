@@ -3,10 +3,10 @@ import * as THREE from 'three'
 import { PathGeometry, PathPointList, PathTubeGeometry } from 'three-cruise-path'
 
 import { deepMerge, getUrl } from '../../utils'
-import type { Cruise as Options } from '../../types/index'
-type Params = import('../../types/utils').DeepPartial<Options>
+import type { Cruise as Options } from '../../../types/index'
+type Params = import('../../../types/utils').DeepPartial<Options>
 
-import type { XYZ } from '../../types/model'
+import type { XYZ } from '../../../types/model'
 
 import { arrow } from '../../assets/base/cruise'
 

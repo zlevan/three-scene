@@ -104,9 +104,21 @@ export interface Cruise {
 }
 
 export interface Options {
+  /**
+   * dom 容器
+   */
   container: HTMLElement | string
+
+  /**
+   * 宽
+   */
   width: number
+
+  /**
+   * 高
+   */
   height: number
+
   baseUrl: string
   scale: number
   bgColor: number | string

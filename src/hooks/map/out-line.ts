@@ -1,8 +1,8 @@
 import * as THREE from 'three'
 import { deepMerge } from '../../utils'
-import type { Options } from '../../types/out-line'
+import type { Options } from '../../../types/out-line'
 
-type Params = import('../../types/utils').DeepPartial<Options>
+type Params = import('../../../types/utils').DeepPartial<Options>
 
 // 边缘线(地图 边界) out-line
 export const useOutline = (options: Params = {}) => {

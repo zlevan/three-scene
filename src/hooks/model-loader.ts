@@ -7,17 +7,17 @@ import { MeshoptDecoder } from 'three/examples/jsm/libs/meshopt_decoder.module'
 
 import { deepMerge, getUrl } from '../utils'
 import * as UTILS from '../utils'
-import type { ModelItem, ThreeModelItem } from '../types/model'
+import type { ModelItem, ThreeModelItem } from '../../types/model'
 
 import { reactive } from 'vue'
 
 import * as IDB from '../utils/indexdb'
 import DEFAULTCONFIG from '../config'
 
-import type { Progress, Options, VtOptions } from '../types/model-loader'
+import type { Progress, Options, VtOptions } from '../../types/model-loader'
 
 // 模型加载 model-loader
-export const useModelLoader = (options: import('../types/utils').DeepPartial<Options> = {}) => {
+export const useModelLoader = (options: import('../../types/utils').DeepPartial<Options> = {}) => {
   // 数据库
   let gDB: IDBDatabase
 
@@ -453,7 +453,7 @@ export const useModelLoader = (options: import('../types/utils').DeepPartial<Opt
   // 设置模型虚化
   const setModelVirtualization = (
     model: any,
-    opts: import('../types/utils').DeepPartial<VtOptions> = {}
+    opts: import('../../types/utils').DeepPartial<VtOptions> = {}
   ) => {
     // 默认参数
     opts = deepMerge(
@@ -499,7 +499,7 @@ export const useModelLoader = (options: import('../types/utils').DeepPartial<Opt
   const virtualization = (
     models: ThreeModelItem[] = [],
     model: ThreeModelItem,
-    opts: import('../types/utils').DeepPartial<VtOptions> = {}
+    opts: import('../../types/utils').DeepPartial<VtOptions> = {}
   ) => {
     const filter = opts.filter || []
     const filterMatch = opts.filterMatch || []

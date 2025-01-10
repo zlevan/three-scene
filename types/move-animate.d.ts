@@ -1,4 +1,4 @@
-import type { XYZ } from '../types/model'
+import type { XYZ } from './model'
 
 export interface Options {
   index: number
