@@ -1,4 +1,6 @@
-// 深度可选
+/**
+ * 深度可选
+ */
 export type DeepPartial<T> = {
   [P in keyof T]?: T[P] extends Array<infer U>
     ? Array<DeepPartial<U>>
@@ -7,5 +9,7 @@ export type DeepPartial<T> = {
     : T[P]
 }
 
-// 获取对象属性类型
+/**
+ * 获取对象属性类型
+ */
 export type getType<T, K extends keyof T> = T[K]

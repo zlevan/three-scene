@@ -170,7 +170,9 @@ onMounted(() => {
 | segment | Number | - | 2 | 巡航分段数 |
 | close | Boolean | - | true | 路径闭合 |
 | tension | Number | - | 0 | 巡航曲线张力 |
-| mapUrl | String | - | - | 贴图地址 |
+| baseUrl | String | - | '' | 加载资源基本地址 |
+| mapUrl | String | - | 1 | 贴图地址 |
+| factor | number | - | - | 系数 |
 | repeat | Array | - | [0.1, 1] | 贴图重复 |
 | width | Number | - | 15 | 宽度 |
 | speed | Number | - | 1 | 巡航时速度 |

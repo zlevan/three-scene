@@ -8,13 +8,13 @@ import defOptions from './options'
 
 import { useCruise, useGrid } from './hooks'
 
-import type { XYZ } from './types/model'
+import type { XYZ } from '../types/model'
 
 const { createCruise, cruiseAnimate, updateCruise, bindEvent, removeEvent } = useCruise()
 const { createFork } = useGrid()
 export class Scene {
   // 配置
-  options: import('./types').Options
+  options: import('../types/options').Options
   // 容器
   container: HTMLElement
   // 场景
@@ -48,7 +48,7 @@ export class Scene {
   // 时间
   clock?: InstanceType<typeof THREE.Clock>
 
-  constructor(options: import('./types').Params = {}) {
+  constructor(options: import('../types/options').Params = {}) {
     // 默认配置
     const defaultOpts = defOptions
     // 配置

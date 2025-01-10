@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import * as TGPU from 'three/webgpu'
+import * as TGPU from 'three/build/three.webgpu'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import type { XYZ } from './model'
 
@@ -7,6 +7,13 @@ declare type Camera = THREE.PerspectiveCamera & THREE.OrthographicCamera
 
 declare type Controls = OrbitControls
 
+/**
+ * 场景
+ * @example
+ * ```typescript
+ *  const scene = new Scene()
+ * ```
+ */
 export class Scene {
   // 配置
   options: import('./options').Options
