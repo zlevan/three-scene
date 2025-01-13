@@ -3,7 +3,7 @@ import * as THREE from 'three'
 import { PathGeometry, PathPointList, PathTubeGeometry } from 'three-cruise-path'
 
 import { deepMerge, getUrl } from '../../utils'
-import type { Cruise as Options } from '../../../types/index'
+import type { Cruise as Options } from '../../../types/options'
 type Params = import('../../../types/utils').DeepPartial<Options>
 
 import type { XYZ } from '../../../types/model'

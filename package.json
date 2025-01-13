@@ -24,7 +24,7 @@
       "import": "./build/three-scene.module.js"
     },
     "./build/*": "./build/*",
-    "./types/*": "./src/types/*",
+    "./types/*": "./types/*",
     "./assets/*": "./src/assets/*"
   },
   "files": [

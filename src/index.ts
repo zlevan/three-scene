@@ -349,9 +349,7 @@ export class Scene {
     const cruise = this.options.cruise
     cruise.enabled = false
     cruise.runing = false
-    // const lookAtPos = this.controls.target
-    // this.camera.lookAt(lookAtPos)
-    // this.camera._lookAt_ = lookAtPos
+
     if (cruise.baseUrl) {
       cruise.baseUrl = this.options.baseUrl
     }

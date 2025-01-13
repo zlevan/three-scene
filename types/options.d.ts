@@ -283,7 +283,7 @@ export interface Cruise {
   /**
    * 激活(可识别键盘操作)
    */
-  readonly enabled: boolean
+  enabled: boolean
 
   /**
    * 运行中
@@ -348,7 +348,7 @@ export interface Cruise {
   /**
    * 索引
    */
-  readonly index: number
+  index: number
 
   /**
    * 辅助器
