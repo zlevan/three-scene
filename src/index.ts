@@ -65,12 +65,16 @@ export class Scene {
     if (isDOM(this.options.container)) {
       this.container = this.options.container as HTMLElement
     } else {
-      this.container = document.querySelector(this.options.container as string) as HTMLElement
+      if (!this.options.container) {
+        this.container = document.body
+      } else {
+        this.container = document.querySelector(this.options.container as string) as HTMLElement
+      }
     }
 
     this.options.width = this.container.offsetWidth
     this.options.height = this.container.offsetHeight
-    this.scene = new THREE.Scene()
+    this.scene = this.createScene()
 
     this.renderer = this.initRenderer()
     this.baseCamera = this.initCamera()
@@ -92,6 +96,7 @@ export class Scene {
   }
 
   init() {
+    this.initBg()
     this.initLight()
     this.initGrid()
     this.initAxes()
@@ -129,34 +134,20 @@ export class Scene {
   }
   modelAnimate() {}
 
+  createScene() {
+    return new THREE.Scene()
+  }
+
   createRender() {
     return new THREE.WebGLRenderer(this.options.render)
   }
 
   // 渲染器
   initRenderer() {
-    const { width, height, bgColor, bgUrl, env } = this.options
+    const { width, height } = this.options
     // 创建渲染对象
     const renderer = this.createRender()
     // renderer.setClearAlpha( 0 )
-
-    // 环境
-    if (env) {
-      this.setEnvironment(env)
-    }
-
-    // 背景
-    if (bgUrl) {
-      this.setBgTexture(bgUrl)
-    } else {
-      this.setBgColor(bgColor)
-    }
-
-    if (this.options.fog.visible) {
-      const { color, near, far } = this.options.fog
-      this.scene.fog = new THREE.Fog(color ?? this.scene.background, near, far)
-      // this.scene.fog = new THREE.FogExp2(0xefd1b5, 0.0005)
-    }
 
     // 渲染顺序
     // 开启后模型可以设置 renderOrder 值，依次渲染
@@ -179,6 +170,28 @@ export class Scene {
     return renderer
   }
 
+  // 背景
+  initBg() {
+    const { bgColor, bgUrl, env } = this.options
+
+    // 环境
+    if (env) {
+      this.setEnvironment(env)
+    }
+
+    // 背景
+    if (bgUrl) {
+      this.setBgTexture(bgUrl)
+    } else {
+      this.setBgColor(bgColor)
+    }
+
+    if (this.options.fog.visible) {
+      const { color, near, far } = this.options.fog
+      this.scene.fog = new THREE.Fog(color ?? this.scene.background, near, far)
+    }
+  }
+
   // 灯光
   initLight() {
     const { ambientLight, directionalLight } = this.options
@@ -189,7 +202,7 @@ export class Scene {
     }
     // 平行光
     if (directionalLight.visible) {
-      const direLight = this.createDirectionalLight()
+      const direLight = this.createDirectional()
       const [x = 0, y = 0, z = 0] = directionalLight.position
       direLight.position.set(x, y, z)
       this.addObject(direLight)
@@ -197,13 +210,9 @@ export class Scene {
         const dirLightHelper = new THREE.DirectionalLightHelper(direLight, 1)
         this.addObject(dirLightHelper)
       }
-      // const pointLight = new THREE.PointLight(0xffffff, 100000, 1000)
-      // pointLight.position.set(0, 200, 0)
-      // pointLight.visible = true
-      // this.addObject(pointLight)
 
       if (directionalLight.light2) {
-        const dirLight2 = this.createDirectionalLight(false)
+        const dirLight2 = this.createDirectional(false)
         const [x = 0, y = 0, z = 0] = directionalLight.position2
         dirLight2.position.set(x, y, z)
         this.addObject(dirLight2)
@@ -215,12 +224,17 @@ export class Scene {
     }
   }
 
+  // 平行光
+  createDirectionalLight(color: string | number, intensity: number) {
+    return new THREE.DirectionalLight(color, intensity)
+  }
+
   // 创建平行光
-  createDirectionalLight(castShadow: boolean = true, s = 2000, size = 4096, near = 1, far = 20000) {
+  createDirectional(castShadow: boolean = true, s = 2000, size = 4096, near = 0.1, far = 20000) {
     const { color, intensity } = this.options.directionalLight
     // 平行光
-    const dirLight = new THREE.DirectionalLight(color, intensity)
-    // dirLight.position.set(0)
+    const dirLight = this.createDirectionalLight(color, intensity)
+
     if (castShadow) {
       dirLight.shadow.mapSize.setScalar(size)
       dirLight.shadow.bias = -1e-5
@@ -581,7 +595,10 @@ export class Scene {
       THREE.Cache.clear()
       this.disposeObj(this.scene)
       this.scene.clear()
-      this.renderer.dispose()
+
+      if (!(this.renderer as any).isWebGPURenderer) {
+        this.renderer.dispose()
+      }
       if (typeof this.renderer.forceContextLoss === 'function') {
         this.renderer.forceContextLoss()
       }

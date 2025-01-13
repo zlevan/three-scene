@@ -88,6 +88,11 @@ export class Scene {
   modelAnimate(): void
 
   /**
+   * 创建场景
+   */
+  createScene(): THREE.Scene
+
+  /**
    * 创建渲染器
    */
   createRender(): THREE.WebGLRenderer
@@ -105,7 +110,12 @@ export class Scene {
   /**
    * 创建平行光
    */
-  createDirectionalLight(): THREE.DirectionalLight
+  createDirectionalLight(color: string | number, intensity: number): THREE.DirectionalLight
+
+  /**
+   * 创建平行光
+   */
+  createDirectional(): THREE.DirectionalLight
 
   /**
    * 初始化相机
