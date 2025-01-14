@@ -10,5 +10,5 @@ interface UseCoord {
   getBoundingBox: (group: THREE.Object3D) => Box
 }
 
-// 碰撞 collide
+// 坐标 coord
 export declare function useCoord(): UseCoord

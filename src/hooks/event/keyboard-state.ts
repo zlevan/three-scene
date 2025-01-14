@@ -22,8 +22,8 @@ export const useKeyboardState = () => {
   } = {}
 
   // 插入回调
-  let _onKeydownCall: (event: KeyboardEvent) => void
-  let _onKeyupCall: (event: KeyboardEvent) => void
+  let _onKeydownCall: ((event: KeyboardEvent) => void) | undefined
+  let _onKeyupCall: ((event: KeyboardEvent) => void) | undefined
 
   const _onKeyChange = (event: KeyboardEvent, pressed: boolean) => {
     var keyCode = event.keyCode
@@ -48,16 +48,19 @@ export const useKeyboardState = () => {
 
   // 事件插入
   const insertEvent = (
-    onKeydown: (event: KeyboardEvent) => void,
-    onKeyup: (event: KeyboardEvent) => void
+    onKeydown?: (event: KeyboardEvent) => void,
+    onKeyup?: (event: KeyboardEvent) => void
   ) => {
     _onKeydownCall = onKeydown
     _onKeyupCall = onKeyup
-  }
 
-  // 绑定事件
-  document.addEventListener('keydown', _onKeyDown, false)
-  document.addEventListener('keyup', _onKeyUp, false)
+    // 销毁事件
+    destroyEvent()
+
+    // 绑定事件
+    document.addEventListener('keydown', _onKeyDown, false)
+    document.addEventListener('keyup', _onKeyUp, false)
+  }
 
   // 检测按下的按键(可组合键 alt+W)
   const detection = (keyDesc: string) => {

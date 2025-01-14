@@ -213,6 +213,7 @@ export interface Camera {
 export interface Grid {
   /**
    * 显示
+   * @default false
    */
   visible: boolean
 

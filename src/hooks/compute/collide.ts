@@ -10,13 +10,13 @@ export const useCollide = () => {
   // 检测碰撞（目标、坐标、检测的对象集合、是否检测子集）
   const checkCollide = (
     target: InstanceType<typeof THREE.Object3D>,
-    pos: InstanceType<typeof THREE.Vector3>,
-    objects: any,
+    position: InstanceType<typeof THREE.Vector3>,
+    objects: InstanceType<typeof THREE.Object3D>[],
     recursive = true,
     upVector = up
   ) => {
     // 当前目标坐标,Y轴加一个固定向量，代表纵轴射线发射（检测碰撞的）位置
-    const origin = pos.clone().add(upVector)
+    const origin = position.clone().add(upVector)
     // 获取目标朝向
     const direction = new THREE.Vector3()
     target.getWorldDirection(direction)

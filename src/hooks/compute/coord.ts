@@ -1,5 +1,6 @@
 import * as THREE from 'three'
 
+// 坐标 coord
 export const useCoord = () => {
   // 计算包围盒
   const getBoundingBox = (group: InstanceType<typeof THREE.Object3D>) => {
