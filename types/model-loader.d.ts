@@ -7,53 +7,156 @@ export interface ProgressListItem {
 }
 
 export interface Progress {
+  /**
+   * 进度
+   */
   percentage: number
+
+  /**
+   * 进度展示
+   * @default false
+   */
   show: boolean
+
+  /**
+   * 是否加载结束（用于加载全部）
+   * @default false
+   */
   isEnd: boolean
+
+  /**
+   * 加载列表
+   */
   list: ProgressListItem[]
+
+  /**
+   * 加载文件总大小
+   */
   total: number
+
+  /**
+   * 已加载文件大小
+   */
   loaded: number
 }
 
 export interface Options {
+  /**
+   * 基础地址
+   */
   baseUrl: string
+
+  /**
+   * draco 解压文件路径
+   * @default '/three/draco/gltf/'
+   */
   dracoPath: string
+
+  /**
+   * basis 解压文件路径
+   * @default '/three/basis/'
+   */
   basisPath: string
+
+  /**
+   * 模型大小
+   * @default 1024 * 1024
+   */
   modelSizeKB: number
+
+  /**
+   * 颜色
+   */
   colors: Colors
+
+  /**
+   * 是否加载缓存
+   * @default true
+   */
   loadCache: boolean
+
+  /**
+   * 改变颜色材质网格名称集合
+   */
   colorMeshName: string[]
+
+  /**
+   * indexDB
+   */
   indexDB: IndexDB
 }
 
 export interface VtOptions {
+  /**
+   * 颜色
+   */
   color: string | string
+
+  /**
+   * 透明度
+   */
   opacity: number
+
+  /**
+   * 隐藏模式（默认虚化模式，如果为隐藏模式，则隐藏模型）
+   */
   hidden: boolean
+
+  /**
+   * 是否显示网格
+   */
   wireframe: boolean
+
+  /**
+   * 过滤器 （过滤模型名称）
+   */
   filter: string[]
+
+  /**
+   * 过滤器匹配 （过滤模型名称匹配）
+   */
   filterMatch: string[]
 }
 
 export interface ModelMap {
-  // base-基础底座,
+  /**
+   * 基础底座
+   */
   base: string
-  // device-场景设备,
+  /**
+   * 场景设备
+   */
   device: string
-  // font-字体,
+  /**
+   * 字体
+   */
   font: string
-  // sprite-精灵,
+  /**
+   * 精灵
+   */
   sprite: string
-  // pipe-管路贴图
+  /**
+   * 管路贴图
+   */
   pipe: string
-  // warning-警告标识,
+  /**
+   * 警告标识
+   */
   warning: string
-  // remote-远程状态，
+  /**
+   * 远程状态
+   */
   remote: string
-  // local-本地标识，
+  /**
+   * 本地标识
+   */
   local: string
-  // disabled-禁用标识
+  /**
+   * 禁用标识
+   */
   disabled: string
-  // 聚光灯
+  /**
+   * 聚光灯
+   */
   spotlight: string
 }

@@ -305,7 +305,7 @@ export const createText = (
   // 文字
   let textGeo = new TextGeometry(item.name || '', {
     font: fontParser,
-    size: font.size || 10,
+    size: Number(font.size) || 10,
     depth: 0,
     curveSegments: 12, // 曲线分段
     bevelThickness: 1, // 斜面厚度

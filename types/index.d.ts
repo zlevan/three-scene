@@ -15,29 +15,63 @@ declare type Controls = OrbitControls
  * ```
  */
 export class Scene {
-  // 配置
+  /**
+   * 场景配置
+   */
   options: import('./options').Options
-  // 容器
+  /**
+   * 容器
+   */
   container: HTMLElement
-  // 场景
+
+  /**
+   * 场景
+   */
   scene: THREE.Scene & TGPU.Scene
-  // 渲染器
+
+  /**
+   *  渲染器
+   */
   renderer: THREE.WebGLRenderer
-  // 基础相机
+
+  /**
+   * 基础相机
+   */
   baseCamera: Camera
-  // 巡航相机
+
+  /**
+   * 巡航相机
+   */
   cruiseCamera?: Camera
-  // 巡航组
+
+  /**
+   * 巡航组
+   */
   cruiseGroup?: THREE.Group
-  // 控制器
+
+  /**
+   * 控制器
+   */
   controls?: Controls
-  // 网格
+
+  /**
+   * 网格
+   */
   grid?: THREE.GridHelper
-  // 动画 id
+
+  /**
+   * 动画 id
+   */
   animationId?: number
-  // 静态属性
+
+  /**
+   * 静态总数属性
+   */
   static total: number
-  // 鼠标
+
+  /**
+   * 鼠标指针
+   */
   pointer: {
     tsp: number
     isClick: boolean
@@ -78,6 +112,11 @@ export class Scene {
   animate(): void
 
   /**
+   * 渲染
+   */
+  render(): void
+
+  /**
    * 初始化模型（自定义模型）
    */
   initModel(): void
@@ -110,12 +149,37 @@ export class Scene {
   /**
    * 创建平行光
    */
-  createDirectionalLight(color: string | number, intensity: number): THREE.DirectionalLight
+  createDirectional(): THREE.DirectionalLight
 
   /**
    * 创建平行光
+   * @param { string | number } color 颜色
+   * @param { number } intensity 强度
+   * @returns { THREE.DirectionalLight }
    */
-  createDirectional(): THREE.DirectionalLight
+  createDirectionalLight(color: string | number, intensity: number): THREE.DirectionalLight
+
+  /**
+   * 创建环境光
+   * @param { string | number } color 颜色
+   * @param { number } intensity 强度
+   * @returns { THREE.AmbientLight }
+   */
+  createAmbientLight(color: string | number, intensity: number): THREE.AmbientLight
+
+  /**
+   * 创建景深相机
+   * @param fov 摄像机视锥体垂直视野角度
+   * @param aspect 摄像机视锥体长宽比
+   * @param near 摄像机视锥体近端面
+   * @param far 摄像机视锥体远端面
+   */
+  createPerspectiveCamera(
+    fov: number,
+    aspect: number,
+    near: number,
+    far: number
+  ): THREE.PerspectiveCamera
 
   /**
    * 初始化相机

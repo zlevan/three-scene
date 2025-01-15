@@ -7,7 +7,7 @@ import { MeshoptDecoder } from 'three/examples/jsm/libs/meshopt_decoder.module'
 
 import { deepMerge, getUrl } from '../utils'
 import * as UTILS from '../utils'
-import type { ModelItem, ThreeModelItem } from '../../types/model'
+import type { ModelItem, ObjectItem, ThreeModelItem } from '../../types/model'
 
 import { reactive } from 'vue'
 
@@ -444,6 +444,26 @@ export const useModelLoader = (options: import('../../types/utils').DeepPartial<
     _load()
   }
 
+  // 初始化模型列表
+  const initModels = (objects: ObjectItem[], loadCallback: (item: ObjectItem) => Promise<any>) => {
+    let i = 0,
+      len = objects.length
+    return new Promise(resolve => {
+      if (len == 0) return resolve(null)
+      const _loop = async () => {
+        const item = objects[i]
+        await loadCallback(item)
+        i++
+        if (i < len) {
+          _loop()
+        } else {
+          resolve(i)
+        }
+      }
+      _loop()
+    })
+  }
+
   // 获取缓存模型
   const getModel = (key: string) => {
     const model = modelMap.get(key)
@@ -498,7 +518,7 @@ export const useModelLoader = (options: import('../../types/utils').DeepPartial<
   // 虚化模型 其他模型传入则虚化除目标之外的模型
   const virtualization = (
     models: ThreeModelItem[] = [],
-    model: ThreeModelItem,
+    filterModel: ThreeModelItem,
     opts: import('../../types/utils').DeepPartial<VtOptions> = {}
   ) => {
     const filter = opts.filter || []
@@ -507,7 +527,7 @@ export const useModelLoader = (options: import('../../types/utils').DeepPartial<
       for (let i = 0; i < models.length; i++) {
         const mod = models[i]
         if (
-          model.uuid !== mod.uuid &&
+          filterModel.uuid !== mod.uuid &&
           !filter.includes(mod.name) &&
           !matchFilter(mod.name, filterMatch)
         ) {
@@ -516,7 +536,7 @@ export const useModelLoader = (options: import('../../types/utils').DeepPartial<
       }
     } else {
       // 虚化材质
-      setModelVirtualization(model, opts)
+      setModelVirtualization(filterModel, opts)
     }
   }
 
@@ -547,6 +567,7 @@ export const useModelLoader = (options: import('../../types/utils').DeepPartial<
     loadModel,
     loadModels,
     getModel,
+    initModels,
     virtualization,
     closeVirtualization
   }

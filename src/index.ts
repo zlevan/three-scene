@@ -119,7 +119,7 @@ export class Scene {
 
   animate() {
     if (this.renderer) {
-      this.renderer.render(this.scene, this.camera)
+      this.render()
     }
     // 控制相机旋转缩放的更新
     if (this.options.controls.visible) this.controls?.update()
@@ -127,6 +127,10 @@ export class Scene {
     cruiseAnimate(this.cruiseCamera)
 
     TWEEN.update()
+  }
+
+  render() {
+    this.renderer.render(this.scene, this.camera)
   }
 
   initModel() {
@@ -197,7 +201,7 @@ export class Scene {
     const { ambientLight, directionalLight } = this.options
     // 环境光
     if (ambientLight.visible) {
-      const ambLight = new THREE.AmbientLight(ambientLight.color, ambientLight.intensity)
+      const ambLight = this.createAmbientLight(ambientLight.color, ambientLight.intensity)
       this.addObject(ambLight)
     }
     // 平行光
@@ -222,6 +226,11 @@ export class Scene {
         }
       }
     }
+  }
+
+  // 环境光
+  createAmbientLight(color: string | number, intensity: number) {
+    return new THREE.AmbientLight(color, intensity)
   }
 
   // 平行光
@@ -255,12 +264,17 @@ export class Scene {
   }
 
   // 相机
+  createPerspectiveCamera(fov: number, aspect: number, near: number, far: number) {
+    return new THREE.PerspectiveCamera(fov, aspect, near, far)
+  }
+
+  // 相机
   initCamera() {
     const { width, height, camera } = this.options
     // 透视投影相机对象 参数（现场角度，窗口长宽比，开始渲染位置，结束渲染位置）
     let cam:
       | InstanceType<typeof THREE.PerspectiveCamera>
-      | InstanceType<typeof THREE.OrthographicCamera> = new THREE.PerspectiveCamera(
+      | InstanceType<typeof THREE.OrthographicCamera> = this.createPerspectiveCamera(
       36,
       width / height,
       camera.near,
