@@ -99,7 +99,7 @@ export class Scene {
   /**
    * 运行（执行帧动画）
    */
-  run(): void
+  run(): this
 
   /**
    * 帧循环函数
@@ -169,10 +169,10 @@ export class Scene {
 
   /**
    * 创建景深相机
-   * @param fov 摄像机视锥体垂直视野角度
-   * @param aspect 摄像机视锥体长宽比
-   * @param near 摄像机视锥体近端面
-   * @param far 摄像机视锥体远端面
+   * @param { number } fov 摄像机视锥体垂直视野角度
+   * @param { number } aspect 摄像机视锥体长宽比
+   * @param { number } near 摄像机视锥体近端面
+   * @param { number } far 摄像机视锥体远端面
    */
   createPerspectiveCamera(
     fov: number,

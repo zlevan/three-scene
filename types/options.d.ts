@@ -200,6 +200,11 @@ export interface Camera {
   far: number
 
   /**
+   * 摄像机视锥体垂直视野角度
+   */
+  fov: number
+
+  /**
    * 是否为正交相机
    */
   orthogonal: boolean

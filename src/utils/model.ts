@@ -45,43 +45,43 @@ const cloneMaterial = (el: any) => {
 }
 
 // 深克隆 // 防止数据感染
-export const modelDeepClone = (obj: any) => {
-  let model = obj.clone()
-  if (obj.isMesh || obj.isSprite) {
-    cloneMaterial(obj)
+export const modelDeepClone = (model: any) => {
+  let newModel = model.clone()
+  if (model.isMesh || model.isSprite) {
+    cloneMaterial(model)
   }
-  model.traverse((el: any) => {
+  newModel.traverse((el: any) => {
     if (el.isMesh) {
       cloneMaterial(el)
     }
   })
-  return model
+  return newModel
 }
 
 // 材质替换
 export const replaceMaterial = (
-  child: any,
+  modelEl: ThreeModelItem,
   color: string | number = 0x676565,
   meshNames: string[],
   envMap?: any
 ): void => {
-  const { type, name } = child
+  const { type, name } = modelEl
   // 灯光
   if (type.indexOf('Light') > -1) {
   }
   if (CONFIG.mesh.receiveShadowName.some(it => name.indexOf(it) > -1)) {
     // 接收阴影
-    child.traverse((el: any) => {
+    modelEl.traverse((el: any) => {
       if (el.isMesh) {
         el.receiveShadow = true
       }
     })
   } else if (meshNames.some(it => name.indexOf(it) > -1)) {
-    setMaterialColor(child, color)
-  } else if (child.isMesh) {
-    envMap && (child.material.envMap = envMap)
-    child.castShadow = true
-    child.receiveShadow = true
+    setMaterialColor(modelEl, color)
+  } else if (modelEl.isMesh) {
+    envMap && (modelEl.material.envMap = envMap)
+    modelEl.castShadow = true
+    modelEl.receiveShadow = true
   }
 }
 
@@ -97,8 +97,8 @@ export const getColorArr = (color: Color) => {
 }
 
 // 设置材质颜色
-export const setMaterialColor = (e: ThreeModelItem, color: number | string): void => {
-  e.traverse((el: any) => {
+export const setMaterialColor = (modelEl: ThreeModelItem, color: number | string): void => {
+  modelEl.traverse((el: any) => {
     if (el.isMesh) {
       el.castShadow = true
       el.receiveShadow = true
@@ -194,7 +194,7 @@ export const cameraLinkageControlsAnimate = (
 
 // 创建精灵动画
 export const createSpriteAnimate = (
-  model: any,
+  spriteModel: any,
   POS: number[],
   range = 1,
   duration: number = 10
@@ -209,10 +209,13 @@ export const createSpriteAnimate = (
     POS[2], // 5
     ...POS // 10
   ]
+  // 关键帧轨道
   let posTrack = new THREE.KeyframeTrack('sprite.position', times, values)
+  // 动画剪辑
   let clip = new THREE.AnimationClip('sprite_up_down', duration, [posTrack])
 
-  const mixer = new THREE.AnimationMixer(model)
+  // 动画混合器
+  const mixer = new THREE.AnimationMixer(spriteModel)
   const action = mixer.clipAction(clip)
   // 暂停
   // action.paused = true
@@ -221,12 +224,12 @@ export const createSpriteAnimate = (
   // 播放
   action.play()
   // 记录数据
-  model.__action__ = action
-  model.__mixer__ = mixer
-  return model
+  spriteModel.__action__ = action
+  spriteModel.__mixer__ = mixer
+  return spriteModel
 }
 
-// 获取 3 维平面位置
+// 获取三维空间对应的平面位置
 export const getPlanePosition = (
   dom: HTMLElement,
   object: ThreeModelItem,
@@ -247,14 +250,14 @@ export const getPlanePosition = (
   return pos
 }
 
-// 查找模型对象中包含指定属性的集合
+// 查找模型列表中包含指定属性的集合
 export const findObjectsByHasProperty = (
-  children: ThreeModelItem[],
+  objects: ThreeModelItem[],
   values: string[],
   property: string = 'name'
 ) => {
   let list: ThreeModelItem[] = []
-  if (!children || !children.length) return []
+  if (!objects || !objects.length) return []
   function find(data: any[]) {
     data.forEach(el => {
       const name = el[property]
@@ -266,7 +269,7 @@ export const findObjectsByHasProperty = (
       }
     })
   }
-  find(children)
+  find(objects)
   return list
 }
 

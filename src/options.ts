@@ -103,6 +103,8 @@ export default {
     near: 1,
     // 远
     far: 10000,
+    // 摄像机视锥体垂直视野角度
+    fov: 36,
     position: [-350, 510, 700]
   },
   // 巡航

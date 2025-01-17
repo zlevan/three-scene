@@ -230,6 +230,11 @@ export interface ObjectItem {
    * 点击事件回调函数
    */
   onClick?: Function
+
+  /**
+   * 绑定参数（如模型内某个“零件”的网格/组名称）
+   */
+  bind?: string
 }
 
 export interface PipeItem {

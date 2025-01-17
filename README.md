@@ -138,6 +138,7 @@ onMounted(() => {
 | helper | Boolean | - | false | 辅助器 |
 | near | Number | - | 1 | 相机最近距离 |
 | far | Number | - | 10000 | 相机最远距离 |
+| fov | Number | - | 36 | 摄像机视锥体垂直视野角度 |
 | orthogonal | Boolean | - | - | 正交 |
 | position | Array | - | [-350, 510, 700] | 相机位置坐标 |
 

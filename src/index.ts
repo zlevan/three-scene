@@ -106,6 +106,7 @@ export class Scene {
   // 运行
   run() {
     this.loop()
+    return this
   }
 
   // 循环
@@ -275,7 +276,7 @@ export class Scene {
     let cam:
       | InstanceType<typeof THREE.PerspectiveCamera>
       | InstanceType<typeof THREE.OrthographicCamera> = this.createPerspectiveCamera(
-      36,
+      camera.fov,
       width / height,
       camera.near,
       camera.far
