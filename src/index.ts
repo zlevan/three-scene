@@ -179,16 +179,16 @@ export class Scene {
   initBg() {
     const { bgColor, bgUrl, env } = this.options
 
-    // 环境
-    if (env) {
-      this.setEnvironment(env)
-    }
-
     // 背景
     if (bgUrl) {
       this.setBgTexture(bgUrl)
     } else {
       this.setBgColor(bgColor)
+    }
+
+    // 环境
+    if (env) {
+      this.loadEnvTexture(env)
     }
 
     if (this.options.fog.visible) {
@@ -434,13 +434,18 @@ export class Scene {
     this.options.scale = s
   }
 
-  // 设置环境
-  setEnvironment(hdrUrl: string) {
+  // 加载环境纹理
+  loadEnvTexture(hdrUrl: string) {
     new RGBELoader().load(getUrl(hdrUrl, this.options.baseUrl) as string, texture => {
       texture.mapping = THREE.EquirectangularReflectionMapping
       // 将加载的材质texture设置给背景和环境
-      this.scene.environment = texture
+      this.setEnv(texture)
     })
+  }
+
+  // 设置环境
+  setEnv(texture: THREE.DataTexture) {
+    this.scene.environment = texture
   }
 
   // 设置背景图

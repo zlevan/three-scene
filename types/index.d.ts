@@ -251,10 +251,16 @@ export class Scene {
   setScale(s: number): void
 
   /**
-   * 设置环境纹理
+   * 加载环境纹理
    * @param { string } hdrUrl hdr 文件地址
    */
-  setEnvironment(hdrUrl: string): void
+  loadEnvTexture(hdrUrl: string): void
+
+  /**
+   * 设置环境纹理
+   * @param { THREE.DataTexture } texture 环境纹理
+   */
+  setEnv(texture: THREE.DataTexture): void
 
   /**
    * 设置背景图
