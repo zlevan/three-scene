@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
+import { GLTF, GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js'
 import { KTX2Loader } from 'three/examples/jsm/loaders/KTX2Loader'
@@ -53,8 +53,6 @@ export const useModelLoader = (options: import('../../types/utils').DeepPartial<
           color: color.error
         }
       },
-      // 加载缓存
-      loadCache: true,
       // 改变颜色材质网格名称集合
       colorMeshName: [],
       indexDB: {
@@ -269,6 +267,17 @@ export const useModelLoader = (options: import('../../types/utils').DeepPartial<
     }
   }
 
+  const getModelGroup = (model: GLTF) => {
+    const children = model.scene.children
+    let object = new THREE.Object3D()
+    if (children.length > 1) {
+      object.add(...children)
+    } else {
+      object = children[children.length - 1]
+    }
+    return object
+  }
+
   // 加载模型
   const loadModel = (model: ModelItem, onProgress?: Function): Promise<any> => {
     const { key, url = '', size = 0 } = model
@@ -281,7 +290,7 @@ export const useModelLoader = (options: import('../../types/utils').DeepPartial<
       // 缓存
       const store = await getCacheModel(newUrl, size)
       if (store) {
-        const obj = store.scene.children[0]
+        const obj = getModelGroup(store)
         const del = modelNormalization(model, color, obj, store.animations)
         resolve(del)
         return
@@ -297,14 +306,7 @@ export const useModelLoader = (options: import('../../types/utils').DeepPartial<
       loader.load(
         newUrl,
         glb => {
-          const children = glb.scene.children
-          let object: any = new THREE.Group()
-          if (children.length > 1) {
-            object.add(...children)
-          } else {
-            object = children[children.length - 1]
-          }
-
+          const object = getModelGroup(glb)
           const del = modelNormalization(model, color as string | number, object, glb.animations)
           dbStoreAdd(newUrl)
           resolve(del)

@@ -70,12 +70,6 @@ export interface Options {
   colors: Colors
 
   /**
-   * 是否加载缓存
-   * @default true
-   */
-  loadCache: boolean
-
-  /**
    * 改变颜色材质网格名称集合
    */
   colorMeshName: string[]
